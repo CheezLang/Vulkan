@@ -1,0 +1,21 @@
+use import vulkan
+
+use import std.array
+use import std.string
+
+io :: import std.io
+
+Main :: () {
+    extension_count := 0u32
+    vkEnumerateInstanceExtensionProperties(null, ^extension_count, null)
+    io.formatln("{} extensions supported", [extension_count])
+
+    extension_props := Array[VkExtensionProperties].new(initial_capacity = cast extension_count)
+    extension_props.resize(cast extension_count)
+    vkEnumerateInstanceExtensionProperties(null, ^extension_count, cast extension_props.get_raw())
+
+    for prop in &mut extension_props {
+        name := String.from_cstring(prop.extensionName.data)
+        io.formatln("{}: version {}", [name.slice(), prop.specVersion])
+    }
+}
