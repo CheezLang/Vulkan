@@ -1,6 +1,6 @@
 # Vulkan
 
-Cheez bindings for Vulkan
+Cheez bindings for Vulkan 1.2.148.1
 
 ## Generate bindings
 
