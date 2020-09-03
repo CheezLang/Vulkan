@@ -102,7 +102,7 @@ VkFramebuffer_T :: struct #copy {}
 VkFramebuffer :: ^mut VkFramebuffer_T
 VkCommandPool_T :: struct #copy {}
 VkCommandPool :: ^mut VkCommandPool_T
-VkAccessFlags :: VkFlags
+VkAccessFlags :: VkAccessFlagBits
 VkImageAspectFlags :: VkFlags
 VkFormatFeatureFlags :: VkFlags
 VkImageCreateFlags :: VkFlags
@@ -114,11 +114,11 @@ VkMemoryPropertyFlags :: VkFlags
 VkQueueFlags :: VkFlags
 VkDeviceCreateFlags :: VkFlags
 VkDeviceQueueCreateFlags :: VkFlags
-VkPipelineStageFlags :: VkFlags
+VkPipelineStageFlags :: VkPipelineStageFlagBits
 VkMemoryMapFlags :: VkFlags
 VkSparseMemoryBindFlags :: VkFlags
 VkSparseImageFormatFlags :: VkFlags
-VkFenceCreateFlags :: VkFlags
+VkFenceCreateFlags :: VkFenceCreateFlagBits
 VkSemaphoreCreateFlags :: VkFlags
 VkEventCreateFlags :: VkFlags
 VkQueryPipelineStatisticFlags :: VkFlags
@@ -130,10 +130,8 @@ VkBufferViewCreateFlags :: VkFlags
 VkImageViewCreateFlags :: VkFlags
 VkShaderModuleCreateFlags :: VkFlags
 VkPipelineCacheCreateFlags :: VkFlags
-VkColorComponentFlags :: VkFlags
 VkPipelineCreateFlags :: VkFlags
 VkPipelineShaderStageCreateFlags :: VkFlags
-VkCullModeFlags :: VkFlags
 VkPipelineVertexInputStateCreateFlags :: VkFlags
 VkPipelineInputAssemblyStateCreateFlags :: VkFlags
 VkPipelineTessellationStateCreateFlags :: VkFlags
@@ -655,7 +653,7 @@ VkDebugUtilsMessengerCallbackDataFlagsEXT :: VkFlags
 VkDebugUtilsMessageTypeFlagsEXT :: VkFlags
 VkDebugUtilsMessageSeverityFlagsEXT :: VkFlags
 VkDebugUtilsMessengerCreateFlagsEXT :: VkFlags
-PFN_vkDebugUtilsMessengerCallbackEXT :: fn(VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, ^mut VkDebugUtilsMessengerCallbackDataEXT, ^mut void) -> VkBool32
+PFN_vkDebugUtilsMessengerCallbackEXT :: fn(VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, ^VkDebugUtilsMessengerCallbackDataEXT, ^mut void) -> VkBool32 #stdcall
 PFN_vkSetDebugUtilsObjectNameEXT :: fn(VkDevice, ^mut VkDebugUtilsObjectNameInfoEXT) -> VkResult
 PFN_vkSetDebugUtilsObjectTagEXT :: fn(VkDevice, ^mut VkDebugUtilsObjectTagInfoEXT) -> VkResult
 PFN_vkQueueBeginDebugUtilsLabelEXT :: fn(VkQueue, ^mut VkDebugUtilsLabelEXT) -> void
@@ -664,8 +662,8 @@ PFN_vkQueueInsertDebugUtilsLabelEXT :: fn(VkQueue, ^mut VkDebugUtilsLabelEXT) ->
 PFN_vkCmdBeginDebugUtilsLabelEXT :: fn(VkCommandBuffer, ^mut VkDebugUtilsLabelEXT) -> void
 PFN_vkCmdEndDebugUtilsLabelEXT :: fn(VkCommandBuffer) -> void
 PFN_vkCmdInsertDebugUtilsLabelEXT :: fn(VkCommandBuffer, ^mut VkDebugUtilsLabelEXT) -> void
-PFN_vkCreateDebugUtilsMessengerEXT :: fn(VkInstance, ^mut VkDebugUtilsMessengerCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkDebugUtilsMessengerEXT) -> VkResult
-PFN_vkDestroyDebugUtilsMessengerEXT :: fn(VkInstance, VkDebugUtilsMessengerEXT, ^mut VkAllocationCallbacks) -> void
+PFN_vkCreateDebugUtilsMessengerEXT :: fn(VkInstance, ^mut VkDebugUtilsMessengerCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkDebugUtilsMessengerEXT) -> VkResult #stdcall
+PFN_vkDestroyDebugUtilsMessengerEXT :: fn(VkInstance, VkDebugUtilsMessengerEXT, ^mut VkAllocationCallbacks) -> void #stdcall
 PFN_vkSubmitDebugUtilsMessageEXT :: fn(VkInstance, VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, ^mut VkDebugUtilsMessengerCallbackDataEXT) -> void
 VkSamplerReductionModeEXT :: VkSamplerReductionMode
 VkSamplerReductionModeCreateInfoEXT :: VkSamplerReductionModeCreateInfo
@@ -832,165 +830,165 @@ VK_MAX_DRIVER_NAME_SIZE :: 256
 VK_MAX_DRIVER_INFO_SIZE :: 256
 VK_KHR_surface :: 1
 VK_KHR_SURFACE_SPEC_VERSION :: 25
-VK_KHR_SURFACE_EXTENSION_NAME :: "VK_KHR_surface"
+VK_KHR_SURFACE_EXTENSION_NAME :: "VK_KHR_surface"c
 VK_KHR_swapchain :: 1
 VK_KHR_SWAPCHAIN_SPEC_VERSION :: 70
-VK_KHR_SWAPCHAIN_EXTENSION_NAME :: "VK_KHR_swapchain"
+VK_KHR_SWAPCHAIN_EXTENSION_NAME :: "VK_KHR_swapchain"c
 VK_KHR_display :: 1
 VK_KHR_DISPLAY_SPEC_VERSION :: 23
-VK_KHR_DISPLAY_EXTENSION_NAME :: "VK_KHR_display"
+VK_KHR_DISPLAY_EXTENSION_NAME :: "VK_KHR_display"c
 VK_KHR_display_swapchain :: 1
 VK_KHR_DISPLAY_SWAPCHAIN_SPEC_VERSION :: 10
-VK_KHR_DISPLAY_SWAPCHAIN_EXTENSION_NAME :: "VK_KHR_display_swapchain"
+VK_KHR_DISPLAY_SWAPCHAIN_EXTENSION_NAME :: "VK_KHR_display_swapchain"c
 VK_KHR_sampler_mirror_clamp_to_edge :: 1
 VK_KHR_SAMPLER_MIRROR_CLAMP_TO_EDGE_SPEC_VERSION :: 3
-VK_KHR_SAMPLER_MIRROR_CLAMP_TO_EDGE_EXTENSION_NAME :: "VK_KHR_sampler_mirror_clamp_to_edge"
+VK_KHR_SAMPLER_MIRROR_CLAMP_TO_EDGE_EXTENSION_NAME :: "VK_KHR_sampler_mirror_clamp_to_edge"c
 VK_KHR_multiview :: 1
 VK_KHR_MULTIVIEW_SPEC_VERSION :: 1
 VK_KHR_MULTIVIEW_EXTENSION_NAME :: "VK_KHR_multiview"
 VK_KHR_get_physical_device_properties2 :: 1
 VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_SPEC_VERSION :: 2
-VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME :: "VK_KHR_get_physical_device_properties2"
+VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME :: "VK_KHR_get_physical_device_properties2"c
 VK_KHR_device_group :: 1
 VK_KHR_DEVICE_GROUP_SPEC_VERSION :: 4
-VK_KHR_DEVICE_GROUP_EXTENSION_NAME :: "VK_KHR_device_group"
+VK_KHR_DEVICE_GROUP_EXTENSION_NAME :: "VK_KHR_device_group"c
 VK_KHR_shader_draw_parameters :: 1
 VK_KHR_SHADER_DRAW_PARAMETERS_SPEC_VERSION :: 1
-VK_KHR_SHADER_DRAW_PARAMETERS_EXTENSION_NAME :: "VK_KHR_shader_draw_parameters"
+VK_KHR_SHADER_DRAW_PARAMETERS_EXTENSION_NAME :: "VK_KHR_shader_draw_parameters"c
 VK_KHR_maintenance1 :: 1
 VK_KHR_MAINTENANCE1_SPEC_VERSION :: 2
-VK_KHR_MAINTENANCE1_EXTENSION_NAME :: "VK_KHR_maintenance1"
+VK_KHR_MAINTENANCE1_EXTENSION_NAME :: "VK_KHR_maintenance1"c
 VK_KHR_device_group_creation :: 1
 VK_KHR_DEVICE_GROUP_CREATION_SPEC_VERSION :: 1
-VK_KHR_DEVICE_GROUP_CREATION_EXTENSION_NAME :: "VK_KHR_device_group_creation"
+VK_KHR_DEVICE_GROUP_CREATION_EXTENSION_NAME :: "VK_KHR_device_group_creation"c
 VK_MAX_DEVICE_GROUP_SIZE_KHR :: VK_MAX_DEVICE_GROUP_SIZE
 VK_KHR_external_memory_capabilities :: 1
 VK_KHR_EXTERNAL_MEMORY_CAPABILITIES_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_MEMORY_CAPABILITIES_EXTENSION_NAME :: "VK_KHR_external_memory_capabilities"
+VK_KHR_EXTERNAL_MEMORY_CAPABILITIES_EXTENSION_NAME :: "VK_KHR_external_memory_capabilities"c
 VK_LUID_SIZE_KHR :: VK_LUID_SIZE
 VK_KHR_external_memory :: 1
 VK_KHR_EXTERNAL_MEMORY_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_MEMORY_EXTENSION_NAME :: "VK_KHR_external_memory"
+VK_KHR_EXTERNAL_MEMORY_EXTENSION_NAME :: "VK_KHR_external_memory"c
 VK_QUEUE_FAMILY_EXTERNAL_KHR :: VK_QUEUE_FAMILY_EXTERNAL
 VK_KHR_external_memory_fd :: 1
 VK_KHR_EXTERNAL_MEMORY_FD_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_MEMORY_FD_EXTENSION_NAME :: "VK_KHR_external_memory_fd"
+VK_KHR_EXTERNAL_MEMORY_FD_EXTENSION_NAME :: "VK_KHR_external_memory_fd"c
 VK_KHR_external_semaphore_capabilities :: 1
 VK_KHR_EXTERNAL_SEMAPHORE_CAPABILITIES_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_SEMAPHORE_CAPABILITIES_EXTENSION_NAME :: "VK_KHR_external_semaphore_capabilities"
+VK_KHR_EXTERNAL_SEMAPHORE_CAPABILITIES_EXTENSION_NAME :: "VK_KHR_external_semaphore_capabilities"c
 VK_KHR_external_semaphore :: 1
 VK_KHR_EXTERNAL_SEMAPHORE_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_SEMAPHORE_EXTENSION_NAME :: "VK_KHR_external_semaphore"
+VK_KHR_EXTERNAL_SEMAPHORE_EXTENSION_NAME :: "VK_KHR_external_semaphore"c
 VK_KHR_external_semaphore_fd :: 1
 VK_KHR_EXTERNAL_SEMAPHORE_FD_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_SEMAPHORE_FD_EXTENSION_NAME :: "VK_KHR_external_semaphore_fd"
+VK_KHR_EXTERNAL_SEMAPHORE_FD_EXTENSION_NAME :: "VK_KHR_external_semaphore_fd"c
 VK_KHR_push_descriptor :: 1
 VK_KHR_PUSH_DESCRIPTOR_SPEC_VERSION :: 2
-VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME :: "VK_KHR_push_descriptor"
+VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME :: "VK_KHR_push_descriptor"c
 VK_KHR_shader_float16_int8 :: 1
 VK_KHR_SHADER_FLOAT16_INT8_SPEC_VERSION :: 1
-VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME :: "VK_KHR_shader_float16_int8"
+VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME :: "VK_KHR_shader_float16_int8"c
 VK_KHR_16bit_storage :: 1
 VK_KHR_16BIT_STORAGE_SPEC_VERSION :: 1
-VK_KHR_16BIT_STORAGE_EXTENSION_NAME :: "VK_KHR_16bit_storage"
+VK_KHR_16BIT_STORAGE_EXTENSION_NAME :: "VK_KHR_16bit_storage"c
 VK_KHR_incremental_present :: 1
 VK_KHR_INCREMENTAL_PRESENT_SPEC_VERSION :: 1
-VK_KHR_INCREMENTAL_PRESENT_EXTENSION_NAME :: "VK_KHR_incremental_present"
+VK_KHR_INCREMENTAL_PRESENT_EXTENSION_NAME :: "VK_KHR_incremental_present"c
 VK_KHR_descriptor_update_template :: 1
 VK_KHR_DESCRIPTOR_UPDATE_TEMPLATE_SPEC_VERSION :: 1
-VK_KHR_DESCRIPTOR_UPDATE_TEMPLATE_EXTENSION_NAME :: "VK_KHR_descriptor_update_template"
+VK_KHR_DESCRIPTOR_UPDATE_TEMPLATE_EXTENSION_NAME :: "VK_KHR_descriptor_update_template"c
 VK_KHR_imageless_framebuffer :: 1
 VK_KHR_IMAGELESS_FRAMEBUFFER_SPEC_VERSION :: 1
-VK_KHR_IMAGELESS_FRAMEBUFFER_EXTENSION_NAME :: "VK_KHR_imageless_framebuffer"
+VK_KHR_IMAGELESS_FRAMEBUFFER_EXTENSION_NAME :: "VK_KHR_imageless_framebuffer"c
 VK_KHR_create_renderpass2 :: 1
 VK_KHR_CREATE_RENDERPASS_2_SPEC_VERSION :: 1
-VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME :: "VK_KHR_create_renderpass2"
+VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME :: "VK_KHR_create_renderpass2"c
 VK_KHR_shared_presentable_image :: 1
 VK_KHR_SHARED_PRESENTABLE_IMAGE_SPEC_VERSION :: 1
-VK_KHR_SHARED_PRESENTABLE_IMAGE_EXTENSION_NAME :: "VK_KHR_shared_presentable_image"
+VK_KHR_SHARED_PRESENTABLE_IMAGE_EXTENSION_NAME :: "VK_KHR_shared_presentable_image"c
 VK_KHR_external_fence_capabilities :: 1
 VK_KHR_EXTERNAL_FENCE_CAPABILITIES_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_FENCE_CAPABILITIES_EXTENSION_NAME :: "VK_KHR_external_fence_capabilities"
+VK_KHR_EXTERNAL_FENCE_CAPABILITIES_EXTENSION_NAME :: "VK_KHR_external_fence_capabilities"c
 VK_KHR_external_fence :: 1
 VK_KHR_EXTERNAL_FENCE_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_FENCE_EXTENSION_NAME :: "VK_KHR_external_fence"
+VK_KHR_EXTERNAL_FENCE_EXTENSION_NAME :: "VK_KHR_external_fence"c
 VK_KHR_external_fence_fd :: 1
 VK_KHR_EXTERNAL_FENCE_FD_SPEC_VERSION :: 1
-VK_KHR_EXTERNAL_FENCE_FD_EXTENSION_NAME :: "VK_KHR_external_fence_fd"
+VK_KHR_EXTERNAL_FENCE_FD_EXTENSION_NAME :: "VK_KHR_external_fence_fd"c
 VK_KHR_performance_query :: 1
 VK_KHR_PERFORMANCE_QUERY_SPEC_VERSION :: 1
-VK_KHR_PERFORMANCE_QUERY_EXTENSION_NAME :: "VK_KHR_performance_query"
+VK_KHR_PERFORMANCE_QUERY_EXTENSION_NAME :: "VK_KHR_performance_query"c
 VK_KHR_maintenance2 :: 1
 VK_KHR_MAINTENANCE2_SPEC_VERSION :: 1
-VK_KHR_MAINTENANCE2_EXTENSION_NAME :: "VK_KHR_maintenance2"
+VK_KHR_MAINTENANCE2_EXTENSION_NAME :: "VK_KHR_maintenance2"c
 VK_KHR_get_surface_capabilities2 :: 1
 VK_KHR_GET_SURFACE_CAPABILITIES_2_SPEC_VERSION :: 1
-VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME :: "VK_KHR_get_surface_capabilities2"
+VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME :: "VK_KHR_get_surface_capabilities2"c
 VK_KHR_variable_pointers :: 1
 VK_KHR_VARIABLE_POINTERS_SPEC_VERSION :: 1
-VK_KHR_VARIABLE_POINTERS_EXTENSION_NAME :: "VK_KHR_variable_pointers"
+VK_KHR_VARIABLE_POINTERS_EXTENSION_NAME :: "VK_KHR_variable_pointers"c
 VK_KHR_get_display_properties2 :: 1
 VK_KHR_GET_DISPLAY_PROPERTIES_2_SPEC_VERSION :: 1
-VK_KHR_GET_DISPLAY_PROPERTIES_2_EXTENSION_NAME :: "VK_KHR_get_display_properties2"
+VK_KHR_GET_DISPLAY_PROPERTIES_2_EXTENSION_NAME :: "VK_KHR_get_display_properties2"c
 VK_KHR_dedicated_allocation :: 1
 VK_KHR_DEDICATED_ALLOCATION_SPEC_VERSION :: 3
-VK_KHR_DEDICATED_ALLOCATION_EXTENSION_NAME :: "VK_KHR_dedicated_allocation"
+VK_KHR_DEDICATED_ALLOCATION_EXTENSION_NAME :: "VK_KHR_dedicated_allocation"c
 VK_KHR_storage_buffer_storage_class :: 1
 VK_KHR_STORAGE_BUFFER_STORAGE_CLASS_SPEC_VERSION :: 1
-VK_KHR_STORAGE_BUFFER_STORAGE_CLASS_EXTENSION_NAME :: "VK_KHR_storage_buffer_storage_class"
+VK_KHR_STORAGE_BUFFER_STORAGE_CLASS_EXTENSION_NAME :: "VK_KHR_storage_buffer_storage_class"c
 VK_KHR_relaxed_block_layout :: 1
 VK_KHR_RELAXED_BLOCK_LAYOUT_SPEC_VERSION :: 1
-VK_KHR_RELAXED_BLOCK_LAYOUT_EXTENSION_NAME :: "VK_KHR_relaxed_block_layout"
+VK_KHR_RELAXED_BLOCK_LAYOUT_EXTENSION_NAME :: "VK_KHR_relaxed_block_layout"c
 VK_KHR_get_memory_requirements2 :: 1
 VK_KHR_GET_MEMORY_REQUIREMENTS_2_SPEC_VERSION :: 1
-VK_KHR_GET_MEMORY_REQUIREMENTS_2_EXTENSION_NAME :: "VK_KHR_get_memory_requirements2"
+VK_KHR_GET_MEMORY_REQUIREMENTS_2_EXTENSION_NAME :: "VK_KHR_get_memory_requirements2"c
 VK_KHR_image_format_list :: 1
 VK_KHR_IMAGE_FORMAT_LIST_SPEC_VERSION :: 1
-VK_KHR_IMAGE_FORMAT_LIST_EXTENSION_NAME :: "VK_KHR_image_format_list"
+VK_KHR_IMAGE_FORMAT_LIST_EXTENSION_NAME :: "VK_KHR_image_format_list"c
 VK_KHR_sampler_ycbcr_conversion :: 1
 VK_KHR_SAMPLER_YCBCR_CONVERSION_SPEC_VERSION :: 14
-VK_KHR_SAMPLER_YCBCR_CONVERSION_EXTENSION_NAME :: "VK_KHR_sampler_ycbcr_conversion"
+VK_KHR_SAMPLER_YCBCR_CONVERSION_EXTENSION_NAME :: "VK_KHR_sampler_ycbcr_conversion"c
 VK_KHR_bind_memory2 :: 1
 VK_KHR_BIND_MEMORY_2_SPEC_VERSION :: 1
-VK_KHR_BIND_MEMORY_2_EXTENSION_NAME :: "VK_KHR_bind_memory2"
+VK_KHR_BIND_MEMORY_2_EXTENSION_NAME :: "VK_KHR_bind_memory2"c
 VK_KHR_maintenance3 :: 1
 VK_KHR_MAINTENANCE3_SPEC_VERSION :: 1
-VK_KHR_MAINTENANCE3_EXTENSION_NAME :: "VK_KHR_maintenance3"
+VK_KHR_MAINTENANCE3_EXTENSION_NAME :: "VK_KHR_maintenance3"c
 VK_KHR_draw_indirect_count :: 1
 VK_KHR_DRAW_INDIRECT_COUNT_SPEC_VERSION :: 1
-VK_KHR_DRAW_INDIRECT_COUNT_EXTENSION_NAME :: "VK_KHR_draw_indirect_count"
+VK_KHR_DRAW_INDIRECT_COUNT_EXTENSION_NAME :: "VK_KHR_draw_indirect_count"c
 VK_KHR_shader_subgroup_extended_types :: 1
 VK_KHR_SHADER_SUBGROUP_EXTENDED_TYPES_SPEC_VERSION :: 1
-VK_KHR_SHADER_SUBGROUP_EXTENDED_TYPES_EXTENSION_NAME :: "VK_KHR_shader_subgroup_extended_types"
+VK_KHR_SHADER_SUBGROUP_EXTENDED_TYPES_EXTENSION_NAME :: "VK_KHR_shader_subgroup_extended_types"c
 VK_KHR_8bit_storage :: 1
 VK_KHR_8BIT_STORAGE_SPEC_VERSION :: 1
-VK_KHR_8BIT_STORAGE_EXTENSION_NAME :: "VK_KHR_8bit_storage"
+VK_KHR_8BIT_STORAGE_EXTENSION_NAME :: "VK_KHR_8bit_storage"c
 VK_KHR_shader_atomic_int64 :: 1
 VK_KHR_SHADER_ATOMIC_INT64_SPEC_VERSION :: 1
-VK_KHR_SHADER_ATOMIC_INT64_EXTENSION_NAME :: "VK_KHR_shader_atomic_int64"
+VK_KHR_SHADER_ATOMIC_INT64_EXTENSION_NAME :: "VK_KHR_shader_atomic_int64"c
 VK_KHR_shader_clock :: 1
 VK_KHR_SHADER_CLOCK_SPEC_VERSION :: 1
-VK_KHR_SHADER_CLOCK_EXTENSION_NAME :: "VK_KHR_shader_clock"
+VK_KHR_SHADER_CLOCK_EXTENSION_NAME :: "VK_KHR_shader_clock"c
 VK_KHR_driver_properties :: 1
 VK_KHR_DRIVER_PROPERTIES_SPEC_VERSION :: 1
-VK_KHR_DRIVER_PROPERTIES_EXTENSION_NAME :: "VK_KHR_driver_properties"
+VK_KHR_DRIVER_PROPERTIES_EXTENSION_NAME :: "VK_KHR_driver_properties"c
 VK_MAX_DRIVER_NAME_SIZE_KHR :: VK_MAX_DRIVER_NAME_SIZE
 VK_MAX_DRIVER_INFO_SIZE_KHR :: VK_MAX_DRIVER_INFO_SIZE
 VK_KHR_shader_float_controls :: 1
 VK_KHR_SHADER_FLOAT_CONTROLS_SPEC_VERSION :: 4
-VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME :: "VK_KHR_shader_float_controls"
+VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME :: "VK_KHR_shader_float_controls"c
 VK_KHR_depth_stencil_resolve :: 1
 VK_KHR_DEPTH_STENCIL_RESOLVE_SPEC_VERSION :: 1
-VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME :: "VK_KHR_depth_stencil_resolve"
+VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME :: "VK_KHR_depth_stencil_resolve"c
 VK_KHR_swapchain_mutable_format :: 1
 VK_KHR_SWAPCHAIN_MUTABLE_FORMAT_SPEC_VERSION :: 1
-VK_KHR_SWAPCHAIN_MUTABLE_FORMAT_EXTENSION_NAME :: "VK_KHR_swapchain_mutable_format"
+VK_KHR_SWAPCHAIN_MUTABLE_FORMAT_EXTENSION_NAME :: "VK_KHR_swapchain_mutable_format"c
 VK_KHR_timeline_semaphore :: 1
 VK_KHR_TIMELINE_SEMAPHORE_SPEC_VERSION :: 2
-VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME :: "VK_KHR_timeline_semaphore"
+VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME :: "VK_KHR_timeline_semaphore"c
 VK_KHR_vulkan_memory_model :: 1
 VK_KHR_VULKAN_MEMORY_MODEL_SPEC_VERSION :: 3
-VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME :: "VK_KHR_vulkan_memory_model"
+VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME :: "VK_KHR_vulkan_memory_model"c
 VK_KHR_spirv_1_4 :: 1
 VK_KHR_SPIRV_1_4_SPEC_VERSION :: 1
 VK_KHR_SPIRV_1_4_EXTENSION_NAME :: "VK_KHR_spirv_1_4"
@@ -1153,7 +1151,7 @@ VK_EXT_QUEUE_FAMILY_FOREIGN_EXTENSION_NAME :: "VK_EXT_queue_family_foreign"
 VK_QUEUE_FAMILY_FOREIGN_EXT :: u32.max - 2
 VK_EXT_debug_utils :: 1
 VK_EXT_DEBUG_UTILS_SPEC_VERSION :: 2
-VK_EXT_DEBUG_UTILS_EXTENSION_NAME :: "VK_EXT_debug_utils"
+VK_EXT_DEBUG_UTILS_EXTENSION_NAME :: "VK_EXT_debug_utils"c
 VK_EXT_sampler_filter_minmax :: 1
 VK_EXT_SAMPLER_FILTER_MINMAX_SPEC_VERSION :: 2
 VK_EXT_SAMPLER_FILTER_MINMAX_EXTENSION_NAME :: "VK_EXT_sampler_filter_minmax"
@@ -2699,7 +2697,8 @@ VkSubpassContents :: enum #copy #repr("C") #tag_type(i32) {
     SecondaryCommandBuffers = 0x1
     MaxEnum                 = 0x7fffffff
 }
-VkAccessFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkAccessFlagBits :: enum #copy #repr("C") #tag_type(i32) #flags {
+    None                                 = 0x0
     IndirectCommandReadBit               = 0x1
     IndexReadBit                         = 0x2
     VertexAttributeReadBit               = 0x4
@@ -2725,7 +2724,7 @@ VkAccessFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     AccelerationStructureReadBitKhr      = 0x200000
     AccelerationStructureWriteBitKhr     = 0x400000
     ShadingRateImageReadBitNv            = 0x800000
-    ragmentDensityMapReadBitExt          = 0x1000000
+    FragmentDensityMapReadBitExt         = 0x1000000
     CommandPreprocessReadBitNv           = 0x20000
     CommandPreprocessWriteBitNv          = 0x40000
     AccelerationStructureReadBitNv       = 0x200000
@@ -2873,7 +2872,7 @@ VkPipelineStageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     TessellationControlShaderBit     = 0x10
     TessellationEvaluationShaderBit  = 0x20
     GeometryShaderBit                = 0x40
-    ragmentShaderBit                 = 0x80
+    FragmentShaderBit                = 0x80
     EarlyFragmentTestsBit            = 0x100
     LateFragmentTestsBit             = 0x200
     ColorAttachmentOutputBit         = 0x400
@@ -2890,7 +2889,7 @@ VkPipelineStageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     ShadingRateImageBitNv            = 0x400000
     TaskShaderBitNv                  = 0x80000
     MeshShaderBitNv                  = 0x100000
-    ragmentDensityProcessBitExt      = 0x800000
+    FragmentDensityProcessBitExt     = 0x800000
     CommandPreprocessBitNv           = 0x20000
     RayTracingShaderBitNv            = 0x200000
     AccelerationStructureBuildBitNv  = 0x2000000
@@ -2973,11 +2972,12 @@ VkPipelineCacheCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     ExternallySynchronizedBitExt = 0x1
     MaxEnum                      = 0x7fffffff
 }
-VkColorComponentFlagBits :: enum #copy #repr("C") #tag_type(i32) {
-    RBit    = 0x1
-    GBit    = 0x2
-    BBit    = 0x4
-    ABit    = 0x8
+VkColorComponentFlags :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0
+    R = 0x1
+    G = 0x2
+    B = 0x4
+    A = 0x8
     MaxEnum = 0x7fffffff
 }
 VkPipelineCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
@@ -3014,7 +3014,7 @@ VkShaderStageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     TessellationControlBit    = 0x2
     TessellationEvaluationBit = 0x4
     GeometryBit               = 0x8
-    ragmentBit                = 0x10
+    FragmentBit               = 0x10
     ComputeBit                = 0x20
     AllGraphics               = 0x1f
     All                       = 0x7fffffff
@@ -3034,11 +3034,11 @@ VkShaderStageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     CallableBitNv             = 0x2000
     MaxEnum                   = 0x7fffffff
 }
-VkCullModeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkCullModeFlags :: enum #copy #repr("C") #tag_type(i32) {
     None        = 0x0
-    rontBit     = 0x1
+    FrontBit     = 0x1
     BackBit     = 0x2
-    rontAndBack = 0x3
+    FrontAndBack = 0x3
     MaxEnum     = 0x7fffffff
 }
 VkSamplerCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
@@ -3965,9 +3965,9 @@ VkAllocationCallbacks :: struct #copy {
 VkApplicationInfo :: struct #copy {
     sType : VkStructureType = default
     pNext : ^mut void = default
-    pApplicationName : ^mut char8 = default
+    pApplicationName : ^char8 = default
     applicationVersion : uint32_t = default
-    pEngineName : ^mut char8 = default
+    pEngineName : ^char8 = default
     engineVersion : uint32_t = default
     apiVersion : uint32_t = default
 }
@@ -3985,13 +3985,13 @@ VkImageFormatProperties :: struct #copy {
 }
 VkInstanceCreateInfo :: struct #copy {
     sType : VkStructureType = default
-    pNext : ^mut void = default
+    pNext : ^void = default
     flags : VkInstanceCreateFlags = default
-    pApplicationInfo : ^mut VkApplicationInfo = default
+    pApplicationInfo : ^VkApplicationInfo = default
     enabledLayerCount : uint32_t = default
-    ppEnabledLayerNames : ^mut ^mut char8 = default
+    ppEnabledLayerNames : ^^char8 = default
     enabledExtensionCount : uint32_t = default
-    ppEnabledExtensionNames : ^mut ^mut char8 = default
+    ppEnabledExtensionNames : ^^char8 = default
 }
 VkMemoryHeap :: struct #copy {
     size : VkDeviceSize = default
@@ -4198,23 +4198,23 @@ VkQueueFamilyProperties :: struct #copy {
 }
 VkDeviceQueueCreateInfo :: struct #copy {
     sType : VkStructureType = default
-    pNext : ^mut void = default
+    pNext : ^void = default
     flags : VkDeviceQueueCreateFlags = default
     queueFamilyIndex : uint32_t = default
     queueCount : uint32_t = default
-    pQueuePriorities : ^mut f32 = default
+    pQueuePriorities : ^f32 = default
 }
 VkDeviceCreateInfo :: struct #copy {
     sType : VkStructureType = default
-    pNext : ^mut void = default
+    pNext : ^void = default
     flags : VkDeviceCreateFlags = default
     queueCreateInfoCount : uint32_t = default
-    pQueueCreateInfos : ^mut VkDeviceQueueCreateInfo = default
+    pQueueCreateInfos : ^VkDeviceQueueCreateInfo = default
     enabledLayerCount : uint32_t = default
-    ppEnabledLayerNames : ^mut ^mut char8 = default
+    ppEnabledLayerNames : ^^char8 = default
     enabledExtensionCount : uint32_t = default
-    ppEnabledExtensionNames : ^mut ^mut char8 = default
-    pEnabledFeatures : ^mut VkPhysicalDeviceFeatures = default
+    ppEnabledExtensionNames : ^^char8 = default
+    pEnabledFeatures : ^VkPhysicalDeviceFeatures = default
 }
 VkExtensionProperties :: struct #copy {
     extensionName : [256]char8 = default
@@ -4400,10 +4400,10 @@ VkImageViewCreateInfo :: struct #copy {
 }
 VkShaderModuleCreateInfo :: struct #copy {
     sType : VkStructureType = default
-    pNext : ^mut void = default
+    pNext : ^void = default
     flags : VkShaderModuleCreateFlags = default
     codeSize : size_t = default
-    pCode : ^mut uint32_t = default
+    pCode : ^uint32_t = default
 }
 VkPipelineCacheCreateInfo :: struct #copy {
     sType : VkStructureType = default
@@ -4425,11 +4425,11 @@ VkSpecializationInfo :: struct #copy {
 }
 VkPipelineShaderStageCreateInfo :: struct #copy {
     sType : VkStructureType = default
-    pNext : ^mut void = default
+    pNext : ^void = default
     flags : VkPipelineShaderStageCreateFlags = default
     stage : VkShaderStageFlagBits = default
     module : VkShaderModule = default
-    pName : ^mut char8 = default
+    pName : ^char8 = default
     pSpecializationInfo : ^mut VkSpecializationInfo = default
 }
 VkComputePipelineCreateInfo :: struct #copy {
@@ -6441,7 +6441,7 @@ VkDebugUtilsMessengerCallbackDataEXT :: struct #copy {
     flags : VkDebugUtilsMessengerCallbackDataFlagsEXT = default
     pMessageIdName : ^mut char8 = default
     messageIdNumber : int32_t = default
-    pMessage : ^mut char8 = default
+    pMessage : ^char8 = default
     queueLabelCount : uint32_t = default
     pQueueLabels : ^mut VkDebugUtilsLabelEXT = default
     cmdBufLabelCount : uint32_t = default
@@ -7518,7 +7518,7 @@ vkGetPhysicalDeviceQueueFamilyProperties :: (_physicalDevice: VkPhysicalDevice, 
 vkGetPhysicalDeviceMemoryProperties :: (_physicalDevice: VkPhysicalDevice, _pMemoryProperties: ^mut VkPhysicalDeviceMemoryProperties) {
     __c__vkGetPhysicalDeviceMemoryProperties(_physicalDevice, _pMemoryProperties)
 }
-vkGetInstanceProcAddr :: (_instance: VkInstance, _pName: ^mut char8) -> PFN_vkVoidFunction {
+vkGetInstanceProcAddr :: (_instance: VkInstance, _pName: ^char8) -> PFN_vkVoidFunction {
     mut result : PFN_vkVoidFunction = default
     __c__vkGetInstanceProcAddr(^result, _instance, _pName)
     return result
@@ -8281,7 +8281,7 @@ __c__vkGetPhysicalDeviceImageFormatProperties :: (ret: ^mut VkResult, _physicalD
 __c__vkGetPhysicalDeviceProperties :: (_physicalDevice: VkPhysicalDevice, _pProperties: ^mut VkPhysicalDeviceProperties);
 __c__vkGetPhysicalDeviceQueueFamilyProperties :: (_physicalDevice: VkPhysicalDevice, _pQueueFamilyPropertyCount: ^mut uint32_t, _pQueueFamilyProperties: ^mut VkQueueFamilyProperties);
 __c__vkGetPhysicalDeviceMemoryProperties :: (_physicalDevice: VkPhysicalDevice, _pMemoryProperties: ^mut VkPhysicalDeviceMemoryProperties);
-__c__vkGetInstanceProcAddr :: (ret: ^mut PFN_vkVoidFunction, _instance: VkInstance, _pName: ^mut char8);
+__c__vkGetInstanceProcAddr :: (ret: ^mut PFN_vkVoidFunction, _instance: VkInstance, _pName: ^char8);
 __c__vkGetDeviceProcAddr :: (ret: ^mut PFN_vkVoidFunction, _device: VkDevice, _pName: ^mut char8);
 __c__vkCreateDevice :: (ret: ^mut VkResult, _physicalDevice: VkPhysicalDevice, _pCreateInfo: ^mut VkDeviceCreateInfo, _pAllocator: ^mut VkAllocationCallbacks, _pDevice: ^mut VkDevice);
 __c__vkDestroyDevice :: (_device: VkDevice, _pAllocator: ^mut VkAllocationCallbacks);
