@@ -50,7 +50,6 @@ uint64_t :: u64
 VkBool32 :: uint32_t
 VkDeviceAddress :: uint64_t
 VkDeviceSize :: uint64_t
-VkFlags :: uint32_t
 VkSampleMask :: uint32_t
 VkBuffer_T :: struct #copy {}
 VkBuffer :: ^mut VkBuffer_T
@@ -103,61 +102,61 @@ VkFramebuffer :: ^mut VkFramebuffer_T
 VkCommandPool_T :: struct #copy {}
 VkCommandPool :: ^mut VkCommandPool_T
 VkAccessFlags :: VkAccessFlagBits
-VkImageAspectFlags :: VkFlags
-VkFormatFeatureFlags :: VkFlags
-VkImageCreateFlags :: VkFlags
-VkSampleCountFlags :: VkFlags
-VkImageUsageFlags :: VkFlags
-VkInstanceCreateFlags :: VkFlags
-VkMemoryHeapFlags :: VkFlags
-VkMemoryPropertyFlags :: VkFlags
-VkQueueFlags :: VkFlags
-VkDeviceCreateFlags :: VkFlags
-VkDeviceQueueCreateFlags :: VkFlags
+VkImageAspectFlags :: VkImageAspectFlagBits
+VkFormatFeatureFlags :: VkFormatFeatureFlagBits
+VkImageCreateFlags :: VkImageCreateFlagBits
+VkSampleCountFlags :: VkSampleCountFlagBits
+VkImageUsageFlags :: VkImageUsageFlagBits
+VkInstanceCreateFlags :: VkInstanceCreateFlagBits
+VkMemoryHeapFlags :: VkMemoryHeapFlagBits
+VkMemoryPropertyFlags :: VkMemoryPropertyFlagBits
+VkQueueFlags :: VkQueueFlagBits
+VkDeviceCreateFlags :: VkDeviceCreateFlagBits
+VkDeviceQueueCreateFlags :: VkDeviceQueueCreateFlagBits
 VkPipelineStageFlags :: VkPipelineStageFlagBits
-VkMemoryMapFlags :: VkFlags
-VkSparseMemoryBindFlags :: VkFlags
-VkSparseImageFormatFlags :: VkFlags
+VkMemoryMapFlags :: VkMemoryMapFlagBits
+VkSparseMemoryBindFlags :: VkSparseMemoryBindFlagBits
+VkSparseImageFormatFlags :: VkSparseImageFormatFlagBits
 VkFenceCreateFlags :: VkFenceCreateFlagBits
-VkSemaphoreCreateFlags :: VkFlags
-VkEventCreateFlags :: VkFlags
-VkQueryPipelineStatisticFlags :: VkFlags
-VkQueryPoolCreateFlags :: VkFlags
-VkQueryResultFlags :: VkFlags
-VkBufferCreateFlags :: VkFlags
-VkBufferUsageFlags :: VkFlags
-VkBufferViewCreateFlags :: VkFlags
-VkImageViewCreateFlags :: VkFlags
-VkShaderModuleCreateFlags :: VkFlags
-VkPipelineCacheCreateFlags :: VkFlags
-VkPipelineCreateFlags :: VkFlags
-VkPipelineShaderStageCreateFlags :: VkFlags
-VkPipelineVertexInputStateCreateFlags :: VkFlags
-VkPipelineInputAssemblyStateCreateFlags :: VkFlags
-VkPipelineTessellationStateCreateFlags :: VkFlags
-VkPipelineViewportStateCreateFlags :: VkFlags
-VkPipelineRasterizationStateCreateFlags :: VkFlags
-VkPipelineMultisampleStateCreateFlags :: VkFlags
-VkPipelineDepthStencilStateCreateFlags :: VkFlags
-VkPipelineColorBlendStateCreateFlags :: VkFlags
-VkPipelineDynamicStateCreateFlags :: VkFlags
-VkPipelineLayoutCreateFlags :: VkFlags
-VkShaderStageFlags :: VkFlags
-VkSamplerCreateFlags :: VkFlags
-VkDescriptorPoolCreateFlags :: VkFlags
-VkDescriptorPoolResetFlags :: VkFlags
-VkDescriptorSetLayoutCreateFlags :: VkFlags
-VkAttachmentDescriptionFlags :: VkFlags
-VkDependencyFlags :: VkFlags
-VkFramebufferCreateFlags :: VkFlags
-VkRenderPassCreateFlags :: VkFlags
-VkSubpassDescriptionFlags :: VkFlags
-VkCommandPoolCreateFlags :: VkFlags
-VkCommandPoolResetFlags :: VkFlags
-VkCommandBufferUsageFlags :: VkFlags
-VkQueryControlFlags :: VkFlags
-VkCommandBufferResetFlags :: VkFlags
-VkStencilFaceFlags :: VkFlags
+VkSemaphoreCreateFlags :: VkSemaphoreCreateFlagBits
+VkEventCreateFlags :: VkEventCreateFlagBits
+VkQueryPipelineStatisticFlags :: VkQueryPipelineStatisticFlagBits
+VkQueryPoolCreateFlags :: VkQueryPoolCreateFlagBits
+VkQueryResultFlags :: VkQueryResultFlagBits
+VkBufferCreateFlags :: VkBufferCreateFlagBits
+VkBufferUsageFlags :: VkBufferUsageFlagBits
+VkBufferViewCreateFlags :: VkBufferViewCreateFlagBits
+VkImageViewCreateFlags :: VkImageViewCreateFlagBits
+VkShaderModuleCreateFlags :: VkShaderModuleCreateFlagBits
+VkPipelineCacheCreateFlags :: VkPipelineCacheCreateFlagBits
+VkPipelineCreateFlags :: VkPipelineCreateFlagBits
+VkPipelineShaderStageCreateFlags :: VkPipelineShaderStageCreateFlagBits
+VkPipelineVertexInputStateCreateFlags :: VkPipelineVertexInputStateCreateFlagBits
+VkPipelineInputAssemblyStateCreateFlags :: VkPipelineInputAssemblyStateCreateFlagBits
+VkPipelineTessellationStateCreateFlags :: VkPipelineTessellationStateCreateFlagBits
+VkPipelineViewportStateCreateFlags :: VkPipelineViewportStateCreateFlagBits
+VkPipelineRasterizationStateCreateFlags :: VkPipelineRasterizationStateCreateFlagBits
+VkPipelineMultisampleStateCreateFlags :: VkPipelineMultisampleStateCreateFlagBits
+VkPipelineDepthStencilStateCreateFlags :: VkPipelineDepthStencilStateCreateFlagBits
+VkPipelineColorBlendStateCreateFlags :: VkPipelineColorBlendStateCreateFlagBits
+VkPipelineDynamicStateCreateFlags :: VkPipelineDynamicStateCreateFlagBits
+VkPipelineLayoutCreateFlags :: VkPipelineLayoutCreateFlagBits
+VkShaderStageFlags :: VkShaderStageFlagBits
+VkSamplerCreateFlags :: VkSamplerCreateFlagBits
+VkDescriptorPoolCreateFlags :: VkDescriptorPoolCreateFlagBits
+VkDescriptorPoolResetFlags :: VkDescriptorPoolResetFlagBits
+VkDescriptorSetLayoutCreateFlags :: VkDescriptorSetLayoutCreateFlagBits
+VkAttachmentDescriptionFlags :: VkAttachmentDescriptionFlagBits
+VkDependencyFlags :: VkDependencyFlagBits
+VkFramebufferCreateFlags :: VkFramebufferCreateFlagBits
+VkRenderPassCreateFlags :: VkRenderPassCreateFlagBits
+VkSubpassDescriptionFlags :: VkSubpassDescriptionFlagBits
+VkCommandPoolCreateFlags :: VkCommandPoolCreateFlagBits
+VkCommandPoolResetFlags :: VkCommandPoolResetFlagBits
+VkCommandBufferUsageFlags :: VkCommandBufferUsageFlagBits
+VkQueryControlFlags :: VkQueryControlFlagBits
+VkCommandBufferResetFlags :: VkCommandBufferResetFlagBits
+VkStencilFaceFlags :: VkStencilFaceFlagBits
 PFN_vkAllocationFunction :: fn(^mut void, size_t, size_t, VkSystemAllocationScope) -> ^mut void
 PFN_vkFreeFunction :: fn(^mut void, ^mut void) -> void
 PFN_vkInternalAllocationNotification :: fn(^mut void, size_t, VkInternalAllocationType, VkSystemAllocationScope) -> void
@@ -305,19 +304,19 @@ VkSamplerYcbcrConversion_T :: struct #copy {}
 VkSamplerYcbcrConversion :: ^mut VkSamplerYcbcrConversion_T
 VkDescriptorUpdateTemplate_T :: struct #copy {}
 VkDescriptorUpdateTemplate :: ^mut VkDescriptorUpdateTemplate_T
-VkSubgroupFeatureFlags :: VkFlags
-VkPeerMemoryFeatureFlags :: VkFlags
-VkMemoryAllocateFlags :: VkFlags
-VkCommandPoolTrimFlags :: VkFlags
-VkDescriptorUpdateTemplateCreateFlags :: VkFlags
-VkExternalMemoryHandleTypeFlags :: VkFlags
-VkExternalMemoryFeatureFlags :: VkFlags
-VkExternalFenceHandleTypeFlags :: VkFlags
-VkExternalFenceFeatureFlags :: VkFlags
-VkFenceImportFlags :: VkFlags
-VkSemaphoreImportFlags :: VkFlags
-VkExternalSemaphoreHandleTypeFlags :: VkFlags
-VkExternalSemaphoreFeatureFlags :: VkFlags
+VkSubgroupFeatureFlags :: VkSubgroupFeatureFlagBits
+VkPeerMemoryFeatureFlags :: VkPeerMemoryFeatureFlagBits
+VkMemoryAllocateFlags :: VkMemoryAllocateFlagBits
+VkCommandPoolTrimFlags :: VkCommandPoolTrimFlagBits
+VkDescriptorUpdateTemplateCreateFlags :: VkDescriptorUpdateTemplateCreateFlagBits
+VkExternalMemoryHandleTypeFlags :: VkExternalMemoryHandleTypeFlagBits
+VkExternalMemoryFeatureFlags :: VkExternalMemoryFeatureFlagBits
+VkExternalFenceHandleTypeFlags :: VkExternalFenceHandleTypeFlagBits
+VkExternalFenceFeatureFlags :: VkExternalFenceFeatureFlagBits
+VkFenceImportFlags :: VkFenceImportFlagBits
+VkSemaphoreImportFlags :: VkSemaphoreImportFlagBits
+VkExternalSemaphoreHandleTypeFlags :: VkExternalSemaphoreHandleTypeFlagBits
+VkExternalSemaphoreFeatureFlags :: VkExternalSemaphoreFeatureFlagBits
 VkPhysicalDeviceVariablePointerFeatures :: VkPhysicalDeviceVariablePointersFeatures
 VkPhysicalDeviceShaderDrawParameterFeatures :: VkPhysicalDeviceShaderDrawParametersFeatures
 PFN_vkEnumerateInstanceVersion :: fn(^mut uint32_t) -> VkResult
@@ -348,9 +347,9 @@ PFN_vkGetPhysicalDeviceExternalBufferProperties :: fn(VkPhysicalDevice, ^mut VkP
 PFN_vkGetPhysicalDeviceExternalFenceProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalFenceInfo, ^mut VkExternalFenceProperties) -> void
 PFN_vkGetPhysicalDeviceExternalSemaphoreProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalSemaphoreInfo, ^mut VkExternalSemaphoreProperties) -> void
 PFN_vkGetDescriptorSetLayoutSupport :: fn(VkDevice, ^mut VkDescriptorSetLayoutCreateInfo, ^mut VkDescriptorSetLayoutSupport) -> void
-VkResolveModeFlags :: VkFlags
-VkDescriptorBindingFlags :: VkFlags
-VkSemaphoreWaitFlags :: VkFlags
+VkResolveModeFlags :: VkResolveModeFlagBits
+VkDescriptorBindingFlags :: VkDescriptorBindingFlagBits
+VkSemaphoreWaitFlags :: VkSemaphoreWaitFlagBits
 PFN_vkCmdDrawIndirectCount :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
 PFN_vkCmdDrawIndexedIndirectCount :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
 PFN_vkCreateRenderPass2 :: fn(VkDevice, ^mut VkRenderPassCreateInfo2, ^mut VkAllocationCallbacks, ^mut VkRenderPass) -> VkResult
@@ -366,8 +365,8 @@ PFN_vkGetBufferOpaqueCaptureAddress :: fn(VkDevice, ^mut VkBufferDeviceAddressIn
 PFN_vkGetDeviceMemoryOpaqueCaptureAddress :: fn(VkDevice, ^mut VkDeviceMemoryOpaqueCaptureAddressInfo) -> uint64_t
 VkSurfaceKHR_T :: struct #copy {}
 VkSurfaceKHR :: ^mut VkSurfaceKHR_T
-VkCompositeAlphaFlagsKHR :: VkFlags
-VkSurfaceTransformFlagsKHR :: VkFlags
+VkCompositeAlphaFlagsKHR :: VkCompositeAlphaFlagBitsKHR
+VkSurfaceTransformFlagsKHR :: VkSurfaceTransformFlagBitsKHR
 PFN_vkDestroySurfaceKHR :: fn(VkInstance, VkSurfaceKHR, ^mut VkAllocationCallbacks) -> void
 PFN_vkGetPhysicalDeviceSurfaceSupportKHR :: fn(VkPhysicalDevice, uint32_t, VkSurfaceKHR, ^mut VkBool32) -> VkResult
 PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut VkSurfaceCapabilitiesKHR) -> VkResult
@@ -375,8 +374,8 @@ PFN_vkGetPhysicalDeviceSurfaceFormatsKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^
 PFN_vkGetPhysicalDeviceSurfacePresentModesKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut uint32_t, ^mut VkPresentModeKHR) -> VkResult
 VkSwapchainKHR_T :: struct #copy {}
 VkSwapchainKHR :: ^mut VkSwapchainKHR_T
-VkSwapchainCreateFlagsKHR :: VkFlags
-VkDeviceGroupPresentModeFlagsKHR :: VkFlags
+VkSwapchainCreateFlagsKHR :: VkSwapchainCreateFlagBitsKHR
+VkDeviceGroupPresentModeFlagsKHR :: VkDeviceGroupPresentModeFlagBitsKHR
 PFN_vkCreateSwapchainKHR :: fn(VkDevice, ^mut VkSwapchainCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkSwapchainKHR) -> VkResult
 PFN_vkDestroySwapchainKHR :: fn(VkDevice, VkSwapchainKHR, ^mut VkAllocationCallbacks) -> void
 PFN_vkGetSwapchainImagesKHR :: fn(VkDevice, VkSwapchainKHR, ^mut uint32_t, ^mut VkImage) -> VkResult
@@ -390,9 +389,9 @@ VkDisplayKHR_T :: struct #copy {}
 VkDisplayKHR :: ^mut VkDisplayKHR_T
 VkDisplayModeKHR_T :: struct #copy {}
 VkDisplayModeKHR :: ^mut VkDisplayModeKHR_T
-VkDisplayModeCreateFlagsKHR :: VkFlags
-VkDisplayPlaneAlphaFlagsKHR :: VkFlags
-VkDisplaySurfaceCreateFlagsKHR :: VkFlags
+VkDisplayModeCreateFlagsKHR :: VkDisplayModeCreateFlagBitsKHR
+VkDisplayPlaneAlphaFlagsKHR :: VkDisplayPlaneAlphaFlagBitsKHR
+VkDisplaySurfaceCreateFlagsKHR :: VkDisplaySurfaceCreateFlagBitsKHR
 PFN_vkGetPhysicalDeviceDisplayPropertiesKHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayPropertiesKHR) -> VkResult
 PFN_vkGetPhysicalDeviceDisplayPlanePropertiesKHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayPlanePropertiesKHR) -> VkResult
 PFN_vkGetDisplayPlaneSupportedDisplaysKHR :: fn(VkPhysicalDevice, uint32_t, ^mut uint32_t, ^mut VkDisplayKHR) -> VkResult
@@ -508,8 +507,8 @@ VkFenceImportFlagBitsKHR :: VkFenceImportFlagBits
 VkExportFenceCreateInfoKHR :: VkExportFenceCreateInfo
 PFN_vkImportFenceFdKHR :: fn(VkDevice, ^mut VkImportFenceFdInfoKHR) -> VkResult
 PFN_vkGetFenceFdKHR :: fn(VkDevice, ^mut VkFenceGetFdInfoKHR, ^mut i32) -> VkResult
-VkPerformanceCounterDescriptionFlagsKHR :: VkFlags
-VkAcquireProfilingLockFlagsKHR :: VkFlags
+VkPerformanceCounterDescriptionFlagsKHR :: VkPerformanceCounterDescriptionFlagBitsKHR
+VkAcquireProfilingLockFlagsKHR :: VkAcquireProfilingLockFlagBitsKHR
 PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR :: fn(VkPhysicalDevice, uint32_t, ^mut uint32_t, ^mut VkPerformanceCounterKHR, ^mut VkPerformanceCounterDescriptionKHR) -> VkResult
 PFN_vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR :: fn(VkPhysicalDevice, ^mut VkQueryPoolPerformanceCreateInfoKHR, ^mut uint32_t) -> void
 PFN_vkAcquireProfilingLockKHR :: fn(VkDevice, ^mut VkAcquireProfilingLockInfoKHR) -> VkResult
@@ -603,7 +602,7 @@ PFN_vkGetPipelineExecutableStatisticsKHR :: fn(VkDevice, ^mut VkPipelineExecutab
 PFN_vkGetPipelineExecutableInternalRepresentationsKHR :: fn(VkDevice, ^mut VkPipelineExecutableInfoKHR, ^mut uint32_t, ^mut VkPipelineExecutableInternalRepresentationKHR) -> VkResult
 VkDebugReportCallbackEXT_T :: struct #copy {}
 VkDebugReportCallbackEXT :: ^mut VkDebugReportCallbackEXT_T
-VkDebugReportFlagsEXT :: VkFlags
+VkDebugReportFlagsEXT :: VkDebugReportFlagBitsEXT
 PFN_vkDebugReportCallbackEXT :: fn(VkDebugReportFlagsEXT, VkDebugReportObjectTypeEXT, uint64_t, size_t, int32_t, ^mut char8, ^mut char8, ^mut void) -> VkBool32
 PFN_vkCreateDebugReportCallbackEXT :: fn(VkInstance, ^mut VkDebugReportCallbackCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkDebugReportCallbackEXT) -> VkResult
 PFN_vkDestroyDebugReportCallbackEXT :: fn(VkInstance, VkDebugReportCallbackEXT, ^mut VkAllocationCallbacks) -> void
@@ -613,7 +612,7 @@ PFN_vkDebugMarkerSetObjectNameEXT :: fn(VkDevice, ^mut VkDebugMarkerObjectNameIn
 PFN_vkCmdDebugMarkerBeginEXT :: fn(VkCommandBuffer, ^mut VkDebugMarkerMarkerInfoEXT) -> void
 PFN_vkCmdDebugMarkerEndEXT :: fn(VkCommandBuffer) -> void
 PFN_vkCmdDebugMarkerInsertEXT :: fn(VkCommandBuffer, ^mut VkDebugMarkerMarkerInfoEXT) -> void
-VkPipelineRasterizationStateStreamCreateFlagsEXT :: VkFlags
+VkPipelineRasterizationStateStreamCreateFlagsEXT :: VkPipelineRasterizationStateStreamCreateFlagBitsEXT
 PFN_vkCmdBindTransformFeedbackBuffersEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize, ^mut VkDeviceSize) -> void
 PFN_vkCmdBeginTransformFeedbackEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize) -> void
 PFN_vkCmdEndTransformFeedbackEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize) -> void
@@ -625,15 +624,15 @@ PFN_vkGetImageViewAddressNVX :: fn(VkDevice, VkImageView, ^mut VkImageViewAddres
 PFN_vkCmdDrawIndirectCountAMD :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
 PFN_vkCmdDrawIndexedIndirectCountAMD :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
 PFN_vkGetShaderInfoAMD :: fn(VkDevice, VkPipeline, VkShaderStageFlagBits, VkShaderInfoTypeAMD, ^mut size_t, ^mut void) -> VkResult
-VkExternalMemoryHandleTypeFlagsNV :: VkFlags
-VkExternalMemoryFeatureFlagsNV :: VkFlags
+VkExternalMemoryHandleTypeFlagsNV :: VkExternalMemoryHandleTypeFlagBitsNV
+VkExternalMemoryFeatureFlagsNV :: VkExternalMemoryFeatureFlagBitsNV
 PFN_vkGetPhysicalDeviceExternalImageFormatPropertiesNV :: fn(VkPhysicalDevice, VkFormat, VkImageType, VkImageTiling, VkImageUsageFlags, VkImageCreateFlags, VkExternalMemoryHandleTypeFlagsNV, ^mut VkExternalImageFormatPropertiesNV) -> VkResult
-VkConditionalRenderingFlagsEXT :: VkFlags
+VkConditionalRenderingFlagsEXT :: VkConditionalRenderingFlagBitsEXT
 PFN_vkCmdBeginConditionalRenderingEXT :: fn(VkCommandBuffer, ^mut VkConditionalRenderingBeginInfoEXT) -> void
 PFN_vkCmdEndConditionalRenderingEXT :: fn(VkCommandBuffer) -> void
 PFN_vkCmdSetViewportWScalingNV :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkViewportWScalingNV) -> void
 PFN_vkReleaseDisplayEXT :: fn(VkPhysicalDevice, VkDisplayKHR) -> VkResult
-VkSurfaceCounterFlagsEXT :: VkFlags
+VkSurfaceCounterFlagsEXT :: VkSurfaceCounterFlagBitsEXT
 PFN_vkGetPhysicalDeviceSurfaceCapabilities2EXT :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut VkSurfaceCapabilities2EXT) -> VkResult
 PFN_vkDisplayPowerControlEXT :: fn(VkDevice, VkDisplayKHR, ^mut VkDisplayPowerInfoEXT) -> VkResult
 PFN_vkRegisterDeviceEventEXT :: fn(VkDevice, ^mut VkDeviceEventInfoEXT, ^mut VkAllocationCallbacks, ^mut VkFence) -> VkResult
@@ -641,18 +640,18 @@ PFN_vkRegisterDisplayEventEXT :: fn(VkDevice, VkDisplayKHR, ^mut VkDisplayEventI
 PFN_vkGetSwapchainCounterEXT :: fn(VkDevice, VkSwapchainKHR, VkSurfaceCounterFlagBitsEXT, ^mut uint64_t) -> VkResult
 PFN_vkGetRefreshCycleDurationGOOGLE :: fn(VkDevice, VkSwapchainKHR, ^mut VkRefreshCycleDurationGOOGLE) -> VkResult
 PFN_vkGetPastPresentationTimingGOOGLE :: fn(VkDevice, VkSwapchainKHR, ^mut uint32_t, ^mut VkPastPresentationTimingGOOGLE) -> VkResult
-VkPipelineViewportSwizzleStateCreateFlagsNV :: VkFlags
-VkPipelineDiscardRectangleStateCreateFlagsEXT :: VkFlags
+VkPipelineViewportSwizzleStateCreateFlagsNV :: VkPipelineViewportSwizzleStateCreateFlagBitsNV
+VkPipelineDiscardRectangleStateCreateFlagsEXT :: VkPipelineDiscardRectangleStateCreateFlagBitsEXT
 PFN_vkCmdSetDiscardRectangleEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkRect2D) -> void
-VkPipelineRasterizationConservativeStateCreateFlagsEXT :: VkFlags
-VkPipelineRasterizationDepthClipStateCreateFlagsEXT :: VkFlags
+VkPipelineRasterizationConservativeStateCreateFlagsEXT :: VkPipelineRasterizationConservativeStateCreateFlagBitsEXT
+VkPipelineRasterizationDepthClipStateCreateFlagsEXT :: VkPipelineRasterizationDepthClipStateCreateFlagBitsEXT
 PFN_vkSetHdrMetadataEXT :: fn(VkDevice, uint32_t, ^mut VkSwapchainKHR, ^mut VkHdrMetadataEXT) -> void
 VkDebugUtilsMessengerEXT_T :: struct #copy {}
 VkDebugUtilsMessengerEXT :: ^mut VkDebugUtilsMessengerEXT_T
-VkDebugUtilsMessengerCallbackDataFlagsEXT :: VkFlags
-VkDebugUtilsMessageTypeFlagsEXT :: VkFlags
-VkDebugUtilsMessageSeverityFlagsEXT :: VkFlags
-VkDebugUtilsMessengerCreateFlagsEXT :: VkFlags
+VkDebugUtilsMessengerCallbackDataFlagsEXT :: VkDebugUtilsMessengerCallbackDataFlagBitsEXT
+VkDebugUtilsMessageTypeFlagsEXT :: VkDebugUtilsMessageTypeFlagBitsEXT
+VkDebugUtilsMessageSeverityFlagsEXT :: VkDebugUtilsMessageSeverityFlagBitsEXT
+VkDebugUtilsMessengerCreateFlagsEXT :: VkDebugUtilsMessengerCreateFlagBitsEXT
 PFN_vkDebugUtilsMessengerCallbackEXT :: fn(VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, ^VkDebugUtilsMessengerCallbackDataEXT, ^mut void) -> VkBool32 #stdcall
 PFN_vkSetDebugUtilsObjectNameEXT :: fn(VkDevice, ^mut VkDebugUtilsObjectNameInfoEXT) -> VkResult
 PFN_vkSetDebugUtilsObjectTagEXT :: fn(VkDevice, ^mut VkDebugUtilsObjectTagInfoEXT) -> VkResult
@@ -670,12 +669,12 @@ VkSamplerReductionModeCreateInfoEXT :: VkSamplerReductionModeCreateInfo
 VkPhysicalDeviceSamplerFilterMinmaxPropertiesEXT :: VkPhysicalDeviceSamplerFilterMinmaxProperties
 PFN_vkCmdSetSampleLocationsEXT :: fn(VkCommandBuffer, ^mut VkSampleLocationsInfoEXT) -> void
 PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT :: fn(VkPhysicalDevice, VkSampleCountFlagBits, ^mut VkMultisamplePropertiesEXT) -> void
-VkPipelineCoverageToColorStateCreateFlagsNV :: VkFlags
-VkPipelineCoverageModulationStateCreateFlagsNV :: VkFlags
+VkPipelineCoverageToColorStateCreateFlagsNV :: VkPipelineCoverageToColorStateCreateFlagBitsNV
+VkPipelineCoverageModulationStateCreateFlagsNV :: VkPipelineCoverageModulationStateCreateFlagBitsNV
 PFN_vkGetImageDrmFormatModifierPropertiesEXT :: fn(VkDevice, VkImage, ^mut VkImageDrmFormatModifierPropertiesEXT) -> VkResult
 VkValidationCacheEXT_T :: struct #copy {}
 VkValidationCacheEXT :: ^mut VkValidationCacheEXT_T
-VkValidationCacheCreateFlagsEXT :: VkFlags
+VkValidationCacheCreateFlagsEXT :: VkValidationCacheCreateFlagBitsEXT
 PFN_vkCreateValidationCacheEXT :: fn(VkDevice, ^mut VkValidationCacheCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkValidationCacheEXT) -> VkResult
 PFN_vkDestroyValidationCacheEXT :: fn(VkDevice, VkValidationCacheEXT, ^mut VkAllocationCallbacks) -> void
 PFN_vkMergeValidationCachesEXT :: fn(VkDevice, VkValidationCacheEXT, uint32_t, ^mut VkValidationCacheEXT) -> VkResult
@@ -698,13 +697,13 @@ VkGeometryTypeNV :: VkGeometryTypeKHR
 VkAccelerationStructureTypeNV :: VkAccelerationStructureTypeKHR
 VkCopyAccelerationStructureModeNV :: VkCopyAccelerationStructureModeKHR
 VkAccelerationStructureMemoryRequirementsTypeNV :: VkAccelerationStructureMemoryRequirementsTypeKHR
-VkGeometryFlagsKHR :: VkFlags
+VkGeometryFlags :: VkGeometryFlagBitsKHR
 VkGeometryFlagsNV :: VkGeometryFlagsKHR
 VkGeometryFlagBitsNV :: VkGeometryFlagBitsKHR
-VkGeometryInstanceFlagsKHR :: VkFlags
+VkGeometryInstanceFlags :: VkGeometryInstanceFlagBitsKHR
 VkGeometryInstanceFlagsNV :: VkGeometryInstanceFlagsKHR
 VkGeometryInstanceFlagBitsNV :: VkGeometryInstanceFlagBitsKHR
-VkBuildAccelerationStructureFlagsKHR :: VkFlags
+VkBuildAccelerationStructureFlags :: VkBuildAccelerationStructureFlagBitsKHR
 VkBuildAccelerationStructureFlagsNV :: VkBuildAccelerationStructureFlagsKHR
 VkBuildAccelerationStructureFlagBitsNV :: VkBuildAccelerationStructureFlagBitsKHR
 VkBindAccelerationStructureMemoryInfoNV :: VkBindAccelerationStructureMemoryInfoKHR
@@ -730,10 +729,10 @@ PFN_vkCmdWriteAccelerationStructuresPropertiesNV :: fn(VkCommandBuffer, uint32_t
 PFN_vkCompileDeferredNV :: fn(VkDevice, VkPipeline, uint32_t) -> VkResult
 PFN_vkGetMemoryHostPointerPropertiesEXT :: fn(VkDevice, VkExternalMemoryHandleTypeFlagBits, ^mut void, ^mut VkMemoryHostPointerPropertiesEXT) -> VkResult
 PFN_vkCmdWriteBufferMarkerAMD :: fn(VkCommandBuffer, VkPipelineStageFlagBits, VkBuffer, VkDeviceSize, uint32_t) -> void
-VkPipelineCompilerControlFlagsAMD :: VkFlags
+VkPipelineCompilerControlFlagsAMD :: VkPipelineCompilerControlFlagBitsAMD
 PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkTimeDomainEXT) -> VkResult
 PFN_vkGetCalibratedTimestampsEXT :: fn(VkDevice, uint32_t, ^mut VkCalibratedTimestampInfoEXT, ^mut uint64_t, ^mut uint64_t) -> VkResult
-VkPipelineCreationFeedbackFlagsEXT :: VkFlags
+VkPipelineCreationFeedbackFlagsEXT :: VkPipelineCreationFeedbackFlagBitsEXT
 PFN_vkCmdDrawMeshTasksNV :: fn(VkCommandBuffer, uint32_t, uint32_t) -> void
 PFN_vkCmdDrawMeshTasksIndirectNV :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
 PFN_vkCmdDrawMeshTasksIndirectCountNV :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
@@ -754,17 +753,17 @@ PFN_vkQueueSetPerformanceConfigurationINTEL :: fn(VkQueue, VkPerformanceConfigur
 PFN_vkGetPerformanceParameterINTEL :: fn(VkDevice, VkPerformanceParameterTypeINTEL, ^mut VkPerformanceValueINTEL) -> VkResult
 PFN_vkSetLocalDimmingAMD :: fn(VkDevice, VkSwapchainKHR, VkBool32) -> void
 VkPhysicalDeviceScalarBlockLayoutFeaturesEXT :: VkPhysicalDeviceScalarBlockLayoutFeatures
-VkShaderCorePropertiesFlagsAMD :: VkFlags
+VkShaderCorePropertiesFlagsAMD :: VkShaderCorePropertiesFlagBitsAMD
 VkPhysicalDeviceBufferAddressFeaturesEXT :: VkPhysicalDeviceBufferDeviceAddressFeaturesEXT
 VkBufferDeviceAddressInfoEXT :: VkBufferDeviceAddressInfo
 PFN_vkGetBufferDeviceAddressEXT :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> VkDeviceAddress
-VkToolPurposeFlagsEXT :: VkFlags
+VkToolPurposeFlagsEXT :: VkToolPurposeFlagBitsEXT
 PFN_vkGetPhysicalDeviceToolPropertiesEXT :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkPhysicalDeviceToolPropertiesEXT) -> VkResult
 VkImageStencilUsageCreateInfoEXT :: VkImageStencilUsageCreateInfo
 PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkCooperativeMatrixPropertiesNV) -> VkResult
-VkPipelineCoverageReductionStateCreateFlagsNV :: VkFlags
+VkPipelineCoverageReductionStateCreateFlagsNV :: VkPipelineCoverageReductionStateCreateFlagBitsNV
 PFN_vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkFramebufferMixedSamplesCombinationNV) -> VkResult
-VkHeadlessSurfaceCreateFlagsEXT :: VkFlags
+VkHeadlessSurfaceCreateFlagsEXT :: VkHeadlessSurfaceCreateFlagBitsEXT
 PFN_vkCreateHeadlessSurfaceEXT :: fn(VkInstance, ^mut VkHeadlessSurfaceCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkSurfaceKHR) -> VkResult
 PFN_vkCmdSetLineStippleEXT :: fn(VkCommandBuffer, uint32_t, uint16_t) -> void
 VkPhysicalDeviceHostQueryResetFeaturesEXT :: VkPhysicalDeviceHostQueryResetFeatures
@@ -783,8 +782,8 @@ PFN_vkCmdSetStencilTestEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void
 PFN_vkCmdSetStencilOpEXT :: fn(VkCommandBuffer, VkStencilFaceFlags, VkStencilOp, VkStencilOp, VkStencilOp, VkCompareOp) -> void
 VkIndirectCommandsLayoutNV_T :: struct #copy {}
 VkIndirectCommandsLayoutNV :: ^mut VkIndirectCommandsLayoutNV_T
-VkIndirectStateFlagsNV :: VkFlags
-VkIndirectCommandsLayoutUsageFlagsNV :: VkFlags
+VkIndirectStateFlagsNV :: VkIndirectStateFlagBitsNV
+VkIndirectCommandsLayoutUsageFlagsNV :: VkIndirectCommandsLayoutUsageFlagBitsNV
 PFN_vkGetGeneratedCommandsMemoryRequirementsNV :: fn(VkDevice, ^mut VkGeneratedCommandsMemoryRequirementsInfoNV, ^mut VkMemoryRequirements2) -> void
 PFN_vkCmdPreprocessGeneratedCommandsNV :: fn(VkCommandBuffer, ^mut VkGeneratedCommandsInfoNV) -> void
 PFN_vkCmdExecuteGeneratedCommandsNV :: fn(VkCommandBuffer, VkBool32, ^mut VkGeneratedCommandsInfoNV) -> void
@@ -793,12 +792,12 @@ PFN_vkCreateIndirectCommandsLayoutNV :: fn(VkDevice, ^mut VkIndirectCommandsLayo
 PFN_vkDestroyIndirectCommandsLayoutNV :: fn(VkDevice, VkIndirectCommandsLayoutNV, ^mut VkAllocationCallbacks) -> void
 VkPrivateDataSlotEXT_T :: struct #copy {}
 VkPrivateDataSlotEXT :: ^mut VkPrivateDataSlotEXT_T
-VkPrivateDataSlotCreateFlagsEXT :: VkFlags
+VkPrivateDataSlotCreateFlagsEXT :: VkPrivateDataSlotCreateFlagBitsEXT
 PFN_vkCreatePrivateDataSlotEXT :: fn(VkDevice, ^mut VkPrivateDataSlotCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkPrivateDataSlotEXT) -> VkResult
 PFN_vkDestroyPrivateDataSlotEXT :: fn(VkDevice, VkPrivateDataSlotEXT, ^mut VkAllocationCallbacks) -> void
 PFN_vkSetPrivateDataEXT :: fn(VkDevice, VkObjectType, uint64_t, VkPrivateDataSlotEXT, uint64_t) -> VkResult
 PFN_vkGetPrivateDataEXT :: fn(VkDevice, VkObjectType, uint64_t, VkPrivateDataSlotEXT, ^mut uint64_t) -> void
-VkDeviceDiagnosticsConfigFlagsNV :: VkFlags
+VkDeviceDiagnosticsConfigFlagsNV :: VkDeviceDiagnosticsConfigFlagBitsNV
 VK_VERSION_1_0 :: 1
 VK_API_VERSION_1_0 :: VK_MAKE_VERSION(1,0,0)
 VK_HEADER_VERSION :: 148
@@ -1391,6 +1390,7 @@ VK_EXT_FRAGMENT_DENSITY_MAP_2_EXTENSION_NAME :: "VK_EXT_fragment_density_map2"
 VK_EXT_image_robustness :: 1
 VK_EXT_IMAGE_ROBUSTNESS_SPEC_VERSION :: 1
 VK_EXT_IMAGE_ROBUSTNESS_EXTENSION_NAME :: "VK_EXT_image_robustness"
+
 VkResult :: enum #copy #repr("C") #tag_type(i32) {
     Success                                     = 0x0
     NotReady                                    = 0x1
@@ -2697,7 +2697,160 @@ VkSubpassContents :: enum #copy #repr("C") #tag_type(i32) {
     SecondaryCommandBuffers = 0x1
     MaxEnum                 = 0x7fffffff
 }
-VkAccessFlagBits :: enum #copy #repr("C") #tag_type(i32) #flags {
+
+VkEventCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkQueryPoolCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkBufferViewCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineVertexInputStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineInputAssemblyStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineTessellationStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineViewportStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineRasterizationStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineMultisampleStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineDepthStencilStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineColorBlendStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineDynamicStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineLayoutCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDescriptorPoolResetFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkCommandPoolTrimFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDescriptorUpdateTemplateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDisplayModeCreateFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDisplaySurfaceCreateFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkInstanceCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDeviceCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkMemoryMapFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkSemaphoreCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDebugReportFlagBitsExt :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineRasterizationStateStreamCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineViewportSwizzleStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineDiscardRectangleStateCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineRasterizationConservativeStateCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineRasterizationDepthClipStateCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDebugUtilsMessengerCallbackDataFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDebugUtilsMessengerCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineCoverageToColorStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineCoverageModulationStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkValidationCacheCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkGeometryFlagsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkGeometryInstanceFlagsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkBuildAccelerationStructureFlagsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineCoverageReductionStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkHeadlessSurfaceCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkAccessFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     None                                 = 0x0
     IndirectCommandReadBit               = 0x1
     IndexReadBit                         = 0x2
@@ -2731,7 +2884,8 @@ VkAccessFlagBits :: enum #copy #repr("C") #tag_type(i32) #flags {
     AccelerationStructureWriteBitNv      = 0x400000
     MaxEnum                              = 0x7fffffff
 }
-VkImageAspectFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkImageAspectFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ColorBit           = 0x1
     DepthBit           = 0x2
     StencilBit         = 0x4
@@ -2748,7 +2902,8 @@ VkImageAspectFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     Plane2BitKhr       = 0x40
     MaxEnum            = 0x7fffffff
 }
-VkFormatFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkFormatFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     SampledImageBit                                                        = 0x1
     StorageImageBit                                                        = 0x2
     StorageImageAtomicBit                                                  = 0x4
@@ -2788,7 +2943,8 @@ VkFormatFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     SampledImageFilterCubicBitExt                                          = 0x2000
     MaxEnum                                                                = 0x7fffffff
 }
-VkImageCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkImageCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     SparseBindingBit                     = 0x1
     SparseResidencyBit                   = 0x2
     SparseAliasedBit                     = 0x4
@@ -2812,7 +2968,8 @@ VkImageCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     AliasBitKhr                          = 0x400
     MaxEnum                              = 0x7fffffff
 }
-VkSampleCountFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkSampleCountFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     _1Bit   = 0x1
     _2Bit   = 0x2
     _4Bit   = 0x4
@@ -2822,7 +2979,8 @@ VkSampleCountFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     _64Bit  = 0x40
     MaxEnum = 0x7fffffff
 }
-VkImageUsageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkImageUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     TransferSrcBit            = 0x1
     TransferDstBit            = 0x2
     SampledBit                = 0x4
@@ -2835,13 +2993,15 @@ VkImageUsageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     ragmentDensityMapBitExt   = 0x200
     MaxEnum                   = 0x7fffffff
 }
-VkMemoryHeapFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkMemoryHeapFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     DeviceLocalBit      = 0x1
     MultiInstanceBit    = 0x2
     MultiInstanceBitKhr = 0x2
     MaxEnum             = 0x7fffffff
 }
-VkMemoryPropertyFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkMemoryPropertyFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     DeviceLocalBit       = 0x1
     HostVisibleBit       = 0x2
     HostCoherentBit      = 0x4
@@ -2852,7 +3012,8 @@ VkMemoryPropertyFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     DeviceUncachedBitAmd = 0x80
     MaxEnum              = 0x7fffffff
 }
-VkQueueFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkQueueFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     GraphicsBit      = 0x1
     ComputeBit       = 0x2
     TransferBit      = 0x4
@@ -2860,11 +3021,13 @@ VkQueueFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     ProtectedBit     = 0x10
     MaxEnum          = 0x7fffffff
 }
-VkDeviceQueueCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkDeviceQueueCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ProtectedBit = 0x1
     MaxEnum      = 0x7fffffff
 }
-VkPipelineStageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkPipelineStageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     TopOfPipeBit                     = 0x1
     DrawIndirectBit                  = 0x2
     VertexInputBit                   = 0x4
@@ -2895,21 +3058,25 @@ VkPipelineStageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     AccelerationStructureBuildBitNv  = 0x2000000
     MaxEnum                          = 0x7fffffff
 }
-VkSparseMemoryBindFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkSparseMemoryBindFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     MetadataBit = 0x1
     MaxEnum     = 0x7fffffff
 }
-VkSparseImageFormatFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkSparseImageFormatFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     SingleMiptailBit        = 0x1
     AlignedMipSizeBit       = 0x2
     NonstandardBlockSizeBit = 0x4
     MaxEnum                 = 0x7fffffff
 }
-VkFenceCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkFenceCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     SignaledBit = 0x1
     MaxEnum     = 0x7fffffff
 }
-VkQueryPipelineStatisticFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkQueryPipelineStatisticFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     InputAssemblyVerticesBit                   = 0x1
     InputAssemblyPrimitivesBit                 = 0x2
     VertexShaderInvocationsBit                 = 0x4
@@ -2923,14 +3090,16 @@ VkQueryPipelineStatisticFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     ComputeShaderInvocationsBit                = 0x400
     MaxEnum                                    = 0x7fffffff
 }
-VkQueryResultFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkQueryResultFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     _64Bit              = 0x1
     WaitBit             = 0x2
     WithAvailabilityBit = 0x4
     PartialBit          = 0x8
     MaxEnum             = 0x7fffffff
 }
-VkBufferCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkBufferCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     SparseBindingBit                 = 0x1
     SparseResidencyBit               = 0x2
     SparseAliasedBit                 = 0x4
@@ -2940,7 +3109,8 @@ VkBufferCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     DeviceAddressCaptureReplayBitKhr = 0x10
     MaxEnum                          = 0x7fffffff
 }
-VkBufferUsageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkBufferUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     TransferSrcBit                       = 0x1
     TransferDstBit                       = 0x2
     UniformTexelBufferBit                = 0x4
@@ -2960,27 +3130,31 @@ VkBufferUsageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     ShaderDeviceAddressBitKhr            = 0x20000
     MaxEnum                              = 0x7fffffff
 }
-VkImageViewCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkImageViewCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ragmentDensityMapDynamicBitExt  = 0x1
     ragmentDensityMapDeferredBitExt = 0x2
     MaxEnum                         = 0x7fffffff
 }
-VkShaderModuleCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkShaderModuleCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     MaxEnum = 0x7fffffff
 }
-VkPipelineCacheCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkPipelineCacheCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ExternallySynchronizedBitExt = 0x1
     MaxEnum                      = 0x7fffffff
 }
 VkColorComponentFlags :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0
+    None = 0x0
     R = 0x1
     G = 0x2
     B = 0x4
     A = 0x8
     MaxEnum = 0x7fffffff
 }
-VkPipelineCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkPipelineCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     DisableOptimizationBit                    = 0x1
     AllowDerivativesBit                       = 0x2
     DerivativeBit                             = 0x4
@@ -3004,12 +3178,14 @@ VkPipelineCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     DispatchBaseKhr                           = 0x10
     MaxEnum                                   = 0x7fffffff
 }
-VkPipelineShaderStageCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkPipelineShaderStageCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     AllowVaryingSubgroupSizeBitExt = 0x1
     RequireFullSubgroupsBitExt     = 0x2
     MaxEnum                        = 0x7fffffff
 }
-VkShaderStageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkShaderStageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     VertexBit                 = 0x1
     TessellationControlBit    = 0x2
     TessellationEvaluationBit = 0x4
@@ -3041,28 +3217,33 @@ VkCullModeFlags :: enum #copy #repr("C") #tag_type(i32) {
     FrontAndBack = 0x3
     MaxEnum     = 0x7fffffff
 }
-VkSamplerCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkSamplerCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     SubsampledBitExt                     = 0x1
     SubsampledCoarseReconstructionBitExt = 0x2
     MaxEnum                              = 0x7fffffff
 }
-VkDescriptorPoolCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkDescriptorPoolCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     reeDescriptorSetBit   = 0x1
     UpdateAfterBindBit    = 0x2
     UpdateAfterBindBitExt = 0x2
     MaxEnum               = 0x7fffffff
 }
-VkDescriptorSetLayoutCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkDescriptorSetLayoutCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     UpdateAfterBindPoolBit    = 0x2
     PushDescriptorBitKhr      = 0x1
     UpdateAfterBindPoolBitExt = 0x2
     MaxEnum                   = 0x7fffffff
 }
-VkAttachmentDescriptionFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkAttachmentDescriptionFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     MayAliasBit = 0x1
     MaxEnum     = 0x7fffffff
 }
-VkDependencyFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkDependencyFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ByRegionBit       = 0x1
     DeviceGroupBit    = 0x4
     ViewLocalBit      = 0x2
@@ -3070,47 +3251,56 @@ VkDependencyFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     DeviceGroupBitKhr = 0x4
     MaxEnum           = 0x7fffffff
 }
-VkFramebufferCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkFramebufferCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ImagelessBit    = 0x1
     ImagelessBitKhr = 0x1
     MaxEnum         = 0x7fffffff
 }
-VkRenderPassCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkRenderPassCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     TransformBitQcom = 0x2
     MaxEnum          = 0x7fffffff
 }
-VkSubpassDescriptionFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkSubpassDescriptionFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     PerViewAttributesBitNvx    = 0x1
     PerViewPositionXOnlyBitNvx = 0x2
     ragmentRegionBitQcom       = 0x4
     ShaderResolveBitQcom       = 0x8
     MaxEnum                    = 0x7fffffff
 }
-VkCommandPoolCreateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkCommandPoolCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     TransientBit          = 0x1
     ResetCommandBufferBit = 0x2
     ProtectedBit          = 0x4
     MaxEnum               = 0x7fffffff
 }
-VkCommandPoolResetFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkCommandPoolResetFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ReleaseResourcesBit = 0x1
     MaxEnum             = 0x7fffffff
 }
-VkCommandBufferUsageFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkCommandBufferUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     OneTimeSubmitBit      = 0x1
     RenderPassContinueBit = 0x2
     SimultaneousUseBit    = 0x4
     MaxEnum               = 0x7fffffff
 }
-VkQueryControlFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkQueryControlFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     PreciseBit = 0x1
     MaxEnum    = 0x7fffffff
 }
-VkCommandBufferResetFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkCommandBufferResetFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ReleaseResourcesBit = 0x1
     MaxEnum             = 0x7fffffff
 }
-VkStencilFaceFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkStencilFaceFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     FrontBit     = 0x1
     BackBit     = 0x2
     FrontAndBack = 0x3
@@ -3163,7 +3353,8 @@ VkDescriptorUpdateTemplateType :: enum #copy #repr("C") #tag_type(i32) {
     DescriptorSetKhr   = 0x0
     MaxEnum            = 0x7fffffff
 }
-VkSubgroupFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkSubgroupFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     BasicBit           = 0x1
     VoteBit            = 0x2
     ArithmeticBit      = 0x4
@@ -3175,7 +3366,8 @@ VkSubgroupFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     PartitionedBitNv   = 0x100
     MaxEnum            = 0x7fffffff
 }
-VkPeerMemoryFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkPeerMemoryFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     CopySrcBit       = 0x1
     CopyDstBit       = 0x2
     GenericSrcBit    = 0x4
@@ -3186,7 +3378,8 @@ VkPeerMemoryFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     GenericDstBitKhr = 0x8
     MaxEnum          = 0x7fffffff
 }
-VkMemoryAllocateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkMemoryAllocateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     DeviceMaskBit                    = 0x1
     DeviceAddressBit                 = 0x2
     DeviceAddressCaptureReplayBit    = 0x4
@@ -3195,7 +3388,8 @@ VkMemoryAllocateFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     DeviceAddressCaptureReplayBitKhr = 0x4
     MaxEnum                          = 0x7fffffff
 }
-VkExternalMemoryHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkExternalMemoryHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     OpaqueFdBit                     = 0x1
     OpaqueWin32Bit                  = 0x2
     OpaqueWin32KmtBit               = 0x4
@@ -3216,7 +3410,8 @@ VkExternalMemoryHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     D3d12ResourceBitKhr             = 0x40
     MaxEnum                         = 0x7fffffff
 }
-VkExternalMemoryFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkExternalMemoryFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     DedicatedOnlyBit    = 0x1
     ExportableBit       = 0x2
     ImportableBit       = 0x4
@@ -3225,7 +3420,8 @@ VkExternalMemoryFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     ImportableBitKhr    = 0x4
     MaxEnum             = 0x7fffffff
 }
-VkExternalFenceHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkExternalFenceHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     OpaqueFdBit          = 0x1
     OpaqueWin32Bit       = 0x2
     OpaqueWin32KmtBit    = 0x4
@@ -3236,24 +3432,28 @@ VkExternalFenceHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     SyncFdBitKhr         = 0x8
     MaxEnum              = 0x7fffffff
 }
-VkExternalFenceFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkExternalFenceFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ExportableBit    = 0x1
     ImportableBit    = 0x2
     ExportableBitKhr = 0x1
     ImportableBitKhr = 0x2
     MaxEnum          = 0x7fffffff
 }
-VkFenceImportFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkFenceImportFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     TemporaryBit    = 0x1
     TemporaryBitKhr = 0x1
     MaxEnum         = 0x7fffffff
 }
-VkSemaphoreImportFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkSemaphoreImportFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     TemporaryBit    = 0x1
     TemporaryBitKhr = 0x1
     MaxEnum         = 0x7fffffff
 }
-VkExternalSemaphoreHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkExternalSemaphoreHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     OpaqueFdBit          = 0x1
     OpaqueWin32Bit       = 0x2
     OpaqueWin32KmtBit    = 0x4
@@ -3267,7 +3467,8 @@ VkExternalSemaphoreHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     SyncFdBitKhr         = 0x10
     MaxEnum              = 0x7fffffff
 }
-VkExternalSemaphoreFeatureFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkExternalSemaphoreFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ExportableBit    = 0x1
     ImportableBit    = 0x2
     ExportableBitKhr = 0x1
@@ -3328,8 +3529,8 @@ VkSemaphoreType :: enum #copy #repr("C") #tag_type(i32) {
     TimelineKhr = 0x1
     MaxEnum     = 0x7fffffff
 }
-VkResolveModeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
-    None             = 0x0
+VkResolveModeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     SampleZeroBit    = 0x1
     AverageBit       = 0x2
     MinBit           = 0x4
@@ -3341,7 +3542,8 @@ VkResolveModeFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     MaxBitKhr        = 0x8
     MaxEnum          = 0x7fffffff
 }
-VkDescriptorBindingFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkDescriptorBindingFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     UpdateAfterBindBit             = 0x1
     UpdateUnusedWhilePendingBit    = 0x2
     PartiallyBoundBit              = 0x4
@@ -3352,7 +3554,8 @@ VkDescriptorBindingFlagBits :: enum #copy #repr("C") #tag_type(i32) {
     VariableDescriptorCountBitExt  = 0x8
     MaxEnum                        = 0x7fffffff
 }
-VkSemaphoreWaitFlagBits :: enum #copy #repr("C") #tag_type(i32) {
+VkSemaphoreWaitFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     AnyBit    = 0x1
     AnyBitKhr = 0x1
     MaxEnum   = 0x7fffffff
@@ -3387,7 +3590,8 @@ VkColorSpaceKHR :: enum #copy #repr("C") #tag_type(i32) {
     DciP3LinearExt           = 0x3b9c6043
     MaxEnumKhr               = 0x7fffffff
 }
-VkSurfaceTransformFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkSurfaceTransformFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     IdentityBitKhr                  = 0x1
     Rotate90BitKhr                  = 0x2
     Rotate180BitKhr                 = 0x4
@@ -3399,27 +3603,31 @@ VkSurfaceTransformFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
     InheritBitKhr                   = 0x100
     MaxEnumKhr                      = 0x7fffffff
 }
-VkCompositeAlphaFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkCompositeAlphaFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     OpaqueBitKhr         = 0x1
     PreMultipliedBitKhr  = 0x2
     PostMultipliedBitKhr = 0x4
     InheritBitKhr        = 0x8
     MaxEnumKhr           = 0x7fffffff
 }
-VkSwapchainCreateFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkSwapchainCreateFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     SplitInstanceBindRegionsBitKhr = 0x1
     ProtectedBitKhr                = 0x2
     MutableFormatBitKhr            = 0x4
     MaxEnumKhr                     = 0x7fffffff
 }
-VkDeviceGroupPresentModeFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkDeviceGroupPresentModeFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     LocalBitKhr            = 0x1
     RemoteBitKhr           = 0x2
     SumBitKhr              = 0x4
     LocalMultiDeviceBitKhr = 0x8
     MaxEnumKhr             = 0x7fffffff
 }
-VkDisplayPlaneAlphaFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkDisplayPlaneAlphaFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     OpaqueBitKhr                = 0x1
     GlobalBitKhr                = 0x2
     PerPixelBitKhr              = 0x4
@@ -3458,12 +3666,14 @@ VkPerformanceCounterStorageKHR :: enum #copy #repr("C") #tag_type(i32) {
     Float64Khr = 0x5
     MaxEnumKhr = 0x7fffffff
 }
-VkPerformanceCounterDescriptionFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkPerformanceCounterDescriptionFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     PerformanceImpactingKhr = 0x1
     ConcurrentlyImpactedKhr = 0x2
     MaxEnumKhr              = 0x7fffffff
 }
-VkAcquireProfilingLockFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkAcquireProfilingLockFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     MaxEnumKhr = 0x7fffffff
 }
 VkPipelineExecutableStatisticFormatKHR :: enum #copy #repr("C") #tag_type(i32) {
@@ -3516,7 +3726,8 @@ VkDebugReportObjectTypeEXT :: enum #copy #repr("C") #tag_type(i32) {
     AccelerationStructureNvExt     = 0x3b9d4e88
     MaxEnumExt                     = 0x7fffffff
 }
-VkDebugReportFlagBitsEXT :: enum #copy #repr("C") #tag_type(i32) {
+VkDebugReportFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     InformationBitExt        = 0x1
     WarningBitExt            = 0x2
     PerformanceWarningBitExt = 0x4
@@ -3535,14 +3746,16 @@ VkShaderInfoTypeAMD :: enum #copy #repr("C") #tag_type(i32) {
     DisassemblyAmd = 0x2
     MaxEnumAmd     = 0x7fffffff
 }
-VkExternalMemoryHandleTypeFlagBitsNV :: enum #copy #repr("C") #tag_type(i32) {
+VkExternalMemoryHandleTypeFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     OpaqueWin32BitNv    = 0x1
     OpaqueWin32KmtBitNv = 0x2
     D3d11ImageBitNv     = 0x4
     D3d11ImageKmtBitNv  = 0x8
     MaxEnumNv           = 0x7fffffff
 }
-VkExternalMemoryFeatureFlagBitsNV :: enum #copy #repr("C") #tag_type(i32) {
+VkExternalMemoryFeatureFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     DedicatedOnlyBitNv = 0x1
     ExportableBitNv    = 0x2
     ImportableBitNv    = 0x4
@@ -3553,11 +3766,13 @@ VkValidationCheckEXT :: enum #copy #repr("C") #tag_type(i32) {
     ShadersExt = 0x1
     MaxEnumExt = 0x7fffffff
 }
-VkConditionalRenderingFlagBitsEXT :: enum #copy #repr("C") #tag_type(i32) {
+VkConditionalRenderingFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     InvertedBitExt = 0x1
     MaxEnumExt     = 0x7fffffff
 }
-VkSurfaceCounterFlagBitsEXT :: enum #copy #repr("C") #tag_type(i32) {
+VkSurfaceCounterFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     VblankExt  = 0x1
     MaxEnumExt = 0x7fffffff
 }
@@ -3588,7 +3803,7 @@ VkViewportCoordinateSwizzleNV :: enum #copy #repr("C") #tag_type(i32) {
 }
 VkDiscardRectangleModeEXT :: enum #copy #repr("C") #tag_type(i32) {
     InclusiveExt = 0x0
-    xclusiveExt  = 0x1
+    ExclusiveExt = 0x1
     MaxEnumExt   = 0x7fffffff
 }
 VkConservativeRasterizationModeEXT :: enum #copy #repr("C") #tag_type(i32) {
@@ -3597,14 +3812,16 @@ VkConservativeRasterizationModeEXT :: enum #copy #repr("C") #tag_type(i32) {
     UnderestimateExt = 0x2
     MaxEnumExt       = 0x7fffffff
 }
-VkDebugUtilsMessageSeverityFlagBitsEXT :: enum #copy #repr("C") #tag_type(i32) {
+VkDebugUtilsMessageSeverityFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     VerboseBitExt = 0x1
     InfoBitExt    = 0x10
     WarningBitExt = 0x100
     ErrorBitExt   = 0x1000
     MaxEnumExt    = 0x7fffffff
 }
-VkDebugUtilsMessageTypeFlagBitsEXT :: enum #copy #repr("C") #tag_type(i32) {
+VkDebugUtilsMessageTypeFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     GeneralBitExt     = 0x1
     ValidationBitExt  = 0x2
     PerformanceBitExt = 0x4
@@ -3691,25 +3908,28 @@ VkAccelerationStructureMemoryRequirementsTypeKHR :: enum #copy #repr("C") #tag_t
     UpdateScratchNv  = 0x2
     MaxEnumKhr       = 0x7fffffff
 }
-VkGeometryFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkGeometryFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     OpaqueBitKhr                      = 0x1
     NoDuplicateAnyHitInvocationBitKhr = 0x2
     OpaqueBitNv                       = 0x1
     NoDuplicateAnyHitInvocationBitNv  = 0x2
     MaxEnumKhr                        = 0x7fffffff
 }
-VkGeometryInstanceFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkGeometryInstanceFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     TriangleFacingCullDisableBitKhr     = 0x1
     TriangleFrontCounterclockwiseBitKhr = 0x2
-    orceOpaqueBitKhr                    = 0x4
-    orceNoOpaqueBitKhr                  = 0x8
+    ForceOpaqueBitKhr                   = 0x4
+    ForceNoOpaqueBitKhr                 = 0x8
     TriangleCullDisableBitNv            = 0x1
     TriangleFrontCounterclockwiseBitNv  = 0x2
-    orceOpaqueBitNv                     = 0x4
-    orceNoOpaqueBitNv                   = 0x8
+    ForceOpaqueBitNv                    = 0x4
+    ForceNoOpaqueBitNv                  = 0x8
     MaxEnumKhr                          = 0x7fffffff
 }
-VkBuildAccelerationStructureFlagBitsKHR :: enum #copy #repr("C") #tag_type(i32) {
+VkBuildAccelerationStructureFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     AllowUpdateBitKhr     = 0x1
     AllowCompactionBitKhr = 0x2
     PreferFastTraceBitKhr = 0x4
@@ -3729,7 +3949,8 @@ VkQueueGlobalPriorityEXT :: enum #copy #repr("C") #tag_type(i32) {
     RealtimeExt = 0x400
     MaxEnumExt  = 0x7fffffff
 }
-VkPipelineCompilerControlFlagBitsAMD :: enum #copy #repr("C") #tag_type(i32) {
+VkPipelineCompilerControlFlagBitsAMD :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     MaxEnumAmd = 0x7fffffff
 }
 VkTimeDomainEXT :: enum #copy #repr("C") #tag_type(i32) {
@@ -3745,7 +3966,8 @@ VkMemoryOverallocationBehaviorAMD :: enum #copy #repr("C") #tag_type(i32) {
     DisallowedAmd = 0x2
     MaxEnumAmd    = 0x7fffffff
 }
-VkPipelineCreationFeedbackFlagBitsEXT :: enum #copy #repr("C") #tag_type(i32) {
+VkPipelineCreationFeedbackFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ValidBitExt                       = 0x1
     ApplicationPipelineCacheHitBitExt = 0x2
     BasePipelineAccelerationBitExt    = 0x4
@@ -3777,10 +3999,12 @@ VkPerformanceValueTypeINTEL :: enum #copy #repr("C") #tag_type(i32) {
     StringIntel  = 0x4
     MaxEnumIntel = 0x7fffffff
 }
-VkShaderCorePropertiesFlagBitsAMD :: enum #copy #repr("C") #tag_type(i32) {
+VkShaderCorePropertiesFlagBitsAMD :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     MaxEnumAmd = 0x7fffffff
 }
-VkToolPurposeFlagBitsEXT :: enum #copy #repr("C") #tag_type(i32) {
+VkToolPurposeFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
     ValidationBitExt         = 0x1
     ProfilingBitExt          = 0x2
     TracingBitExt            = 0x4
