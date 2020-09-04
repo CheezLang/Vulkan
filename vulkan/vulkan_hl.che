@@ -1,0 +1,657 @@
+use import vulkan
+use import glfw
+
+use import std.array
+use import std.map
+use import std.string
+
+mem :: import std.mem.allocator
+io :: import std.io
+
+#export_scope
+
+// bit flags
+EventCreateFlags                                     :: VkEventCreateFlagBits
+QueryPoolCreateFlags                                 :: VkQueryPoolCreateFlagBits
+BufferViewCreateFlags                                :: VkBufferViewCreateFlagBits
+PipelineVertexInputStateCreateFlags                  :: VkPipelineVertexInputStateCreateFlagBits
+PipelineInputAssemblyStateCreateFlags                :: VkPipelineInputAssemblyStateCreateFlagBits
+PipelineTessellationStateCreateFlags                 :: VkPipelineTessellationStateCreateFlagBits
+PipelineViewportStateCreateFlags                     :: VkPipelineViewportStateCreateFlagBits
+PipelineRasterizationStateCreateFlags                :: VkPipelineRasterizationStateCreateFlagBits
+PipelineMultisampleStateCreateFlags                  :: VkPipelineMultisampleStateCreateFlagBits
+PipelineDepthStencilStateCreateFlags                 :: VkPipelineDepthStencilStateCreateFlagBits
+PipelineColorBlendStateCreateFlags                   :: VkPipelineColorBlendStateCreateFlagBits
+PipelineDynamicStateCreateFlags                      :: VkPipelineDynamicStateCreateFlagBits
+PipelineLayoutCreateFlags                            :: VkPipelineLayoutCreateFlagBits
+DescriptorPoolResetFlags                             :: VkDescriptorPoolResetFlagBits
+CommandPoolTrimFlags                                 :: VkCommandPoolTrimFlagBits
+DescriptorUpdateTemplateCreateFlags                  :: VkDescriptorUpdateTemplateCreateFlagBits
+DisplayModeCreateFlagsKHR                            :: VkDisplayModeCreateFlagBitsKHR
+DisplaySurfaceCreateFlagsKHR                         :: VkDisplaySurfaceCreateFlagBitsKHR
+InstanceCreateFlags                                  :: VkInstanceCreateFlagBits
+DeviceCreateFlags                                    :: VkDeviceCreateFlagBits
+MemoryMapFlags                                       :: VkMemoryMapFlagBits
+SemaphoreCreateFlags                                 :: VkSemaphoreCreateFlagBits
+DebugReportFlagsExt                                  :: VkDebugReportFlagBitsExt
+PipelineRasterizationStateStreamCreateFlagsEXT       :: VkPipelineRasterizationStateStreamCreateFlagBitsEXT
+PipelineViewportSwizzleStateCreateFlagsNV            :: VkPipelineViewportSwizzleStateCreateFlagBitsNV
+PipelineDiscardRectangleStateCreateFlagsEXT          :: VkPipelineDiscardRectangleStateCreateFlagBitsEXT
+PipelineRasterizationConservativeStateCreateFlagsEXT :: VkPipelineRasterizationConservativeStateCreateFlagBitsEXT
+PipelineRasterizationDepthClipStateCreateFlagsEXT    :: VkPipelineRasterizationDepthClipStateCreateFlagBitsEXT
+DebugUtilsMessengerCallbackDataFlagsEXT              :: VkDebugUtilsMessengerCallbackDataFlagBitsEXT
+DebugUtilsMessengerCreateFlagsEXT                    :: VkDebugUtilsMessengerCreateFlagBitsEXT
+PipelineCoverageToColorStateCreateFlagsNV            :: VkPipelineCoverageToColorStateCreateFlagBitsNV
+PipelineCoverageModulationStateCreateFlagsNV         :: VkPipelineCoverageModulationStateCreateFlagBitsNV
+ValidationCacheCreateFlagsEXT                        :: VkValidationCacheCreateFlagBitsEXT
+PipelineCoverageReductionStateCreateFlagsNV          :: VkPipelineCoverageReductionStateCreateFlagBitsNV
+HeadlessSurfaceCreateFlagsEXT                        :: VkHeadlessSurfaceCreateFlagBitsEXT
+AccessFlags                                          :: VkAccessFlagBits
+ImageAspectFlags                                     :: VkImageAspectFlagBits
+FormatFeatureFlags                                   :: VkFormatFeatureFlagBits
+ImageCreateFlags                                     :: VkImageCreateFlagBits
+SampleCountFlags                                     :: VkSampleCountFlagBits
+ImageUsageFlags                                      :: VkImageUsageFlagBits
+MemoryHeapFlags                                      :: VkMemoryHeapFlagBits
+MemoryPropertyFlags                                  :: VkMemoryPropertyFlagBits
+QueueFlags                                           :: VkQueueFlagBits
+DeviceQueueCreateFlags                               :: VkDeviceQueueCreateFlagBits
+PipelineStageFlags                                   :: VkPipelineStageFlagBits
+SparseMemoryBindFlags                                :: VkSparseMemoryBindFlagBits
+SparseImageFormatFlags                               :: VkSparseImageFormatFlagBits
+FenceCreateFlags                                     :: VkFenceCreateFlagBits
+QueryPipelineStatisticFlags                          :: VkQueryPipelineStatisticFlagBits
+QueryResultFlags                                     :: VkQueryResultFlagBits
+BufferCreateFlags                                    :: VkBufferCreateFlagBits
+BufferUsageFlags                                     :: VkBufferUsageFlagBits
+ImageViewCreateFlags                                 :: VkImageViewCreateFlagBits
+ShaderModuleCreateFlags                              :: VkShaderModuleCreateFlagBits
+PipelineCacheCreateFlags                             :: VkPipelineCacheCreateFlagBits
+ColorComponentFlags                                  :: VkColorComponentFlagBits
+PipelineCreateFlags                                  :: VkPipelineCreateFlagBits
+PipelineShaderStageCreateFlags                       :: VkPipelineShaderStageCreateFlagBits
+ShaderStageFlags                                     :: VkShaderStageFlagBits
+SamplerCreateFlags                                   :: VkSamplerCreateFlagBits
+DescriptorPoolCreateFlags                            :: VkDescriptorPoolCreateFlagBits
+DescriptorSetLayoutCreateFlags                       :: VkDescriptorSetLayoutCreateFlagBits
+AttachmentDescriptionFlags                           :: VkAttachmentDescriptionFlagBits
+DependencyFlags                                      :: VkDependencyFlagBits
+FramebufferCreateFlags                               :: VkFramebufferCreateFlagBits
+RenderPassCreateFlags                                :: VkRenderPassCreateFlagBits
+SubpassDescriptionFlags                              :: VkSubpassDescriptionFlagBits
+CommandPoolCreateFlags                               :: VkCommandPoolCreateFlagBits
+CommandPoolResetFlags                                :: VkCommandPoolResetFlagBits
+CommandBufferUsageFlags                              :: VkCommandBufferUsageFlagBits
+QueryControlFlags                                    :: VkQueryControlFlagBits
+CommandBufferResetFlags                              :: VkCommandBufferResetFlagBits
+StencilFaceFlags                                     :: VkStencilFaceFlagBits
+SubgroupFeatureFlags                                 :: VkSubgroupFeatureFlagBits
+PeerMemoryFeatureFlags                               :: VkPeerMemoryFeatureFlagBits
+MemoryAllocateFlags                                  :: VkMemoryAllocateFlagBits
+ExternalMemoryHandleTypeFlags                        :: VkExternalMemoryHandleTypeFlagBits
+ExternalMemoryFeatureFlags                           :: VkExternalMemoryFeatureFlagBits
+ExternalFenceHandleTypeFlags                         :: VkExternalFenceHandleTypeFlagBits
+ExternalFenceFeatureFlags                            :: VkExternalFenceFeatureFlagBits
+FenceImportFlags                                     :: VkFenceImportFlagBits
+SemaphoreImportFlags                                 :: VkSemaphoreImportFlagBits
+ExternalSemaphoreHandleTypeFlags                     :: VkExternalSemaphoreHandleTypeFlagBits
+ExternalSemaphoreFeatureFlags                        :: VkExternalSemaphoreFeatureFlagBits
+ResolveModeFlags                                     :: VkResolveModeFlagBits
+DescriptorBindingFlags                               :: VkDescriptorBindingFlagBits
+SemaphoreWaitFlags                                   :: VkSemaphoreWaitFlagBits
+SurfaceTransformFlagsKHR                             :: VkSurfaceTransformFlagBitsKHR
+CompositeAlphaFlagsKHR                               :: VkCompositeAlphaFlagBitsKHR
+SwapchainCreateFlagsKHR                              :: VkSwapchainCreateFlagBitsKHR
+DeviceGroupPresentModeFlagsKHR                       :: VkDeviceGroupPresentModeFlagBitsKHR
+DisplayPlaneAlphaFlagsKHR                            :: VkDisplayPlaneAlphaFlagBitsKHR
+PerformanceCounterDescriptionFlagsKHR                :: VkPerformanceCounterDescriptionFlagBitsKHR
+AcquireProfilingLockFlagsKHR                         :: VkAcquireProfilingLockFlagBitsKHR
+DebugReportFlagsEXT                                  :: VkDebugReportFlagBitsEXT
+ExternalMemoryHandleTypeFlagsNV                      :: VkExternalMemoryHandleTypeFlagBitsNV
+ExternalMemoryFeatureFlagsNV                         :: VkExternalMemoryFeatureFlagBitsNV
+ConditionalRenderingFlagsEXT                         :: VkConditionalRenderingFlagBitsEXT
+SurfaceCounterFlagsEXT                               :: VkSurfaceCounterFlagBitsEXT
+DebugUtilsMessageSeverityFlagsEXT                    :: VkDebugUtilsMessageSeverityFlagBitsEXT
+DebugUtilsMessageTypeFlagsEXT                        :: VkDebugUtilsMessageTypeFlagBitsEXT
+GeometryFlagsKHR                                     :: VkGeometryFlagBitsKHR
+GeometryInstanceFlagsKHR                             :: VkGeometryInstanceFlagBitsKHR
+BuildAccelerationStructureFlagsKHR                   :: VkBuildAccelerationStructureFlagBitsKHR
+PipelineCompilerControlFlagsAMD                      :: VkPipelineCompilerControlFlagBitsAMD
+PipelineCreationFeedbackFlagsEXT                     :: VkPipelineCreationFeedbackFlagBitsEXT
+ShaderCorePropertiesFlagsAMD                         :: VkShaderCorePropertiesFlagBitsAMD
+ToolPurposeFlagsEXT                                  :: VkToolPurposeFlagBitsEXT
+
+Version :: (major: u32, minor: u32, patch: u32)
+
+Error :: enum {
+    Unknown
+    VulkanApi               : VkResult
+    UnsupportedLayers       : Array[String]
+    UnsupportedExtensions   : Array[String]
+    NoPhysicalDevice
+}
+
+ValidationInfo :: struct #copy {
+    message_severity : DebugUtilsMessageSeverityFlagsEXT
+    message_type     : DebugUtilsMessageTypeFlagsEXT
+    user_callback    : PFN_vkDebugUtilsMessengerCallbackEXT
+    user_data        : ^mut void = null
+}
+
+Instance :: struct {
+    handle : VkInstance = null
+}
+
+impl Instance {
+    new :: (
+        app_name: string = "",
+        app_version: Version = (1, 0, 0),
+        engine_name: string = "",
+        engine_version: Version = (1, 0, 0),
+        api_version: Option[Version] = None,
+        validation: Option[ValidationInfo] = None,
+        layers: []string = [],
+        extensions: []string = []
+    ) -> Result[Instance, Error] {
+
+        // compute required layers
+        required_layers := Array[^char8].new(layers.length + 1)
+        for layer in layers do required_layers.add(layer.to_cstring())
+        if validation != .None {
+            validation_layers := [ "VK_LAYER_KHRONOS_validation" ]
+            for layer in validation_layers[..] do required_layers.add(layer.to_cstring())
+        }
+
+        defer for(by_ref=false) layer in required_layers.slice() do mem.free(layer)
+
+        // check if all layers are supported
+        supported_layers := enumerate_instance_layer_properties()
+        missing_layers := find_missing_requirements(required_layers[..], supported_layers[..], layer => cast(^char8)layer.layerName.data)
+        if missing_layers.count() > 0 {
+            return Err(Error.UnsupportedLayers(missing_layers))
+        }
+
+        // compute required extensions
+        required_extensions := Array[^char8].new(extensions.length + 1)
+        for extension in extensions do required_extensions.add(extension.to_cstring())
+        if validation != .None {
+            debug_extensions := [ VK_EXT_DEBUG_UTILS_EXTENSION_NAME ]
+            for extension in debug_extensions[..] do required_extensions.add(extension)
+        }
+
+        defer for(by_ref=false) extension in required_extensions.slice() do mem.free(extension)
+
+        // check if all extensions are supported
+        supported_extensions := enumerate_instance_extension_properties()
+        missing_extensions := find_missing_requirements(required_extensions[..], supported_extensions[..], extension => cast(^char8)extension.extensionName.data)
+        if missing_extensions.count() > 0 {
+            return Err(Error.UnsupportedExtensions(missing_extensions))
+        }
+
+        // compute actual api version
+        actual_api_version : Version = {
+            mut supported_api_version_encoded : u32 = default
+            vkEnumerateInstanceVersion(^mut supported_api_version_encoded)
+            supported_api_version : Version = VK_EXTRACT_VERSION(supported_api_version_encoded)
+            match api_version {
+                Some($version) -> {
+                    if u32(version.major) > supported_api_version.major {
+                        return Err(Error.VulkanApi(VkResult.ErrorIncompatibleVersionKhr))
+                    }
+                    if u32(version.major) == supported_api_version.major and
+                        u32(version.minor) > supported_api_version.minor {
+                        return Err(Error.VulkanApi(VkResult.ErrorIncompatibleVersionKhr))
+                    }
+                    if u32(version.minor) == supported_api_version.minor and
+                        u32(version.patch) > supported_api_version.patch {
+                        return Err(Error.VulkanApi(VkResult.ErrorIncompatibleVersionKhr))
+                    }
+                    u32(version.major), u32(version.minor), u32(version.patch)
+                }
+
+                None -> supported_api_version
+            }
+        }
+
+        app_name_c := app_name.to_cstring()
+        defer mem.free(app_name_c)
+
+        engine_name_c := app_name.to_cstring()
+        defer mem.free(engine_name_c)
+
+        app_info := VkApplicationInfo(
+            sType              = .ApplicationInfo
+            pApplicationName   = app_name_c
+            applicationVersion = VK_MAKE_VERSION(u32(app_version.major), u32(app_version.minor), u32(app_version.patch))
+            pEngineName        = engine_name_c
+            engineVersion      = VK_MAKE_VERSION(u32(engine_version.major), u32(engine_version.minor), u32(engine_version.patch))
+            apiVersion         = VK_MAKE_VERSION(u32(actual_api_version.major), u32(actual_api_version.minor), u32(actual_api_version.patch))
+        )
+
+        mut debug_utils_messenger_create_info := VkDebugUtilsMessengerCreateInfoEXT(.DebugUtilsMessengerCreateInfoExt)
+        match validation {
+            Some($info) -> {
+                debug_utils_messenger_create_info.messageSeverity = info.message_severity
+                debug_utils_messenger_create_info.messageType     = info.message_type
+                debug_utils_messenger_create_info.pfnUserCallback = info.user_callback
+                debug_utils_messenger_create_info.pUserData       = info.user_data
+            }
+            None -> {}
+        }
+
+        create_info := VkInstanceCreateInfo(
+            sType                   = .InstanceCreateInfo
+            pNext                   = if validation != .None then cast(^void) ^debug_utils_messenger_create_info else null
+            pApplicationInfo        = ^app_info
+            enabledLayerCount       = cast required_layers.count()
+            ppEnabledLayerNames     = required_layers.get_raw()
+            enabledExtensionCount   = cast required_extensions.count()
+            ppEnabledExtensionNames = required_extensions.get_raw()
+        )
+
+        mut handle : VkInstance = default
+        vk_try(vkCreateInstance(^create_info, null, ^mut handle))
+
+        return Ok(Instance(handle))
+    }
+
+    from_handle :: (handle: VkInstance) -> Instance {
+        return Instance(handle)
+    }
+
+    destroy :: (&Self) {
+        if self.handle != null {
+            vkDestroyInstance(self.handle, null)
+        }
+        @cast(&mut Self, self).handle = null
+    }
+
+    enumerate_physical_devices :: (&Self) -> Result[Array[PhysicalDevice], Error] {
+        count : u32 = default
+        vk_try(vkEnumeratePhysicalDevices(self.handle, ^count, null))
+        mut handles := Array[VkPhysicalDevice].new(initial_capacity = cast count)
+        handles.resize(cast count)
+        vk_try(vkEnumeratePhysicalDevices(self.handle, ^count, handles.get_raw_mut()))
+
+
+        mut result := Array[PhysicalDevice].new(initial_capacity = cast count)
+        for(by_ref=false) handle in handles[..] {
+            result.add(PhysicalDevice.new(handle))
+        }
+
+        return Ok(result)
+    }
+
+    get_instance_proc :: (&Self, name: string, $T: type) -> Result[T, Error] {
+        name_c := name.to_cstring()
+        defer mem.free(name_c)
+        proc := vkGetInstanceProcAddr(self.handle, name_c)
+        if proc == null {
+            return Err(Error.VulkanApi(VkResult.ErrorExtensionNotPresent))
+        }
+        return Ok(cast(T) proc)
+    }
+
+    // vkEnumeratePhysicalDeviceGroups :: (&Self, _pPhysicalDeviceGroupCount: ^mut uint32_t, _pPhysicalDeviceGroupProperties: ^mut VkPhysicalDeviceGroupProperties) -> VkResult {
+    // }
+
+    // vkDestroySurfaceKHR :: (&Self, _surface: VkSurfaceKHR, _pAllocator: ^mut VkAllocationCallbacks) {
+    // }
+
+    // vkCreateDisplayPlaneSurfaceKHR :: (&Self, _pCreateInfo: ^mut VkDisplaySurfaceCreateInfoKHR, _pAllocator: ^mut VkAllocationCallbacks, _pSurface: ^mut VkSurfaceKHR) -> VkResult {
+    // }
+
+    create_surface_glfw :: (&Self, window: ^GLFWwindow) -> Result[Surface, Error] {
+        glfwCreateWindowSurface :: (instance: VkInstance, window: ^GLFWwindow, allocator: ^VkAllocationCallbacks, surface: ^mut VkSurfaceKHR) -> VkResult #linkname("glfwCreateWindowSurface");
+        mut handle : VkSurfaceKHR = default
+        vk_try(glfwCreateWindowSurface(self.handle, window, null, ^mut handle))
+        return Ok(Surface.new(handle, self))
+    }
+
+    create_debug_messenger :: (&Self, validation: ValidationInfo) -> Result[DebugUtilsMessenger, Error] {
+        vkCreateDebugUtilsMessengerEXT := try(self.get_instance_proc("vkCreateDebugUtilsMessengerEXT", PFN_vkCreateDebugUtilsMessengerEXT))
+        create_info := VkDebugUtilsMessengerCreateInfoEXT(
+            sType           = .DebugUtilsMessengerCreateInfoExt
+            messageSeverity = validation.message_severity
+            messageType     = validation.message_type
+            pfnUserCallback = validation.user_callback
+            pUserData       = validation.user_data
+        )
+
+        mut handle : VkDebugUtilsMessengerEXT = default
+        vk_try(vkCreateDebugUtilsMessengerEXT(self.handle, ^create_info, null, ^mut handle))
+        return Ok(DebugUtilsMessenger.new(handle, self))
+    }
+}
+
+impl Drop for Instance {
+    drop :: (&Self) {
+        self.destroy()
+    }
+}
+
+PhysicalDevice :: struct {
+    handle                  : VkPhysicalDevice
+    properties              : VkPhysicalDeviceProperties
+    features                : VkPhysicalDeviceFeatures
+    queue_family_properties : Array[VkQueueFamilyProperties]
+}
+
+SwapchainSupportDetails :: struct {
+    capabilities    : VkSurfaceCapabilitiesKHR = default
+    formats         := Array[VkSurfaceFormatKHR].new()
+    present_modes   := Array[VkPresentModeKHR].new()
+}
+
+impl PhysicalDevice {
+    new :: (handle: VkPhysicalDevice) -> PhysicalDevice {
+        mut properties := VkPhysicalDeviceProperties()
+        mut features := VkPhysicalDeviceFeatures()
+        vkGetPhysicalDeviceProperties(handle, ^mut properties)
+        vkGetPhysicalDeviceFeatures(handle, ^mut features)
+
+        queue_family_properties := get_physical_device_queue_family_properties(handle)
+
+        return PhysicalDevice(
+            handle                  = handle
+            properties              = properties
+            features                = features
+            queue_family_properties = queue_family_properties
+        )
+    }
+
+    get_queue_families_with :: (&Self, flags: QueueFlags) -> Array[u32] {
+        result := Array[u32].new(self.queue_family_properties.count())
+        for props, i in self.queue_family_properties[..] {
+            if flags is in props.queueFlags {
+                result.add(u32(i))
+            }
+        }
+        return result
+    }
+
+    get_queue_families_with_present :: (&Self, surface: &Surface) -> Array[u32] {
+        result := Array[u32].new(self.queue_family_properties.count())
+        for props, i in self.queue_family_properties[..] {
+            mut present_support : VkBool32 = 0
+            vkGetPhysicalDeviceSurfaceSupportKHR(self.handle, cast i, surface.handle, ^mut present_support)
+            if present_support != 0 {
+                result.add(u32(i))
+            }
+        }
+        return result
+    }
+
+    get_surface_formats :: (&Self, surface: &Surface) -> Array[VkSurfaceFormatKHR] {
+        count : u32 = default
+        vkGetPhysicalDeviceSurfaceFormatsKHR(self.handle, surface.handle, ^count, null)
+        mut result := Array[VkSurfaceFormatKHR].new(initial_capacity = cast count)
+        result.resize(cast count)
+        vkGetPhysicalDeviceSurfaceFormatsKHR(self.handle, surface.handle, ^count, result.get_raw_mut())
+        return result
+    }
+
+    get_surface_present_modes :: (&Self, surface: &Surface) -> Array[VkPresentModeKHR] {
+        count : u32 = default
+        vkGetPhysicalDeviceSurfacePresentModesKHR(self.handle, surface.handle, ^count, null)
+        mut result := Array[VkPresentModeKHR].new(initial_capacity = cast count)
+        result.length = cast count // can't use resize because VkPresentModeKHR is an enum. @TODO: fix
+        vkGetPhysicalDeviceSurfacePresentModesKHR(self.handle, surface.handle, ^count, result.get_raw_mut())
+        return result
+    }
+
+    get_swapchain_support_details :: (&Self, surface: &Surface) -> SwapchainSupportDetails {
+        mut details := SwapchainSupportDetails(
+            formats         = self.get_surface_formats(surface)
+            present_modes   = self.get_surface_present_modes(surface)
+        )
+
+        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(self.handle, surface.handle, ^mut details.capabilities)
+
+        return details
+    }
+
+    filter_by_requirements :: (devices: []PhysicalDevice, extensions: []string, queues: []QueueFlags, present: Option[&Surface], swapchain: Option[&Surface]) -> Array[&PhysicalDevice] {
+        // compute required extensions
+        required_extensions := Array[^char8].new(extensions.length + 1)
+        for extension in extensions do required_extensions.add(extension.to_cstring())
+
+        defer for(by_ref=false) extension in required_extensions.slice() do mem.free(extension)
+
+        // filter devices
+        mut result := Array[&PhysicalDevice].new(devices.length)
+        for(by_ref=true) device in devices #label device_loop {
+            // check extensions
+            supported_extensions := enumerate_device_extension_properties(device.handle)
+            missing_extensions := find_missing_requirements(required_extensions[..], supported_extensions[..], extension => cast(^char8)extension.extensionName.data)
+            if missing_extensions.count() > 0 {
+                continue device_loop
+            }
+
+            // check queue families
+            for(by_ref=false) queue in queues {
+                families := device.get_queue_families_with(queue)
+                if families.count() == 0 {
+                    continue device_loop
+                }
+            }
+            match present {
+                Some($surface) -> {
+                    families := device.get_queue_families_with_present(surface)
+                    if families.count() == 0 {
+                        continue device_loop
+                    }
+                }
+                None -> {}
+            }
+
+            // check swapchain support
+            match swapchain {
+                Some($surface) -> {
+                    swapchain_support := device.get_swapchain_support_details(surface)
+                    if swapchain_support.formats.count() == 0 or swapchain_support.present_modes.count() == 0 {
+                        continue device_loop
+                    }
+                }
+                None -> {}
+            }
+
+            result.add(device)
+        }
+
+        return result
+    }
+}
+
+Device :: struct {
+    handle          : VkDevice
+}
+
+DeviceQueueCreateInfo :: struct {
+    flags       := DeviceQueueCreateFlags.None
+    family      : u32
+    priorities  : []f32 = [1.0]
+}
+
+impl Device {
+    new :: (physical_device: &PhysicalDevice, extensions: []string, queues: []DeviceQueueCreateInfo, features: &VkPhysicalDeviceFeatures) -> Result[Device, Error] {
+        required_extensions := Array[^char8].new(extensions.length + 1)
+        for extension in extensions do required_extensions.add(extension.to_cstring())
+        defer for(by_ref=false) extension in required_extensions.slice() do mem.free(extension)
+
+        queue_create_infos := Array[VkDeviceQueueCreateInfo].new()
+
+        for(by_ref=true) queue in queues {
+            queue_create_infos.add(VkDeviceQueueCreateInfo(
+                sType               = .DeviceQueueCreateInfo
+                flags               = queue.flags
+                queueFamilyIndex    = queue.family
+                queueCount          = cast queue.priorities.length
+                pQueuePriorities    = queue.priorities.data
+            ))
+        }
+
+        create_info := VkDeviceCreateInfo(
+            sType                   = .DeviceCreateInfo
+            queueCreateInfoCount    = cast queue_create_infos.count()
+            pQueueCreateInfos       = queue_create_infos.get_raw()
+            enabledExtensionCount   = cast required_extensions.count()
+            ppEnabledExtensionNames = required_extensions.get_raw()
+            pEnabledFeatures        = ^*features
+        )
+
+        mut handle : VkDevice = default
+        vk_try(vkCreateDevice(physical_device.handle, ^create_info, null, ^mut handle))
+
+        return Ok(Device(handle))
+    }
+
+    get_queue :: (&Self, family: u32) -> Queue {
+        mut handle : VkQueue = default
+        vkGetDeviceQueue(self.handle, family, 0, ^mut handle)
+        return Queue.new(handle)
+    }
+
+    destroy :: (&Self) {
+        if self.handle != null {
+            vkDestroyDevice(self.handle, null)
+        }
+        @cast(&mut Self, self).handle = null
+    }
+}
+
+impl Drop for Device {
+    drop :: (&Self) {
+        self.destroy()
+    }
+}
+
+Queue :: struct #copy {
+    handle : VkQueue
+}
+
+impl Queue {
+    new :: (handle: VkQueue) -> Queue {
+        return Queue(handle)
+    }
+}
+
+Surface :: struct {
+    handle      : VkSurfaceKHR
+    instance    : VkInstance
+}
+
+impl Surface {
+    new :: (handle: VkSurfaceKHR, instance: &Instance) -> Surface {
+        return Surface(handle, instance.handle)
+    }
+
+    destroy :: (&Self) {
+        if self.handle != null {
+            vkDestroySurfaceKHR(self.instance, self.handle, null)
+        }
+        @cast(&mut Self, self).handle = null
+    }
+}
+
+impl Drop for Surface {
+    drop :: (&Self) {
+        self.destroy()
+    }
+}
+
+DebugUtilsMessenger :: struct {
+    handle      : VkDebugUtilsMessengerEXT
+    instance    : VkInstance
+}
+
+impl DebugUtilsMessenger {
+    new :: (handle: VkDebugUtilsMessengerEXT, instance: &Instance) -> DebugUtilsMessenger {
+        return DebugUtilsMessenger(handle, instance.handle)
+    }
+
+    destroy :: (&Self) {
+        if self.handle != null {
+            instance := Instance.from_handle(self.instance)
+            vkDestroyDebugUtilsMessengerEXT := instance.get_instance_proc("vkDestroyDebugUtilsMessengerEXT", PFN_vkDestroyDebugUtilsMessengerEXT).unwrap()
+            vkDestroyDebugUtilsMessengerEXT(self.instance, self.handle, null)
+        }
+        @cast(&mut Self, self).handle = null
+    }
+}
+
+impl Drop for DebugUtilsMessenger {
+    drop :: (&Self) {
+        self.destroy()
+    }
+}
+
+#file_scope
+
+vk_try :: (code: Code) #macro {
+    result := @insert(code)
+    if result != .Success {
+        return Err(Error.VulkanApi(result))
+    }
+}
+
+vk_assert :: (code: Code) #macro {
+    result := @insert(code)
+    if result != .Success {
+        io.formatln("Vulkan API call failed: {}", [result])
+        @assert(false)
+    }
+}
+
+enumerate_instance_extension_properties :: () -> Array[VkExtensionProperties] {
+    count : u32 = default
+    vkEnumerateInstanceExtensionProperties(null, ^count, null)
+    mut result := Array[VkExtensionProperties].new(initial_capacity = cast count)
+    result.resize(cast count)
+    vkEnumerateInstanceExtensionProperties(null, ^count, result.get_raw_mut())
+    return result
+}
+
+enumerate_instance_layer_properties :: () -> Array[VkLayerProperties] {
+    count : u32 = default
+    vkEnumerateInstanceLayerProperties(^count, null)
+    mut result := Array[VkLayerProperties].new(initial_capacity = cast count)
+    result.resize(cast count)
+    vkEnumerateInstanceLayerProperties(^count, result.get_raw_mut())
+    return result
+}
+
+get_physical_device_queue_family_properties :: (physical_device: VkPhysicalDevice) -> Array[VkQueueFamilyProperties] {
+    count : u32 = default
+    vkGetPhysicalDeviceQueueFamilyProperties(physical_device, ^count, null)
+    mut result := Array[VkQueueFamilyProperties].new(initial_capacity = cast count)
+    result.resize(cast count)
+    vkGetPhysicalDeviceQueueFamilyProperties(physical_device, ^count, result.get_raw_mut())
+    return result
+}
+
+enumerate_device_extension_properties :: (physical_device: VkPhysicalDevice) -> Array[VkExtensionProperties] {
+    count : u32 = default
+    vkEnumerateDeviceExtensionProperties(physical_device, null, ^count, null)
+    mut result := Array[VkExtensionProperties].new(initial_capacity = cast count)
+    result.resize(cast count)
+    vkEnumerateDeviceExtensionProperties(physical_device, null, ^count, result.get_raw_mut())
+    return result
+}
+
+find_missing_requirements :: (required: []^char8, supported: []$T, name_accessor: fn(&T) -> ^char8) -> Array[String] {
+    missing := Array[String].new(required.length)
+    for(by_ref=false) req in required {
+        mut found := false
+        for prop in supported {
+            if string.from_cstring(req) == string.from_cstring(name_accessor(&prop)) {
+                found = true
+                break
+            }
+        }
+        if !found {
+            missing.add(String.from_cstring(req))
+        }
+    }
+    return missing
+}
