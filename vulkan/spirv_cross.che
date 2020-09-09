@@ -1,0 +1,2634 @@
+
+
+#lib("./lib/spirv-cross-c.lib")
+#lib("./lib/spirv-cross-core.lib")
+#lib("./lib/spirv-cross-cpp.lib")
+#lib("./lib/spirv-cross-c-shared.lib")
+#lib("./lib/spirv-cross-glsl.lib")
+#lib("./lib/spirv-cross-hlsl.lib")
+#lib("./lib/spirv-cross-msl.lib")
+#lib("./lib/spirv-cross-reflect.lib")
+#lib("./lib/spirv-cross-util.lib")
+
+#export_scope
+
+spvc_msl_vertex_format :: spvc_msl_shader_input_format
+
+
+uintptr_t :: u64
+size_t :: u64
+SpvId :: u32
+spvc_context_s :: struct #copy {}
+spvc_context :: ^mut spvc_context_s
+spvc_parsed_ir_s :: struct #copy {}
+spvc_parsed_ir :: ^mut spvc_parsed_ir_s
+spvc_compiler_s :: struct #copy {}
+spvc_compiler :: ^mut spvc_compiler_s
+spvc_compiler_options_s :: struct #copy {}
+spvc_compiler_options :: ^mut spvc_compiler_options_s
+spvc_resources_s :: struct #copy {}
+spvc_resources :: ^mut spvc_resources_s
+spvc_type_s :: struct #copy {}
+spvc_type :: ^mut spvc_type_s
+spvc_constant_s :: struct #copy {}
+spvc_constant :: ^mut spvc_constant_s
+spvc_set_s :: struct #copy {}
+spvc_set :: ^mut spvc_set_s
+spvc_type_id :: SpvId
+spvc_variable_id :: SpvId
+spvc_constant_id :: SpvId
+spvc_bool :: u8
+spvc_hlsl_binding_flags :: u32
+spvc_error_callback :: fn(^mut void, ^char8) -> void
+SPV_VERSION :: 0x10500
+SPV_REVISION :: 3
+SPVC_C_API_VERSION_MAJOR :: 0
+SPVC_C_API_VERSION_MINOR :: 36
+SPVC_C_API_VERSION_PATCH :: 0
+SPVC_TRUE :: 1u8
+SPVC_FALSE :: 0u8
+SPVC_COMPILER_OPTION_COMMON_BIT :: 0x1000000
+SPVC_COMPILER_OPTION_GLSL_BIT :: 0x2000000
+SPVC_COMPILER_OPTION_HLSL_BIT :: 0x4000000
+SPVC_COMPILER_OPTION_MSL_BIT :: 0x8000000
+SPVC_COMPILER_OPTION_LANG_BITS :: 0x0f000000
+SPVC_COMPILER_OPTION_ENUM_BITS :: 0xffffff
+SPVC_MSL_PUSH_CONSTANT_DESC_SET :: u32.max
+SPVC_MSL_PUSH_CONSTANT_BINDING :: 0
+SPVC_MSL_SWIZZLE_BUFFER_BINDING :: u32.max - 1
+SPVC_MSL_BUFFER_SIZE_BUFFER_BINDING :: u32.max - 2
+SPVC_MSL_ARGUMENT_BUFFER_BINDING :: u32.max - 3
+SPVC_MSL_AUX_BUFFER_STRUCT_VERSION :: 1
+SPVC_HLSL_PUSH_CONSTANT_DESC_SET :: u32.max
+SPVC_HLSL_PUSH_CONSTANT_BINDING :: 0
+SpvSourceLanguage :: enum #copy #repr("C") #tag_type(i32) {
+    Unknown    = 0x0
+    ESSL       = 0x1
+    GLSL       = 0x2
+    OpenCL_C   = 0x3
+    OpenCL_CPP = 0x4
+    HLSL       = 0x5
+    Max        = 0x7fffffff
+}
+SpvExecutionModel :: enum #copy #repr("C") #tag_type(i32) {
+    Vertex                 = 0x0
+    TessellationControl    = 0x1
+    TessellationEvaluation = 0x2
+    Geometry               = 0x3
+    Fragment               = 0x4
+    GLCompute              = 0x5
+    Kernel                 = 0x6
+    TaskNV                 = 0x1493
+    MeshNV                 = 0x1494
+    RayGenerationKHR       = 0x14c1
+    RayGenerationNV        = 0x14c1
+    IntersectionKHR        = 0x14c2
+    IntersectionNV         = 0x14c2
+    AnyHitKHR              = 0x14c3
+    AnyHitNV               = 0x14c3
+    ClosestHitKHR          = 0x14c4
+    ClosestHitNV           = 0x14c4
+    MissKHR                = 0x14c5
+    MissNV                 = 0x14c5
+    CallableKHR            = 0x14c6
+    CallableNV             = 0x14c6
+    Max                    = 0x7fffffff
+}
+SpvAddressingModel :: enum #copy #repr("C") #tag_type(i32) {
+    Logical                    = 0x0
+    Physical32                 = 0x1
+    Physical64                 = 0x2
+    PhysicalStorageBuffer64    = 0x14e4
+    PhysicalStorageBuffer64EXT = 0x14e4
+    Max                        = 0x7fffffff
+}
+SpvMemoryModel :: enum #copy #repr("C") #tag_type(i32) {
+    Simple    = 0x0
+    GLSL450   = 0x1
+    OpenCL    = 0x2
+    Vulkan    = 0x3
+    VulkanKHR = 0x3
+    Max       = 0x7fffffff
+}
+SpvExecutionMode :: enum #copy #repr("C") #tag_type(i32) {
+    Invocations                      = 0x0
+    SpacingEqual                     = 0x1
+    SpacingFractionalEven            = 0x2
+    SpacingFractionalOdd             = 0x3
+    VertexOrderCw                    = 0x4
+    VertexOrderCcw                   = 0x5
+    PixelCenterInteger               = 0x6
+    OriginUpperLeft                  = 0x7
+    OriginLowerLeft                  = 0x8
+    EarlyFragmentTests               = 0x9
+    PointMode                        = 0xa
+    Xfb                              = 0xb
+    DepthReplacing                   = 0xc
+    DepthGreater                     = 0xe
+    DepthLess                        = 0xf
+    DepthUnchanged                   = 0x10
+    LocalSize                        = 0x11
+    LocalSizeHint                    = 0x12
+    InputPoints                      = 0x13
+    InputLines                       = 0x14
+    InputLinesAdjacency              = 0x15
+    Triangles                        = 0x16
+    InputTrianglesAdjacency          = 0x17
+    Quads                            = 0x18
+    Isolines                         = 0x19
+    OutputVertices                   = 0x1a
+    OutputPoints                     = 0x1b
+    OutputLineStrip                  = 0x1c
+    OutputTriangleStrip              = 0x1d
+    VecTypeHint                      = 0x1e
+    ContractionOff                   = 0x1f
+    Initializer                      = 0x21
+    Finalizer                        = 0x22
+    SubgroupSize                     = 0x23
+    SubgroupsPerWorkgroup            = 0x24
+    SubgroupsPerWorkgroupId          = 0x25
+    LocalSizeId                      = 0x26
+    LocalSizeHintId                  = 0x27
+    PostDepthCoverage                = 0x115e
+    DenormPreserve                   = 0x116b
+    DenormFlushToZero                = 0x116c
+    SignedZeroInfNanPreserve         = 0x116d
+    RoundingModeRTE                  = 0x116e
+    RoundingModeRTZ                  = 0x116f
+    StencilRefReplacingEXT           = 0x13a3
+    OutputLinesNV                    = 0x1495
+    OutputPrimitivesNV               = 0x1496
+    DerivativeGroupQuadsNV           = 0x14a9
+    DerivativeGroupLinearNV          = 0x14aa
+    OutputTrianglesNV                = 0x14b2
+    PixelInterlockOrderedEXT         = 0x14f6
+    PixelInterlockUnorderedEXT       = 0x14f7
+    SampleInterlockOrderedEXT        = 0x14f8
+    SampleInterlockUnorderedEXT      = 0x14f9
+    ShadingRateInterlockOrderedEXT   = 0x14fa
+    ShadingRateInterlockUnorderedEXT = 0x14fb
+    Max                              = 0x7fffffff
+}
+SpvStorageClass :: enum #copy #repr("C") #tag_type(i32) {
+    UniformConstant          = 0x0
+    Input                    = 0x1
+    Uniform                  = 0x2
+    Output                   = 0x3
+    Workgroup                = 0x4
+    CrossWorkgroup           = 0x5
+    Private                  = 0x6
+    Function                 = 0x7
+    Generic                  = 0x8
+    PushConstant             = 0x9
+    AtomicCounter            = 0xa
+    Image                    = 0xb
+    StorageBuffer            = 0xc
+    CallableDataKHR          = 0x14d0
+    CallableDataNV           = 0x14d0
+    IncomingCallableDataKHR  = 0x14d1
+    IncomingCallableDataNV   = 0x14d1
+    RayPayloadKHR            = 0x14da
+    RayPayloadNV             = 0x14da
+    HitAttributeKHR          = 0x14db
+    HitAttributeNV           = 0x14db
+    IncomingRayPayloadKHR    = 0x14de
+    IncomingRayPayloadNV     = 0x14de
+    ShaderRecordBufferKHR    = 0x14df
+    ShaderRecordBufferNV     = 0x14df
+    PhysicalStorageBuffer    = 0x14e5
+    PhysicalStorageBufferEXT = 0x14e5
+    Max                      = 0x7fffffff
+}
+SpvDim :: enum #copy #repr("C") #tag_type(i32) {
+    _1D         = 0x0
+    _2D         = 0x1
+    _3D         = 0x2
+    Cube        = 0x3
+    Rect        = 0x4
+    Buffer      = 0x5
+    SubpassData = 0x6
+    Max         = 0x7fffffff
+}
+SpvSamplerAddressingMode :: enum #copy #repr("C") #tag_type(i32) {
+    None           = 0x0
+    ClampToEdge    = 0x1
+    Clamp          = 0x2
+    Repeat         = 0x3
+    RepeatMirrored = 0x4
+    Max            = 0x7fffffff
+}
+SpvSamplerFilterMode :: enum #copy #repr("C") #tag_type(i32) {
+    Nearest = 0x0
+    Linear  = 0x1
+    Max     = 0x7fffffff
+}
+SpvImageFormat :: enum #copy #repr("C") #tag_type(i32) {
+    Unknown      = 0x0
+    Rgba32f      = 0x1
+    Rgba16f      = 0x2
+    R32f         = 0x3
+    Rgba8        = 0x4
+    Rgba8Snorm   = 0x5
+    Rg32f        = 0x6
+    Rg16f        = 0x7
+    R11fG11fB10f = 0x8
+    R16f         = 0x9
+    Rgba16       = 0xa
+    Rgb10A2      = 0xb
+    Rg16         = 0xc
+    Rg8          = 0xd
+    R16          = 0xe
+    R8           = 0xf
+    Rgba16Snorm  = 0x10
+    Rg16Snorm    = 0x11
+    Rg8Snorm     = 0x12
+    R16Snorm     = 0x13
+    R8Snorm      = 0x14
+    Rgba32i      = 0x15
+    Rgba16i      = 0x16
+    Rgba8i       = 0x17
+    R32i         = 0x18
+    Rg32i        = 0x19
+    Rg16i        = 0x1a
+    Rg8i         = 0x1b
+    R16i         = 0x1c
+    R8i          = 0x1d
+    Rgba32ui     = 0x1e
+    Rgba16ui     = 0x1f
+    Rgba8ui      = 0x20
+    R32ui        = 0x21
+    Rgb10a2ui    = 0x22
+    Rg32ui       = 0x23
+    Rg16ui       = 0x24
+    Rg8ui        = 0x25
+    R16ui        = 0x26
+    R8ui         = 0x27
+    Max          = 0x7fffffff
+}
+SpvImageChannelOrder :: enum #copy #repr("C") #tag_type(i32) {
+    R            = 0x0
+    A            = 0x1
+    RG           = 0x2
+    RA           = 0x3
+    RGB          = 0x4
+    RGBA         = 0x5
+    BGRA         = 0x6
+    ARGB         = 0x7
+    Intensity    = 0x8
+    Luminance    = 0x9
+    Rx           = 0xa
+    RGx          = 0xb
+    RGBx         = 0xc
+    Depth        = 0xd
+    DepthStencil = 0xe
+    OrdersRGB    = 0xf
+    OrdersRGBx   = 0x10
+    OrdersRGBA   = 0x11
+    OrdersBGRA   = 0x12
+    ABGR         = 0x13
+    Max          = 0x7fffffff
+}
+SpvImageChannelDataType :: enum #copy #repr("C") #tag_type(i32) {
+    SnormInt8        = 0x0
+    SnormInt16       = 0x1
+    UnormInt8        = 0x2
+    UnormInt16       = 0x3
+    UnormShort565    = 0x4
+    UnormShort555    = 0x5
+    UnormInt101010   = 0x6
+    SignedInt8       = 0x7
+    SignedInt16      = 0x8
+    SignedInt32      = 0x9
+    UnsignedInt8     = 0xa
+    UnsignedInt16    = 0xb
+    UnsignedInt32    = 0xc
+    HalfFloat        = 0xd
+    Float            = 0xe
+    UnormInt24       = 0xf
+    UnormInt101010_2 = 0x10
+    Max              = 0x7fffffff
+}
+SpvImageOperandsShift :: enum #copy #repr("C") #tag_type(i32) {
+    BiasShift                  = 0x0
+    LodShift                   = 0x1
+    GradShift                  = 0x2
+    ConstOffsetShift           = 0x3
+    OffsetShift                = 0x4
+    ConstOffsetsShift          = 0x5
+    SampleShift                = 0x6
+    MinLodShift                = 0x7
+    MakeTexelAvailableShift    = 0x8
+    MakeTexelAvailableKHRShift = 0x8
+    MakeTexelVisibleShift      = 0x9
+    MakeTexelVisibleKHRShift   = 0x9
+    NonPrivateTexelShift       = 0xa
+    NonPrivateTexelKHRShift    = 0xa
+    VolatileTexelShift         = 0xb
+    VolatileTexelKHRShift      = 0xb
+    SignExtendShift            = 0xc
+    ZeroExtendShift            = 0xd
+    Max                        = 0x7fffffff
+}
+SpvImageOperandsMask :: enum #copy #repr("C") #tag_type(i32) {
+    None                      = 0x0
+    BiasMask                  = 0x1
+    LodMask                   = 0x2
+    GradMask                  = 0x4
+    ConstOffsetMask           = 0x8
+    OffsetMask                = 0x10
+    ConstOffsetsMask          = 0x20
+    SampleMask                = 0x40
+    MinLodMask                = 0x80
+    MakeTexelAvailableMask    = 0x100
+    MakeTexelAvailableKHRMask = 0x100
+    MakeTexelVisibleMask      = 0x200
+    MakeTexelVisibleKHRMask   = 0x200
+    NonPrivateTexelMask       = 0x400
+    NonPrivateTexelKHRMask    = 0x400
+    VolatileTexelMask         = 0x800
+    VolatileTexelKHRMask      = 0x800
+    SignExtendMask            = 0x1000
+    ZeroExtendMask            = 0x2000
+}
+SpvFPFastMathModeShift :: enum #copy #repr("C") #tag_type(i32) {
+    NotNaNShift     = 0x0
+    NotInfShift     = 0x1
+    NSZShift        = 0x2
+    AllowRecipShift = 0x3
+    FastShift       = 0x4
+    Max             = 0x7fffffff
+}
+SpvFPFastMathModeMask :: enum #copy #repr("C") #tag_type(i32) {
+    None           = 0x0
+    NotNaNMask     = 0x1
+    NotInfMask     = 0x2
+    NSZMask        = 0x4
+    AllowRecipMask = 0x8
+    FastMask       = 0x10
+}
+SpvFPRoundingMode :: enum #copy #repr("C") #tag_type(i32) {
+    RTE = 0x0
+    RTZ = 0x1
+    RTP = 0x2
+    RTN = 0x3
+    Max = 0x7fffffff
+}
+SpvLinkageType :: enum #copy #repr("C") #tag_type(i32) {
+    Export = 0x0
+    Import = 0x1
+    Max    = 0x7fffffff
+}
+SpvAccessQualifier :: enum #copy #repr("C") #tag_type(i32) {
+    ReadOnly  = 0x0
+    WriteOnly = 0x1
+    ReadWrite = 0x2
+    Max       = 0x7fffffff
+}
+SpvFunctionParameterAttribute :: enum #copy #repr("C") #tag_type(i32) {
+    Zext        = 0x0
+    Sext        = 0x1
+    ByVal       = 0x2
+    Sret        = 0x3
+    NoAlias     = 0x4
+    NoCapture   = 0x5
+    NoWrite     = 0x6
+    NoReadWrite = 0x7
+    Max         = 0x7fffffff
+}
+SpvDecoration :: enum #copy #repr("C") #tag_type(i32) {
+    RelaxedPrecision            = 0x0
+    SpecId                      = 0x1
+    Block                       = 0x2
+    BufferBlock                 = 0x3
+    RowMajor                    = 0x4
+    ColMajor                    = 0x5
+    ArrayStride                 = 0x6
+    MatrixStride                = 0x7
+    GLSLShared                  = 0x8
+    GLSLPacked                  = 0x9
+    CPacked                     = 0xa
+    BuiltIn                     = 0xb
+    NoPerspective               = 0xd
+    Flat                        = 0xe
+    Patch                       = 0xf
+    Centroid                    = 0x10
+    Sample                      = 0x11
+    Invariant                   = 0x12
+    Restrict                    = 0x13
+    Aliased                     = 0x14
+    Volatile                    = 0x15
+    Constant                    = 0x16
+    Coherent                    = 0x17
+    NonWritable                 = 0x18
+    NonReadable                 = 0x19
+    Uniform                     = 0x1a
+    UniformId                   = 0x1b
+    SaturatedConversion         = 0x1c
+    Stream                      = 0x1d
+    Location                    = 0x1e
+    Component                   = 0x1f
+    Index                       = 0x20
+    Binding                     = 0x21
+    DescriptorSet               = 0x22
+    Offset                      = 0x23
+    XfbBuffer                   = 0x24
+    XfbStride                   = 0x25
+    FuncParamAttr               = 0x26
+    FPRoundingMode              = 0x27
+    FPFastMathMode              = 0x28
+    LinkageAttributes           = 0x29
+    NoContraction               = 0x2a
+    InputAttachmentIndex        = 0x2b
+    Alignment                   = 0x2c
+    MaxByteOffset               = 0x2d
+    AlignmentId                 = 0x2e
+    MaxByteOffsetId             = 0x2f
+    NoSignedWrap                = 0x1175
+    NoUnsignedWrap              = 0x1176
+    ExplicitInterpAMD           = 0x1387
+    OverrideCoverageNV          = 0x1480
+    PassthroughNV               = 0x1482
+    ViewportRelativeNV          = 0x1484
+    SecondaryViewportRelativeNV = 0x1488
+    PerPrimitiveNV              = 0x1497
+    PerViewNV                   = 0x1498
+    PerTaskNV                   = 0x1499
+    PerVertexNV                 = 0x14a5
+    NonUniform                  = 0x14b4
+    NonUniformEXT               = 0x14b4
+    RestrictPointer             = 0x14eb
+    RestrictPointerEXT          = 0x14eb
+    AliasedPointer              = 0x14ec
+    AliasedPointerEXT           = 0x14ec
+    CounterBuffer               = 0x1602
+    HlslCounterBufferGOOGLE     = 0x1602
+    HlslSemanticGOOGLE          = 0x1603
+    UserSemantic                = 0x1603
+    UserTypeGOOGLE              = 0x1604
+    Max                         = 0x7fffffff
+}
+SpvBuiltIn :: enum #copy #repr("C") #tag_type(i32) {
+    Position                    = 0x0
+    PointSize                   = 0x1
+    ClipDistance                = 0x3
+    CullDistance                = 0x4
+    VertexId                    = 0x5
+    InstanceId                  = 0x6
+    PrimitiveId                 = 0x7
+    InvocationId                = 0x8
+    Layer                       = 0x9
+    ViewportIndex               = 0xa
+    TessLevelOuter              = 0xb
+    TessLevelInner              = 0xc
+    TessCoord                   = 0xd
+    PatchVertices               = 0xe
+    FragCoord                   = 0xf
+    PointCoord                  = 0x10
+    FrontFacing                 = 0x11
+    SampleId                    = 0x12
+    SamplePosition              = 0x13
+    SampleMask                  = 0x14
+    FragDepth                   = 0x16
+    HelperInvocation            = 0x17
+    NumWorkgroups               = 0x18
+    WorkgroupSize               = 0x19
+    WorkgroupId                 = 0x1a
+    LocalInvocationId           = 0x1b
+    GlobalInvocationId          = 0x1c
+    LocalInvocationIndex        = 0x1d
+    WorkDim                     = 0x1e
+    GlobalSize                  = 0x1f
+    EnqueuedWorkgroupSize       = 0x20
+    GlobalOffset                = 0x21
+    GlobalLinearId              = 0x22
+    SubgroupSize                = 0x24
+    SubgroupMaxSize             = 0x25
+    NumSubgroups                = 0x26
+    NumEnqueuedSubgroups        = 0x27
+    SubgroupId                  = 0x28
+    SubgroupLocalInvocationId   = 0x29
+    VertexIndex                 = 0x2a
+    InstanceIndex               = 0x2b
+    SubgroupEqMask              = 0x1140
+    SubgroupEqMaskKHR           = 0x1140
+    SubgroupGeMask              = 0x1141
+    SubgroupGeMaskKHR           = 0x1141
+    SubgroupGtMask              = 0x1142
+    SubgroupGtMaskKHR           = 0x1142
+    SubgroupLeMask              = 0x1143
+    SubgroupLeMaskKHR           = 0x1143
+    SubgroupLtMask              = 0x1144
+    SubgroupLtMaskKHR           = 0x1144
+    BaseVertex                  = 0x1148
+    BaseInstance                = 0x1149
+    DrawIndex                   = 0x114a
+    DeviceIndex                 = 0x1156
+    ViewIndex                   = 0x1158
+    BaryCoordNoPerspAMD         = 0x1380
+    BaryCoordNoPerspCentroidAMD = 0x1381
+    BaryCoordNoPerspSampleAMD   = 0x1382
+    BaryCoordSmoothAMD          = 0x1383
+    BaryCoordSmoothCentroidAMD  = 0x1384
+    BaryCoordSmoothSampleAMD    = 0x1385
+    BaryCoordPullModelAMD       = 0x1386
+    FragStencilRefEXT           = 0x1396
+    ViewportMaskNV              = 0x1485
+    SecondaryPositionNV         = 0x1489
+    SecondaryViewportMaskNV     = 0x148a
+    PositionPerViewNV           = 0x148d
+    ViewportMaskPerViewNV       = 0x148e
+    FullyCoveredEXT             = 0x1490
+    TaskCountNV                 = 0x149a
+    PrimitiveCountNV            = 0x149b
+    PrimitiveIndicesNV          = 0x149c
+    ClipDistancePerViewNV       = 0x149d
+    CullDistancePerViewNV       = 0x149e
+    LayerPerViewNV              = 0x149f
+    MeshViewCountNV             = 0x14a0
+    MeshViewIndicesNV           = 0x14a1
+    BaryCoordNV                 = 0x14a6
+    BaryCoordNoPerspNV          = 0x14a7
+    FragSizeEXT                 = 0x14ac
+    FragmentSizeNV              = 0x14ac
+    FragInvocationCountEXT      = 0x14ad
+    InvocationsPerPixelNV       = 0x14ad
+    LaunchIdKHR                 = 0x14c7
+    LaunchIdNV                  = 0x14c7
+    LaunchSizeKHR               = 0x14c8
+    LaunchSizeNV                = 0x14c8
+    WorldRayOriginKHR           = 0x14c9
+    WorldRayOriginNV            = 0x14c9
+    WorldRayDirectionKHR        = 0x14ca
+    WorldRayDirectionNV         = 0x14ca
+    ObjectRayOriginKHR          = 0x14cb
+    ObjectRayOriginNV           = 0x14cb
+    ObjectRayDirectionKHR       = 0x14cc
+    ObjectRayDirectionNV        = 0x14cc
+    RayTminKHR                  = 0x14cd
+    RayTminNV                   = 0x14cd
+    RayTmaxKHR                  = 0x14ce
+    RayTmaxNV                   = 0x14ce
+    InstanceCustomIndexKHR      = 0x14cf
+    InstanceCustomIndexNV       = 0x14cf
+    ObjectToWorldKHR            = 0x14d2
+    ObjectToWorldNV             = 0x14d2
+    WorldToObjectKHR            = 0x14d3
+    WorldToObjectNV             = 0x14d3
+    HitTKHR                     = 0x14d4
+    HitTNV                      = 0x14d4
+    HitKindKHR                  = 0x14d5
+    HitKindNV                   = 0x14d5
+    IncomingRayFlagsKHR         = 0x14e7
+    IncomingRayFlagsNV          = 0x14e7
+    RayGeometryIndexKHR         = 0x14e8
+    WarpsPerSMNV                = 0x14fe
+    SMCountNV                   = 0x14ff
+    WarpIDNV                    = 0x1500
+    SMIDNV                      = 0x1501
+    Max                         = 0x7fffffff
+}
+SpvSelectionControlShift :: enum #copy #repr("C") #tag_type(i32) {
+    FlattenShift     = 0x0
+    DontFlattenShift = 0x1
+    Max              = 0x7fffffff
+}
+SpvSelectionControlMask :: enum #copy #repr("C") #tag_type(i32) {
+    None            = 0x0
+    FlattenMask     = 0x1
+    DontFlattenMask = 0x2
+}
+SpvLoopControlShift :: enum #copy #repr("C") #tag_type(i32) {
+    UnrollShift             = 0x0
+    DontUnrollShift         = 0x1
+    DependencyInfiniteShift = 0x2
+    DependencyLengthShift   = 0x3
+    MinIterationsShift      = 0x4
+    MaxIterationsShift      = 0x5
+    IterationMultipleShift  = 0x6
+    PeelCountShift          = 0x7
+    PartialCountShift       = 0x8
+    Max                     = 0x7fffffff
+}
+SpvLoopControlMask :: enum #copy #repr("C") #tag_type(i32) {
+    None                   = 0x0
+    UnrollMask             = 0x1
+    DontUnrollMask         = 0x2
+    DependencyInfiniteMask = 0x4
+    DependencyLengthMask   = 0x8
+    MinIterationsMask      = 0x10
+    MaxIterationsMask      = 0x20
+    IterationMultipleMask  = 0x40
+    PeelCountMask          = 0x80
+    PartialCountMask       = 0x100
+}
+SpvFunctionControlShift :: enum #copy #repr("C") #tag_type(i32) {
+    InlineShift     = 0x0
+    DontInlineShift = 0x1
+    PureShift       = 0x2
+    ConstShift      = 0x3
+    Max             = 0x7fffffff
+}
+SpvFunctionControlMask :: enum #copy #repr("C") #tag_type(i32) {
+    None           = 0x0
+    InlineMask     = 0x1
+    DontInlineMask = 0x2
+    PureMask       = 0x4
+    ConstMask      = 0x8
+}
+SpvMemorySemanticsShift :: enum #copy #repr("C") #tag_type(i32) {
+    AcquireShift                = 0x1
+    ReleaseShift                = 0x2
+    AcquireReleaseShift         = 0x3
+    SequentiallyConsistentShift = 0x4
+    UniformMemoryShift          = 0x6
+    SubgroupMemoryShift         = 0x7
+    WorkgroupMemoryShift        = 0x8
+    CrossWorkgroupMemoryShift   = 0x9
+    AtomicCounterMemoryShift    = 0xa
+    ImageMemoryShift            = 0xb
+    OutputMemoryShift           = 0xc
+    OutputMemoryKHRShift        = 0xc
+    MakeAvailableShift          = 0xd
+    MakeAvailableKHRShift       = 0xd
+    MakeVisibleShift            = 0xe
+    MakeVisibleKHRShift         = 0xe
+    VolatileShift               = 0xf
+    Max                         = 0x7fffffff
+}
+SpvMemorySemanticsMask :: enum #copy #repr("C") #tag_type(i32) {
+    None                       = 0x0
+    AcquireMask                = 0x2
+    ReleaseMask                = 0x4
+    AcquireReleaseMask         = 0x8
+    SequentiallyConsistentMask = 0x10
+    UniformMemoryMask          = 0x40
+    SubgroupMemoryMask         = 0x80
+    WorkgroupMemoryMask        = 0x100
+    CrossWorkgroupMemoryMask   = 0x200
+    AtomicCounterMemoryMask    = 0x400
+    ImageMemoryMask            = 0x800
+    OutputMemoryMask           = 0x1000
+    OutputMemoryKHRMask        = 0x1000
+    MakeAvailableMask          = 0x2000
+    MakeAvailableKHRMask       = 0x2000
+    MakeVisibleMask            = 0x4000
+    MakeVisibleKHRMask         = 0x4000
+    VolatileMask               = 0x8000
+}
+SpvMemoryAccessShift :: enum #copy #repr("C") #tag_type(i32) {
+    VolatileShift                = 0x0
+    AlignedShift                 = 0x1
+    NontemporalShift             = 0x2
+    MakePointerAvailableShift    = 0x3
+    MakePointerAvailableKHRShift = 0x3
+    MakePointerVisibleShift      = 0x4
+    MakePointerVisibleKHRShift   = 0x4
+    NonPrivatePointerShift       = 0x5
+    NonPrivatePointerKHRShift    = 0x5
+    Max                          = 0x7fffffff
+}
+SpvMemoryAccessMask :: enum #copy #repr("C") #tag_type(i32) {
+    None                        = 0x0
+    VolatileMask                = 0x1
+    AlignedMask                 = 0x2
+    NontemporalMask             = 0x4
+    MakePointerAvailableMask    = 0x8
+    MakePointerAvailableKHRMask = 0x8
+    MakePointerVisibleMask      = 0x10
+    MakePointerVisibleKHRMask   = 0x10
+    NonPrivatePointerMask       = 0x20
+    NonPrivatePointerKHRMask    = 0x20
+}
+SpvScope :: enum #copy #repr("C") #tag_type(i32) {
+    CrossDevice    = 0x0
+    Device         = 0x1
+    Workgroup      = 0x2
+    Subgroup       = 0x3
+    Invocation     = 0x4
+    QueueFamily    = 0x5
+    QueueFamilyKHR = 0x5
+    ShaderCallKHR  = 0x6
+    Max            = 0x7fffffff
+}
+SpvGroupOperation :: enum #copy #repr("C") #tag_type(i32) {
+    Reduce                     = 0x0
+    InclusiveScan              = 0x1
+    ExclusiveScan              = 0x2
+    ClusteredReduce            = 0x3
+    PartitionedReduceNV        = 0x6
+    PartitionedInclusiveScanNV = 0x7
+    PartitionedExclusiveScanNV = 0x8
+    Max                        = 0x7fffffff
+}
+SpvKernelEnqueueFlags :: enum #copy #repr("C") #tag_type(i32) {
+    NoWait        = 0x0
+    WaitKernel    = 0x1
+    WaitWorkGroup = 0x2
+    Max           = 0x7fffffff
+}
+SpvKernelProfilingInfoShift :: enum #copy #repr("C") #tag_type(i32) {
+    CmdExecTimeShift = 0x0
+    Max              = 0x7fffffff
+}
+SpvKernelProfilingInfoMask :: enum #copy #repr("C") #tag_type(i32) {
+    None            = 0x0
+    CmdExecTimeMask = 0x1
+}
+SpvCapability :: enum #copy #repr("C") #tag_type(i32) {
+    Matrix                                       = 0x0
+    Shader                                       = 0x1
+    Geometry                                     = 0x2
+    Tessellation                                 = 0x3
+    Addresses                                    = 0x4
+    Linkage                                      = 0x5
+    Kernel                                       = 0x6
+    Vector16                                     = 0x7
+    Float16Buffer                                = 0x8
+    Float16                                      = 0x9
+    Float64                                      = 0xa
+    Int64                                        = 0xb
+    Int64Atomics                                 = 0xc
+    ImageBasic                                   = 0xd
+    ImageReadWrite                               = 0xe
+    ImageMipmap                                  = 0xf
+    Pipes                                        = 0x11
+    Groups                                       = 0x12
+    DeviceEnqueue                                = 0x13
+    LiteralSampler                               = 0x14
+    AtomicStorage                                = 0x15
+    Int16                                        = 0x16
+    TessellationPointSize                        = 0x17
+    GeometryPointSize                            = 0x18
+    ImageGatherExtended                          = 0x19
+    StorageImageMultisample                      = 0x1b
+    UniformBufferArrayDynamicIndexing            = 0x1c
+    SampledImageArrayDynamicIndexing             = 0x1d
+    StorageBufferArrayDynamicIndexing            = 0x1e
+    StorageImageArrayDynamicIndexing             = 0x1f
+    ClipDistance                                 = 0x20
+    CullDistance                                 = 0x21
+    ImageCubeArray                               = 0x22
+    SampleRateShading                            = 0x23
+    ImageRect                                    = 0x24
+    SampledRect                                  = 0x25
+    GenericPointer                               = 0x26
+    Int8                                         = 0x27
+    InputAttachment                              = 0x28
+    SparseResidency                              = 0x29
+    MinLod                                       = 0x2a
+    Sampled1D                                    = 0x2b
+    Image1D                                      = 0x2c
+    SampledCubeArray                             = 0x2d
+    SampledBuffer                                = 0x2e
+    ImageBuffer                                  = 0x2f
+    ImageMSArray                                 = 0x30
+    StorageImageExtendedFormats                  = 0x31
+    ImageQuery                                   = 0x32
+    DerivativeControl                            = 0x33
+    InterpolationFunction                        = 0x34
+    TransformFeedback                            = 0x35
+    GeometryStreams                              = 0x36
+    StorageImageReadWithoutFormat                = 0x37
+    StorageImageWriteWithoutFormat               = 0x38
+    MultiViewport                                = 0x39
+    SubgroupDispatch                             = 0x3a
+    NamedBarrier                                 = 0x3b
+    PipeStorage                                  = 0x3c
+    GroupNonUniform                              = 0x3d
+    GroupNonUniformVote                          = 0x3e
+    GroupNonUniformArithmetic                    = 0x3f
+    GroupNonUniformBallot                        = 0x40
+    GroupNonUniformShuffle                       = 0x41
+    GroupNonUniformShuffleRelative               = 0x42
+    GroupNonUniformClustered                     = 0x43
+    GroupNonUniformQuad                          = 0x44
+    ShaderLayer                                  = 0x45
+    ShaderViewportIndex                          = 0x46
+    SubgroupBallotKHR                            = 0x1147
+    DrawParameters                               = 0x114b
+    SubgroupVoteKHR                              = 0x114f
+    StorageBuffer16BitAccess                     = 0x1151
+    StorageUniformBufferBlock16                  = 0x1151
+    StorageUniform16                             = 0x1152
+    UniformAndStorageBuffer16BitAccess           = 0x1152
+    StoragePushConstant16                        = 0x1153
+    StorageInputOutput16                         = 0x1154
+    DeviceGroup                                  = 0x1155
+    MultiView                                    = 0x1157
+    VariablePointersStorageBuffer                = 0x1159
+    VariablePointers                             = 0x115a
+    AtomicStorageOps                             = 0x115d
+    SampleMaskPostDepthCoverage                  = 0x115f
+    StorageBuffer8BitAccess                      = 0x1160
+    UniformAndStorageBuffer8BitAccess            = 0x1161
+    StoragePushConstant8                         = 0x1162
+    DenormPreserve                               = 0x1170
+    DenormFlushToZero                            = 0x1171
+    SignedZeroInfNanPreserve                     = 0x1172
+    RoundingModeRTE                              = 0x1173
+    RoundingModeRTZ                              = 0x1174
+    RayQueryProvisionalKHR                       = 0x1177
+    RayTraversalPrimitiveCullingProvisionalKHR   = 0x117e
+    Float16ImageAMD                              = 0x1390
+    ImageGatherBiasLodAMD                        = 0x1391
+    FragmentMaskAMD                              = 0x1392
+    StencilExportEXT                             = 0x1395
+    ImageReadWriteLodAMD                         = 0x1397
+    ShaderClockKHR                               = 0x13bf
+    SampleMaskOverrideCoverageNV                 = 0x1481
+    GeometryShaderPassthroughNV                  = 0x1483
+    ShaderViewportIndexLayerEXT                  = 0x1486
+    ShaderViewportIndexLayerNV                   = 0x1486
+    ShaderViewportMaskNV                         = 0x1487
+    ShaderStereoViewNV                           = 0x148b
+    PerViewAttributesNV                          = 0x148c
+    FragmentFullyCoveredEXT                      = 0x1491
+    MeshShadingNV                                = 0x1492
+    ImageFootprintNV                             = 0x14a2
+    FragmentBarycentricNV                        = 0x14a4
+    ComputeDerivativeGroupQuadsNV                = 0x14a8
+    FragmentDensityEXT                           = 0x14ab
+    ShadingRateNV                                = 0x14ab
+    GroupNonUniformPartitionedNV                 = 0x14b1
+    ShaderNonUniform                             = 0x14b5
+    ShaderNonUniformEXT                          = 0x14b5
+    RuntimeDescriptorArray                       = 0x14b6
+    RuntimeDescriptorArrayEXT                    = 0x14b6
+    InputAttachmentArrayDynamicIndexing          = 0x14b7
+    InputAttachmentArrayDynamicIndexingEXT       = 0x14b7
+    UniformTexelBufferArrayDynamicIndexing       = 0x14b8
+    UniformTexelBufferArrayDynamicIndexingEXT    = 0x14b8
+    StorageTexelBufferArrayDynamicIndexing       = 0x14b9
+    StorageTexelBufferArrayDynamicIndexingEXT    = 0x14b9
+    UniformBufferArrayNonUniformIndexing         = 0x14ba
+    UniformBufferArrayNonUniformIndexingEXT      = 0x14ba
+    SampledImageArrayNonUniformIndexing          = 0x14bb
+    SampledImageArrayNonUniformIndexingEXT       = 0x14bb
+    StorageBufferArrayNonUniformIndexing         = 0x14bc
+    StorageBufferArrayNonUniformIndexingEXT      = 0x14bc
+    StorageImageArrayNonUniformIndexing          = 0x14bd
+    StorageImageArrayNonUniformIndexingEXT       = 0x14bd
+    InputAttachmentArrayNonUniformIndexing       = 0x14be
+    InputAttachmentArrayNonUniformIndexingEXT    = 0x14be
+    UniformTexelBufferArrayNonUniformIndexing    = 0x14bf
+    UniformTexelBufferArrayNonUniformIndexingEXT = 0x14bf
+    StorageTexelBufferArrayNonUniformIndexing    = 0x14c0
+    StorageTexelBufferArrayNonUniformIndexingEXT = 0x14c0
+    RayTracingNV                                 = 0x14dc
+    VulkanMemoryModel                            = 0x14e1
+    VulkanMemoryModelKHR                         = 0x14e1
+    VulkanMemoryModelDeviceScope                 = 0x14e2
+    VulkanMemoryModelDeviceScopeKHR              = 0x14e2
+    PhysicalStorageBufferAddresses               = 0x14e3
+    PhysicalStorageBufferAddressesEXT            = 0x14e3
+    ComputeDerivativeGroupLinearNV               = 0x14e6
+    RayTracingProvisionalKHR                     = 0x14e9
+    CooperativeMatrixNV                          = 0x14ed
+    FragmentShaderSampleInterlockEXT             = 0x14f3
+    FragmentShaderShadingRateInterlockEXT        = 0x14fc
+    ShaderSMBuiltinsNV                           = 0x14fd
+    FragmentShaderPixelInterlockEXT              = 0x1502
+    DemoteToHelperInvocationEXT                  = 0x1503
+    SubgroupShuffleINTEL                         = 0x15c0
+    SubgroupBufferBlockIOINTEL                   = 0x15c1
+    SubgroupImageBlockIOINTEL                    = 0x15c2
+    SubgroupImageMediaBlockIOINTEL               = 0x15cb
+    IntegerFunctions2INTEL                       = 0x15d0
+    SubgroupAvcMotionEstimationINTEL             = 0x1640
+    SubgroupAvcMotionEstimationIntraINTEL        = 0x1641
+    SubgroupAvcMotionEstimationChromaINTEL       = 0x1642
+    Max                                          = 0x7fffffff
+}
+SpvRayFlagsShift :: enum #copy #repr("C") #tag_type(i32) {
+    OpaqueKHRShift                   = 0x0
+    NoOpaqueKHRShift                 = 0x1
+    TerminateOnFirstHitKHRShift      = 0x2
+    SkipClosestHitShaderKHRShift     = 0x3
+    CullBackFacingTrianglesKHRShift  = 0x4
+    CullFrontFacingTrianglesKHRShift = 0x5
+    CullOpaqueKHRShift               = 0x6
+    CullNoOpaqueKHRShift             = 0x7
+    SkipTrianglesKHRShift            = 0x8
+    SkipAABBsKHRShift                = 0x9
+    Max                              = 0x7fffffff
+}
+SpvRayFlagsMask :: enum #copy #repr("C") #tag_type(i32) {
+    None                            = 0x0
+    OpaqueKHRMask                   = 0x1
+    NoOpaqueKHRMask                 = 0x2
+    TerminateOnFirstHitKHRMask      = 0x4
+    SkipClosestHitShaderKHRMask     = 0x8
+    CullBackFacingTrianglesKHRMask  = 0x10
+    CullFrontFacingTrianglesKHRMask = 0x20
+    CullOpaqueKHRMask               = 0x40
+    CullNoOpaqueKHRMask             = 0x80
+    SkipTrianglesKHRMask            = 0x100
+    SkipAABBsKHRMask                = 0x200
+}
+SpvRayQueryIntersection :: enum #copy #repr("C") #tag_type(i32) {
+    RayQueryCandidateIntersectionKHR = 0x0
+    RayQueryCommittedIntersectionKHR = 0x1
+    Max                              = 0x7fffffff
+}
+SpvRayQueryCommittedIntersectionType :: enum #copy #repr("C") #tag_type(i32) {
+    RayQueryCommittedIntersectionNoneKHR      = 0x0
+    RayQueryCommittedIntersectionTriangleKHR  = 0x1
+    RayQueryCommittedIntersectionGeneratedKHR = 0x2
+    Max                                       = 0x7fffffff
+}
+SpvRayQueryCandidateIntersectionType :: enum #copy #repr("C") #tag_type(i32) {
+    RayQueryCandidateIntersectionTriangleKHR = 0x0
+    RayQueryCandidateIntersectionAABBKHR     = 0x1
+    Max                                      = 0x7fffffff
+}
+SpvOp :: enum #copy #repr("C") #tag_type(i32) {
+    Nop                                                                   = 0x0
+    Undef                                                                 = 0x1
+    SourceContinued                                                       = 0x2
+    Source                                                                = 0x3
+    SourceExtension                                                       = 0x4
+    Name                                                                  = 0x5
+    MemberName                                                            = 0x6
+    String                                                                = 0x7
+    Line                                                                  = 0x8
+    Extension                                                             = 0xa
+    ExtInstImport                                                         = 0xb
+    ExtInst                                                               = 0xc
+    MemoryModel                                                           = 0xe
+    EntryPoint                                                            = 0xf
+    ExecutionMode                                                         = 0x10
+    Capability                                                            = 0x11
+    TypeVoid                                                              = 0x13
+    TypeBool                                                              = 0x14
+    TypeInt                                                               = 0x15
+    TypeFloat                                                             = 0x16
+    TypeVector                                                            = 0x17
+    TypeMatrix                                                            = 0x18
+    TypeImage                                                             = 0x19
+    TypeSampler                                                           = 0x1a
+    TypeSampledImage                                                      = 0x1b
+    TypeArray                                                             = 0x1c
+    TypeRuntimeArray                                                      = 0x1d
+    TypeStruct                                                            = 0x1e
+    TypeOpaque                                                            = 0x1f
+    TypePointer                                                           = 0x20
+    TypeFunction                                                          = 0x21
+    TypeEvent                                                             = 0x22
+    TypeDeviceEvent                                                       = 0x23
+    TypeReserveId                                                         = 0x24
+    TypeQueue                                                             = 0x25
+    TypePipe                                                              = 0x26
+    TypeForwardPointer                                                    = 0x27
+    ConstantTrue                                                          = 0x29
+    ConstantFalse                                                         = 0x2a
+    Constant                                                              = 0x2b
+    ConstantComposite                                                     = 0x2c
+    ConstantSampler                                                       = 0x2d
+    ConstantNull                                                          = 0x2e
+    SpecConstantTrue                                                      = 0x30
+    SpecConstantFalse                                                     = 0x31
+    SpecConstant                                                          = 0x32
+    SpecConstantComposite                                                 = 0x33
+    SpecConstantOp                                                        = 0x34
+    Function                                                              = 0x36
+    FunctionParameter                                                     = 0x37
+    FunctionEnd                                                           = 0x38
+    FunctionCall                                                          = 0x39
+    Variable                                                              = 0x3b
+    ImageTexelPointer                                                     = 0x3c
+    Load                                                                  = 0x3d
+    Store                                                                 = 0x3e
+    CopyMemory                                                            = 0x3f
+    CopyMemorySized                                                       = 0x40
+    AccessChain                                                           = 0x41
+    InBoundsAccessChain                                                   = 0x42
+    PtrAccessChain                                                        = 0x43
+    ArrayLength                                                           = 0x44
+    GenericPtrMemSemantics                                                = 0x45
+    InBoundsPtrAccessChain                                                = 0x46
+    Decorate                                                              = 0x47
+    MemberDecorate                                                        = 0x48
+    DecorationGroup                                                       = 0x49
+    GroupDecorate                                                         = 0x4a
+    GroupMemberDecorate                                                   = 0x4b
+    VectorExtractDynamic                                                  = 0x4d
+    VectorInsertDynamic                                                   = 0x4e
+    VectorShuffle                                                         = 0x4f
+    CompositeConstruct                                                    = 0x50
+    CompositeExtract                                                      = 0x51
+    CompositeInsert                                                       = 0x52
+    CopyObject                                                            = 0x53
+    Transpose                                                             = 0x54
+    SampledImage                                                          = 0x56
+    ImageSampleImplicitLod                                                = 0x57
+    ImageSampleExplicitLod                                                = 0x58
+    ImageSampleDrefImplicitLod                                            = 0x59
+    ImageSampleDrefExplicitLod                                            = 0x5a
+    ImageSampleProjImplicitLod                                            = 0x5b
+    ImageSampleProjExplicitLod                                            = 0x5c
+    ImageSampleProjDrefImplicitLod                                        = 0x5d
+    ImageSampleProjDrefExplicitLod                                        = 0x5e
+    ImageFetch                                                            = 0x5f
+    ImageGather                                                           = 0x60
+    ImageDrefGather                                                       = 0x61
+    ImageRead                                                             = 0x62
+    ImageWrite                                                            = 0x63
+    Image                                                                 = 0x64
+    ImageQueryFormat                                                      = 0x65
+    ImageQueryOrder                                                       = 0x66
+    ImageQuerySizeLod                                                     = 0x67
+    ImageQuerySize                                                        = 0x68
+    ImageQueryLod                                                         = 0x69
+    ImageQueryLevels                                                      = 0x6a
+    ImageQuerySamples                                                     = 0x6b
+    ConvertFToU                                                           = 0x6d
+    ConvertFToS                                                           = 0x6e
+    ConvertSToF                                                           = 0x6f
+    ConvertUToF                                                           = 0x70
+    UConvert                                                              = 0x71
+    SConvert                                                              = 0x72
+    FConvert                                                              = 0x73
+    QuantizeToF16                                                         = 0x74
+    ConvertPtrToU                                                         = 0x75
+    SatConvertSToU                                                        = 0x76
+    SatConvertUToS                                                        = 0x77
+    ConvertUToPtr                                                         = 0x78
+    PtrCastToGeneric                                                      = 0x79
+    GenericCastToPtr                                                      = 0x7a
+    GenericCastToPtrExplicit                                              = 0x7b
+    Bitcast                                                               = 0x7c
+    SNegate                                                               = 0x7e
+    FNegate                                                               = 0x7f
+    IAdd                                                                  = 0x80
+    FAdd                                                                  = 0x81
+    ISub                                                                  = 0x82
+    FSub                                                                  = 0x83
+    IMul                                                                  = 0x84
+    FMul                                                                  = 0x85
+    UDiv                                                                  = 0x86
+    SDiv                                                                  = 0x87
+    FDiv                                                                  = 0x88
+    UMod                                                                  = 0x89
+    SRem                                                                  = 0x8a
+    SMod                                                                  = 0x8b
+    FRem                                                                  = 0x8c
+    FMod                                                                  = 0x8d
+    VectorTimesScalar                                                     = 0x8e
+    MatrixTimesScalar                                                     = 0x8f
+    VectorTimesMatrix                                                     = 0x90
+    MatrixTimesVector                                                     = 0x91
+    MatrixTimesMatrix                                                     = 0x92
+    OuterProduct                                                          = 0x93
+    Dot                                                                   = 0x94
+    IAddCarry                                                             = 0x95
+    ISubBorrow                                                            = 0x96
+    UMulExtended                                                          = 0x97
+    SMulExtended                                                          = 0x98
+    Any                                                                   = 0x9a
+    All                                                                   = 0x9b
+    IsNan                                                                 = 0x9c
+    IsInf                                                                 = 0x9d
+    IsFinite                                                              = 0x9e
+    IsNormal                                                              = 0x9f
+    SignBitSet                                                            = 0xa0
+    LessOrGreater                                                         = 0xa1
+    Ordered                                                               = 0xa2
+    Unordered                                                             = 0xa3
+    LogicalEqual                                                          = 0xa4
+    LogicalNotEqual                                                       = 0xa5
+    LogicalOr                                                             = 0xa6
+    LogicalAnd                                                            = 0xa7
+    LogicalNot                                                            = 0xa8
+    Select                                                                = 0xa9
+    IEqual                                                                = 0xaa
+    INotEqual                                                             = 0xab
+    UGreaterThan                                                          = 0xac
+    SGreaterThan                                                          = 0xad
+    UGreaterThanEqual                                                     = 0xae
+    SGreaterThanEqual                                                     = 0xaf
+    ULessThan                                                             = 0xb0
+    SLessThan                                                             = 0xb1
+    ULessThanEqual                                                        = 0xb2
+    SLessThanEqual                                                        = 0xb3
+    FOrdEqual                                                             = 0xb4
+    FUnordEqual                                                           = 0xb5
+    FOrdNotEqual                                                          = 0xb6
+    FUnordNotEqual                                                        = 0xb7
+    FOrdLessThan                                                          = 0xb8
+    FUnordLessThan                                                        = 0xb9
+    FOrdGreaterThan                                                       = 0xba
+    FUnordGreaterThan                                                     = 0xbb
+    FOrdLessThanEqual                                                     = 0xbc
+    FUnordLessThanEqual                                                   = 0xbd
+    FOrdGreaterThanEqual                                                  = 0xbe
+    FUnordGreaterThanEqual                                                = 0xbf
+    ShiftRightLogical                                                     = 0xc2
+    ShiftRightArithmetic                                                  = 0xc3
+    ShiftLeftLogical                                                      = 0xc4
+    BitwiseOr                                                             = 0xc5
+    BitwiseXor                                                            = 0xc6
+    BitwiseAnd                                                            = 0xc7
+    Not                                                                   = 0xc8
+    BitFieldInsert                                                        = 0xc9
+    BitFieldSExtract                                                      = 0xca
+    BitFieldUExtract                                                      = 0xcb
+    BitReverse                                                            = 0xcc
+    BitCount                                                              = 0xcd
+    DPdx                                                                  = 0xcf
+    DPdy                                                                  = 0xd0
+    Fwidth                                                                = 0xd1
+    DPdxFine                                                              = 0xd2
+    DPdyFine                                                              = 0xd3
+    FwidthFine                                                            = 0xd4
+    DPdxCoarse                                                            = 0xd5
+    DPdyCoarse                                                            = 0xd6
+    FwidthCoarse                                                          = 0xd7
+    EmitVertex                                                            = 0xda
+    EndPrimitive                                                          = 0xdb
+    EmitStreamVertex                                                      = 0xdc
+    EndStreamPrimitive                                                    = 0xdd
+    ControlBarrier                                                        = 0xe0
+    MemoryBarrier                                                         = 0xe1
+    AtomicLoad                                                            = 0xe3
+    AtomicStore                                                           = 0xe4
+    AtomicExchange                                                        = 0xe5
+    AtomicCompareExchange                                                 = 0xe6
+    AtomicCompareExchangeWeak                                             = 0xe7
+    AtomicIIncrement                                                      = 0xe8
+    AtomicIDecrement                                                      = 0xe9
+    AtomicIAdd                                                            = 0xea
+    AtomicISub                                                            = 0xeb
+    AtomicSMin                                                            = 0xec
+    AtomicUMin                                                            = 0xed
+    AtomicSMax                                                            = 0xee
+    AtomicUMax                                                            = 0xef
+    AtomicAnd                                                             = 0xf0
+    AtomicOr                                                              = 0xf1
+    AtomicXor                                                             = 0xf2
+    Phi                                                                   = 0xf5
+    LoopMerge                                                             = 0xf6
+    SelectionMerge                                                        = 0xf7
+    Label                                                                 = 0xf8
+    Branch                                                                = 0xf9
+    BranchConditional                                                     = 0xfa
+    Switch                                                                = 0xfb
+    Kill                                                                  = 0xfc
+    Return                                                                = 0xfd
+    ReturnValue                                                           = 0xfe
+    Unreachable                                                           = 0xff
+    LifetimeStart                                                         = 0x100
+    LifetimeStop                                                          = 0x101
+    GroupAsyncCopy                                                        = 0x103
+    GroupWaitEvents                                                       = 0x104
+    GroupAll                                                              = 0x105
+    GroupAny                                                              = 0x106
+    GroupBroadcast                                                        = 0x107
+    GroupIAdd                                                             = 0x108
+    GroupFAdd                                                             = 0x109
+    GroupFMin                                                             = 0x10a
+    GroupUMin                                                             = 0x10b
+    GroupSMin                                                             = 0x10c
+    GroupFMax                                                             = 0x10d
+    GroupUMax                                                             = 0x10e
+    GroupSMax                                                             = 0x10f
+    ReadPipe                                                              = 0x112
+    WritePipe                                                             = 0x113
+    ReservedReadPipe                                                      = 0x114
+    ReservedWritePipe                                                     = 0x115
+    ReserveReadPipePackets                                                = 0x116
+    ReserveWritePipePackets                                               = 0x117
+    CommitReadPipe                                                        = 0x118
+    CommitWritePipe                                                       = 0x119
+    IsValidReserveId                                                      = 0x11a
+    GetNumPipePackets                                                     = 0x11b
+    GetMaxPipePackets                                                     = 0x11c
+    GroupReserveReadPipePackets                                           = 0x11d
+    GroupReserveWritePipePackets                                          = 0x11e
+    GroupCommitReadPipe                                                   = 0x11f
+    GroupCommitWritePipe                                                  = 0x120
+    EnqueueMarker                                                         = 0x123
+    EnqueueKernel                                                         = 0x124
+    GetKernelNDrangeSubGroupCount                                         = 0x125
+    GetKernelNDrangeMaxSubGroupSize                                       = 0x126
+    GetKernelWorkGroupSize                                                = 0x127
+    GetKernelPreferredWorkGroupSizeMultiple                               = 0x128
+    RetainEvent                                                           = 0x129
+    ReleaseEvent                                                          = 0x12a
+    CreateUserEvent                                                       = 0x12b
+    IsValidEvent                                                          = 0x12c
+    SetUserEventStatus                                                    = 0x12d
+    CaptureEventProfilingInfo                                             = 0x12e
+    GetDefaultQueue                                                       = 0x12f
+    BuildNDRange                                                          = 0x130
+    ImageSparseSampleImplicitLod                                          = 0x131
+    ImageSparseSampleExplicitLod                                          = 0x132
+    ImageSparseSampleDrefImplicitLod                                      = 0x133
+    ImageSparseSampleDrefExplicitLod                                      = 0x134
+    ImageSparseSampleProjImplicitLod                                      = 0x135
+    ImageSparseSampleProjExplicitLod                                      = 0x136
+    ImageSparseSampleProjDrefImplicitLod                                  = 0x137
+    ImageSparseSampleProjDrefExplicitLod                                  = 0x138
+    ImageSparseFetch                                                      = 0x139
+    ImageSparseGather                                                     = 0x13a
+    ImageSparseDrefGather                                                 = 0x13b
+    ImageSparseTexelsResident                                             = 0x13c
+    NoLine                                                                = 0x13d
+    AtomicFlagTestAndSet                                                  = 0x13e
+    AtomicFlagClear                                                       = 0x13f
+    ImageSparseRead                                                       = 0x140
+    SizeOf                                                                = 0x141
+    TypePipeStorage                                                       = 0x142
+    ConstantPipeStorage                                                   = 0x143
+    CreatePipeFromPipeStorage                                             = 0x144
+    GetKernelLocalSizeForSubgroupCount                                    = 0x145
+    GetKernelMaxNumSubgroups                                              = 0x146
+    TypeNamedBarrier                                                      = 0x147
+    NamedBarrierInitialize                                                = 0x148
+    MemoryNamedBarrier                                                    = 0x149
+    ModuleProcessed                                                       = 0x14a
+    ExecutionModeId                                                       = 0x14b
+    DecorateId                                                            = 0x14c
+    GroupNonUniformElect                                                  = 0x14d
+    GroupNonUniformAll                                                    = 0x14e
+    GroupNonUniformAny                                                    = 0x14f
+    GroupNonUniformAllEqual                                               = 0x150
+    GroupNonUniformBroadcast                                              = 0x151
+    GroupNonUniformBroadcastFirst                                         = 0x152
+    GroupNonUniformBallot                                                 = 0x153
+    GroupNonUniformInverseBallot                                          = 0x154
+    GroupNonUniformBallotBitExtract                                       = 0x155
+    GroupNonUniformBallotBitCount                                         = 0x156
+    GroupNonUniformBallotFindLSB                                          = 0x157
+    GroupNonUniformBallotFindMSB                                          = 0x158
+    GroupNonUniformShuffle                                                = 0x159
+    GroupNonUniformShuffleXor                                             = 0x15a
+    GroupNonUniformShuffleUp                                              = 0x15b
+    GroupNonUniformShuffleDown                                            = 0x15c
+    GroupNonUniformIAdd                                                   = 0x15d
+    GroupNonUniformFAdd                                                   = 0x15e
+    GroupNonUniformIMul                                                   = 0x15f
+    GroupNonUniformFMul                                                   = 0x160
+    GroupNonUniformSMin                                                   = 0x161
+    GroupNonUniformUMin                                                   = 0x162
+    GroupNonUniformFMin                                                   = 0x163
+    GroupNonUniformSMax                                                   = 0x164
+    GroupNonUniformUMax                                                   = 0x165
+    GroupNonUniformFMax                                                   = 0x166
+    GroupNonUniformBitwiseAnd                                             = 0x167
+    GroupNonUniformBitwiseOr                                              = 0x168
+    GroupNonUniformBitwiseXor                                             = 0x169
+    GroupNonUniformLogicalAnd                                             = 0x16a
+    GroupNonUniformLogicalOr                                              = 0x16b
+    GroupNonUniformLogicalXor                                             = 0x16c
+    GroupNonUniformQuadBroadcast                                          = 0x16d
+    GroupNonUniformQuadSwap                                               = 0x16e
+    CopyLogical                                                           = 0x190
+    PtrEqual                                                              = 0x191
+    PtrNotEqual                                                           = 0x192
+    PtrDiff                                                               = 0x193
+    SubgroupBallotKHR                                                     = 0x1145
+    SubgroupFirstInvocationKHR                                            = 0x1146
+    SubgroupAllKHR                                                        = 0x114c
+    SubgroupAnyKHR                                                        = 0x114d
+    SubgroupAllEqualKHR                                                   = 0x114e
+    SubgroupReadInvocationKHR                                             = 0x1150
+    TypeRayQueryProvisionalKHR                                            = 0x1178
+    RayQueryInitializeKHR                                                 = 0x1179
+    RayQueryTerminateKHR                                                  = 0x117a
+    RayQueryGenerateIntersectionKHR                                       = 0x117b
+    RayQueryConfirmIntersectionKHR                                        = 0x117c
+    RayQueryProceedKHR                                                    = 0x117d
+    RayQueryGetIntersectionTypeKHR                                        = 0x117f
+    GroupIAddNonUniformAMD                                                = 0x1388
+    GroupFAddNonUniformAMD                                                = 0x1389
+    GroupFMinNonUniformAMD                                                = 0x138a
+    GroupUMinNonUniformAMD                                                = 0x138b
+    GroupSMinNonUniformAMD                                                = 0x138c
+    GroupFMaxNonUniformAMD                                                = 0x138d
+    GroupUMaxNonUniformAMD                                                = 0x138e
+    GroupSMaxNonUniformAMD                                                = 0x138f
+    FragmentMaskFetchAMD                                                  = 0x1393
+    FragmentFetchAMD                                                      = 0x1394
+    ReadClockKHR                                                          = 0x13c0
+    ImageSampleFootprintNV                                                = 0x14a3
+    GroupNonUniformPartitionNV                                            = 0x14b0
+    WritePackedPrimitiveIndices4x8NV                                      = 0x14b3
+    ReportIntersectionKHR                                                 = 0x14d6
+    ReportIntersectionNV                                                  = 0x14d6
+    IgnoreIntersectionKHR                                                 = 0x14d7
+    IgnoreIntersectionNV                                                  = 0x14d7
+    TerminateRayKHR                                                       = 0x14d8
+    TerminateRayNV                                                        = 0x14d8
+    TraceNV                                                               = 0x14d9
+    TraceRayKHR                                                           = 0x14d9
+    TypeAccelerationStructureKHR                                          = 0x14dd
+    TypeAccelerationStructureNV                                           = 0x14dd
+    ExecuteCallableKHR                                                    = 0x14e0
+    ExecuteCallableNV                                                     = 0x14e0
+    TypeCooperativeMatrixNV                                               = 0x14ee
+    CooperativeMatrixLoadNV                                               = 0x14ef
+    CooperativeMatrixStoreNV                                              = 0x14f0
+    CooperativeMatrixMulAddNV                                             = 0x14f1
+    CooperativeMatrixLengthNV                                             = 0x14f2
+    BeginInvocationInterlockEXT                                           = 0x14f4
+    EndInvocationInterlockEXT                                             = 0x14f5
+    DemoteToHelperInvocationEXT                                           = 0x1504
+    IsHelperInvocationEXT                                                 = 0x1505
+    SubgroupShuffleINTEL                                                  = 0x15c3
+    SubgroupShuffleDownINTEL                                              = 0x15c4
+    SubgroupShuffleUpINTEL                                                = 0x15c5
+    SubgroupShuffleXorINTEL                                               = 0x15c6
+    SubgroupBlockReadINTEL                                                = 0x15c7
+    SubgroupBlockWriteINTEL                                               = 0x15c8
+    SubgroupImageBlockReadINTEL                                           = 0x15c9
+    SubgroupImageBlockWriteINTEL                                          = 0x15ca
+    SubgroupImageMediaBlockReadINTEL                                      = 0x15cc
+    SubgroupImageMediaBlockWriteINTEL                                     = 0x15cd
+    UCountLeadingZerosINTEL                                               = 0x15d1
+    UCountTrailingZerosINTEL                                              = 0x15d2
+    AbsISubINTEL                                                          = 0x15d3
+    AbsUSubINTEL                                                          = 0x15d4
+    IAddSatINTEL                                                          = 0x15d5
+    UAddSatINTEL                                                          = 0x15d6
+    IAverageINTEL                                                         = 0x15d7
+    UAverageINTEL                                                         = 0x15d8
+    IAverageRoundedINTEL                                                  = 0x15d9
+    UAverageRoundedINTEL                                                  = 0x15da
+    ISubSatINTEL                                                          = 0x15db
+    USubSatINTEL                                                          = 0x15dc
+    IMul32x16INTEL                                                        = 0x15dd
+    UMul32x16INTEL                                                        = 0x15de
+    DecorateString                                                        = 0x1600
+    DecorateStringGOOGLE                                                  = 0x1600
+    MemberDecorateString                                                  = 0x1601
+    MemberDecorateStringGOOGLE                                            = 0x1601
+    VmeImageINTEL                                                         = 0x1643
+    TypeVmeImageINTEL                                                     = 0x1644
+    TypeAvcImePayloadINTEL                                                = 0x1645
+    TypeAvcRefPayloadINTEL                                                = 0x1646
+    TypeAvcSicPayloadINTEL                                                = 0x1647
+    TypeAvcMcePayloadINTEL                                                = 0x1648
+    TypeAvcMceResultINTEL                                                 = 0x1649
+    TypeAvcImeResultINTEL                                                 = 0x164a
+    TypeAvcImeResultSingleReferenceStreamoutINTEL                         = 0x164b
+    TypeAvcImeResultDualReferenceStreamoutINTEL                           = 0x164c
+    TypeAvcImeSingleReferenceStreaminINTEL                                = 0x164d
+    TypeAvcImeDualReferenceStreaminINTEL                                  = 0x164e
+    TypeAvcRefResultINTEL                                                 = 0x164f
+    TypeAvcSicResultINTEL                                                 = 0x1650
+    SubgroupAvcMceGetDefaultInterBaseMultiReferencePenaltyINTEL           = 0x1651
+    SubgroupAvcMceSetInterBaseMultiReferencePenaltyINTEL                  = 0x1652
+    SubgroupAvcMceGetDefaultInterShapePenaltyINTEL                        = 0x1653
+    SubgroupAvcMceSetInterShapePenaltyINTEL                               = 0x1654
+    SubgroupAvcMceGetDefaultInterDirectionPenaltyINTEL                    = 0x1655
+    SubgroupAvcMceSetInterDirectionPenaltyINTEL                           = 0x1656
+    SubgroupAvcMceGetDefaultIntraLumaShapePenaltyINTEL                    = 0x1657
+    SubgroupAvcMceGetDefaultInterMotionVectorCostTableINTEL               = 0x1658
+    SubgroupAvcMceGetDefaultHighPenaltyCostTableINTEL                     = 0x1659
+    SubgroupAvcMceGetDefaultMediumPenaltyCostTableINTEL                   = 0x165a
+    SubgroupAvcMceGetDefaultLowPenaltyCostTableINTEL                      = 0x165b
+    SubgroupAvcMceSetMotionVectorCostFunctionINTEL                        = 0x165c
+    SubgroupAvcMceGetDefaultIntraLumaModePenaltyINTEL                     = 0x165d
+    SubgroupAvcMceGetDefaultNonDcLumaIntraPenaltyINTEL                    = 0x165e
+    SubgroupAvcMceGetDefaultIntraChromaModeBasePenaltyINTEL               = 0x165f
+    SubgroupAvcMceSetAcOnlyHaarINTEL                                      = 0x1660
+    SubgroupAvcMceSetSourceInterlacedFieldPolarityINTEL                   = 0x1661
+    SubgroupAvcMceSetSingleReferenceInterlacedFieldPolarityINTEL          = 0x1662
+    SubgroupAvcMceSetDualReferenceInterlacedFieldPolaritiesINTEL          = 0x1663
+    SubgroupAvcMceConvertToImePayloadINTEL                                = 0x1664
+    SubgroupAvcMceConvertToImeResultINTEL                                 = 0x1665
+    SubgroupAvcMceConvertToRefPayloadINTEL                                = 0x1666
+    SubgroupAvcMceConvertToRefResultINTEL                                 = 0x1667
+    SubgroupAvcMceConvertToSicPayloadINTEL                                = 0x1668
+    SubgroupAvcMceConvertToSicResultINTEL                                 = 0x1669
+    SubgroupAvcMceGetMotionVectorsINTEL                                   = 0x166a
+    SubgroupAvcMceGetInterDistortionsINTEL                                = 0x166b
+    SubgroupAvcMceGetBestInterDistortionsINTEL                            = 0x166c
+    SubgroupAvcMceGetInterMajorShapeINTEL                                 = 0x166d
+    SubgroupAvcMceGetInterMinorShapeINTEL                                 = 0x166e
+    SubgroupAvcMceGetInterDirectionsINTEL                                 = 0x166f
+    SubgroupAvcMceGetInterMotionVectorCountINTEL                          = 0x1670
+    SubgroupAvcMceGetInterReferenceIdsINTEL                               = 0x1671
+    SubgroupAvcMceGetInterReferenceInterlacedFieldPolaritiesINTEL         = 0x1672
+    SubgroupAvcImeInitializeINTEL                                         = 0x1673
+    SubgroupAvcImeSetSingleReferenceINTEL                                 = 0x1674
+    SubgroupAvcImeSetDualReferenceINTEL                                   = 0x1675
+    SubgroupAvcImeRefWindowSizeINTEL                                      = 0x1676
+    SubgroupAvcImeAdjustRefOffsetINTEL                                    = 0x1677
+    SubgroupAvcImeConvertToMcePayloadINTEL                                = 0x1678
+    SubgroupAvcImeSetMaxMotionVectorCountINTEL                            = 0x1679
+    SubgroupAvcImeSetUnidirectionalMixDisableINTEL                        = 0x167a
+    SubgroupAvcImeSetEarlySearchTerminationThresholdINTEL                 = 0x167b
+    SubgroupAvcImeSetWeightedSadINTEL                                     = 0x167c
+    SubgroupAvcImeEvaluateWithSingleReferenceINTEL                        = 0x167d
+    SubgroupAvcImeEvaluateWithDualReferenceINTEL                          = 0x167e
+    SubgroupAvcImeEvaluateWithSingleReferenceStreaminINTEL                = 0x167f
+    SubgroupAvcImeEvaluateWithDualReferenceStreaminINTEL                  = 0x1680
+    SubgroupAvcImeEvaluateWithSingleReferenceStreamoutINTEL               = 0x1681
+    SubgroupAvcImeEvaluateWithDualReferenceStreamoutINTEL                 = 0x1682
+    SubgroupAvcImeEvaluateWithSingleReferenceStreaminoutINTEL             = 0x1683
+    SubgroupAvcImeEvaluateWithDualReferenceStreaminoutINTEL               = 0x1684
+    SubgroupAvcImeConvertToMceResultINTEL                                 = 0x1685
+    SubgroupAvcImeGetSingleReferenceStreaminINTEL                         = 0x1686
+    SubgroupAvcImeGetDualReferenceStreaminINTEL                           = 0x1687
+    SubgroupAvcImeStripSingleReferenceStreamoutINTEL                      = 0x1688
+    SubgroupAvcImeStripDualReferenceStreamoutINTEL                        = 0x1689
+    SubgroupAvcImeGetStreamoutSingleReferenceMajorShapeMotionVectorsINTEL = 0x168a
+    SubgroupAvcImeGetStreamoutSingleReferenceMajorShapeDistortionsINTEL   = 0x168b
+    SubgroupAvcImeGetStreamoutSingleReferenceMajorShapeReferenceIdsINTEL  = 0x168c
+    SubgroupAvcImeGetStreamoutDualReferenceMajorShapeMotionVectorsINTEL   = 0x168d
+    SubgroupAvcImeGetStreamoutDualReferenceMajorShapeDistortionsINTEL     = 0x168e
+    SubgroupAvcImeGetStreamoutDualReferenceMajorShapeReferenceIdsINTEL    = 0x168f
+    SubgroupAvcImeGetBorderReachedINTEL                                   = 0x1690
+    SubgroupAvcImeGetTruncatedSearchIndicationINTEL                       = 0x1691
+    SubgroupAvcImeGetUnidirectionalEarlySearchTerminationINTEL            = 0x1692
+    SubgroupAvcImeGetWeightingPatternMinimumMotionVectorINTEL             = 0x1693
+    SubgroupAvcImeGetWeightingPatternMinimumDistortionINTEL               = 0x1694
+    SubgroupAvcFmeInitializeINTEL                                         = 0x1695
+    SubgroupAvcBmeInitializeINTEL                                         = 0x1696
+    SubgroupAvcRefConvertToMcePayloadINTEL                                = 0x1697
+    SubgroupAvcRefSetBidirectionalMixDisableINTEL                         = 0x1698
+    SubgroupAvcRefSetBilinearFilterEnableINTEL                            = 0x1699
+    SubgroupAvcRefEvaluateWithSingleReferenceINTEL                        = 0x169a
+    SubgroupAvcRefEvaluateWithDualReferenceINTEL                          = 0x169b
+    SubgroupAvcRefEvaluateWithMultiReferenceINTEL                         = 0x169c
+    SubgroupAvcRefEvaluateWithMultiReferenceInterlacedINTEL               = 0x169d
+    SubgroupAvcRefConvertToMceResultINTEL                                 = 0x169e
+    SubgroupAvcSicInitializeINTEL                                         = 0x169f
+    SubgroupAvcSicConfigureSkcINTEL                                       = 0x16a0
+    SubgroupAvcSicConfigureIpeLumaINTEL                                   = 0x16a1
+    SubgroupAvcSicConfigureIpeLumaChromaINTEL                             = 0x16a2
+    SubgroupAvcSicGetMotionVectorMaskINTEL                                = 0x16a3
+    SubgroupAvcSicConvertToMcePayloadINTEL                                = 0x16a4
+    SubgroupAvcSicSetIntraLumaShapePenaltyINTEL                           = 0x16a5
+    SubgroupAvcSicSetIntraLumaModeCostFunctionINTEL                       = 0x16a6
+    SubgroupAvcSicSetIntraChromaModeCostFunctionINTEL                     = 0x16a7
+    SubgroupAvcSicSetBilinearFilterEnableINTEL                            = 0x16a8
+    SubgroupAvcSicSetSkcForwardTransformEnableINTEL                       = 0x16a9
+    SubgroupAvcSicSetBlockBasedRawSkipSadINTEL                            = 0x16aa
+    SubgroupAvcSicEvaluateIpeINTEL                                        = 0x16ab
+    SubgroupAvcSicEvaluateWithSingleReferenceINTEL                        = 0x16ac
+    SubgroupAvcSicEvaluateWithDualReferenceINTEL                          = 0x16ad
+    SubgroupAvcSicEvaluateWithMultiReferenceINTEL                         = 0x16ae
+    SubgroupAvcSicEvaluateWithMultiReferenceInterlacedINTEL               = 0x16af
+    SubgroupAvcSicConvertToMceResultINTEL                                 = 0x16b0
+    SubgroupAvcSicGetIpeLumaShapeINTEL                                    = 0x16b1
+    SubgroupAvcSicGetBestIpeLumaDistortionINTEL                           = 0x16b2
+    SubgroupAvcSicGetBestIpeChromaDistortionINTEL                         = 0x16b3
+    SubgroupAvcSicGetPackedIpeLumaModesINTEL                              = 0x16b4
+    SubgroupAvcSicGetIpeChromaModeINTEL                                   = 0x16b5
+    SubgroupAvcSicGetPackedSkcLumaCountThresholdINTEL                     = 0x16b6
+    SubgroupAvcSicGetPackedSkcLumaSumThresholdINTEL                       = 0x16b7
+    SubgroupAvcSicGetInterRawSadsINTEL                                    = 0x16b8
+    RayQueryGetRayTMinKHR                                                 = 0x1780
+    RayQueryGetRayFlagsKHR                                                = 0x1781
+    RayQueryGetIntersectionTKHR                                           = 0x1782
+    RayQueryGetIntersectionInstanceCustomIndexKHR                         = 0x1783
+    RayQueryGetIntersectionInstanceIdKHR                                  = 0x1784
+    RayQueryGetIntersectionInstanceShaderBindingTableRecordOffsetKHR      = 0x1785
+    RayQueryGetIntersectionGeometryIndexKHR                               = 0x1786
+    RayQueryGetIntersectionPrimitiveIndexKHR                              = 0x1787
+    RayQueryGetIntersectionBarycentricsKHR                                = 0x1788
+    RayQueryGetIntersectionFrontFaceKHR                                   = 0x1789
+    RayQueryGetIntersectionCandidateAABBOpaqueKHR                         = 0x178a
+    RayQueryGetIntersectionObjectRayDirectionKHR                          = 0x178b
+    RayQueryGetIntersectionObjectRayOriginKHR                             = 0x178c
+    RayQueryGetWorldRayDirectionKHR                                       = 0x178d
+    RayQueryGetWorldRayOriginKHR                                          = 0x178e
+    RayQueryGetIntersectionObjectToWorldKHR                               = 0x178f
+    RayQueryGetIntersectionWorldToObjectKHR                               = 0x1790
+    Max                                                                   = 0x7fffffff
+}
+spvc_result :: enum #copy #repr("C") #tag_type(i32) {
+    Success               = 0x0
+    ErrorInvalidSpirv     = -1
+    ErrorUnsupportedSpirv = -2
+    ErrorOutOfMemory      = -3
+    ErrorInvalidArgument  = -4
+    ErrorIntMax           = 0x7fffffff
+}
+spvc_capture_mode :: enum #copy #repr("C") #tag_type(i32) {
+    Copy          = 0x0
+    TakeOwnership = 0x1
+    IntMax        = 0x7fffffff
+}
+spvc_backend :: enum #copy #repr("C") #tag_type(i32) {
+    None   = 0x0
+    Glsl   = 0x1
+    Hlsl   = 0x2
+    Msl    = 0x3
+    Cpp    = 0x4
+    Json   = 0x5
+    IntMax = 0x7fffffff
+}
+spvc_resource_type :: enum #copy #repr("C") #tag_type(i32) {
+    Unknown               = 0x0
+    UniformBuffer         = 0x1
+    StorageBuffer         = 0x2
+    StageInput            = 0x3
+    StageOutput           = 0x4
+    SubpassInput          = 0x5
+    StorageImage          = 0x6
+    SampledImage          = 0x7
+    AtomicCounter         = 0x8
+    PushConstant          = 0x9
+    SeparateImage         = 0xa
+    SeparateSamplers      = 0xb
+    AccelerationStructure = 0xc
+    RayQuery              = 0xd
+    IntMax                = 0x7fffffff
+}
+spvc_basetype :: enum #copy #repr("C") #tag_type(i32) {
+    Unknown               = 0x0
+    Void                  = 0x1
+    Boolean               = 0x2
+    Int8                  = 0x3
+    Uint8                 = 0x4
+    Int16                 = 0x5
+    Uint16                = 0x6
+    Int32                 = 0x7
+    Uint32                = 0x8
+    Int64                 = 0x9
+    Uint64                = 0xa
+    AtomicCounter         = 0xb
+    Fp16                  = 0xc
+    Fp32                  = 0xd
+    Fp64                  = 0xe
+    Struct                = 0xf
+    Image                 = 0x10
+    SampledImage          = 0x11
+    Sampler               = 0x12
+    AccelerationStructure = 0x13
+    IntMax                = 0x7fffffff
+}
+spvc_msl_platform :: enum #copy #repr("C") #tag_type(i32) {
+    Ios    = 0x0
+    Macos  = 0x1
+    MaxInt = 0x7fffffff
+}
+spvc_msl_index_type :: enum #copy #repr("C") #tag_type(i32) {
+    None   = 0x0
+    Uint16 = 0x1
+    Uint32 = 0x2
+    MaxInt = 0x7fffffff
+}
+spvc_msl_shader_input_format :: enum #copy #repr("C") #tag_type(i32) {
+    Other              = 0x0
+    Uint8              = 0x1
+    Uint16             = 0x2
+    Any16              = 0x3
+    Any32              = 0x4
+    VertexFormatOther  = 0x0
+    VertexFormatUint8  = 0x1
+    VertexFormatUint16 = 0x2
+    IntMax             = 0x7fffffff
+}
+spvc_msl_sampler_coord :: enum #copy #repr("C") #tag_type(i32) {
+    Normalized = 0x0
+    Pixel      = 0x1
+    IntMax     = 0x7fffffff
+}
+spvc_msl_sampler_filter :: enum #copy #repr("C") #tag_type(i32) {
+    Nearest = 0x0
+    Linear  = 0x1
+    IntMax  = 0x7fffffff
+}
+spvc_msl_sampler_mip_filter :: enum #copy #repr("C") #tag_type(i32) {
+    None    = 0x0
+    Nearest = 0x1
+    Linear  = 0x2
+    IntMax  = 0x7fffffff
+}
+spvc_msl_sampler_address :: enum #copy #repr("C") #tag_type(i32) {
+    ClampToZero    = 0x0
+    ClampToEdge    = 0x1
+    ClampToBorder  = 0x2
+    Repeat         = 0x3
+    MirroredRepeat = 0x4
+    IntMax         = 0x7fffffff
+}
+spvc_msl_sampler_compare_func :: enum #copy #repr("C") #tag_type(i32) {
+    Never        = 0x0
+    Less         = 0x1
+    LessEqual    = 0x2
+    Greater      = 0x3
+    GreaterEqual = 0x4
+    Equal        = 0x5
+    NotEqual     = 0x6
+    Always       = 0x7
+    IntMax       = 0x7fffffff
+}
+spvc_msl_sampler_border_color :: enum #copy #repr("C") #tag_type(i32) {
+    TransparentBlack = 0x0
+    OpaqueBlack      = 0x1
+    OpaqueWhite      = 0x2
+    IntMax           = 0x7fffffff
+}
+spvc_msl_format_resolution :: enum #copy #repr("C") #tag_type(i32) {
+    _444   = 0x0
+    _422   = 0x1
+    _420   = 0x2
+    IntMax = 0x7fffffff
+}
+spvc_msl_chroma_location :: enum #copy #repr("C") #tag_type(i32) {
+    CositedEven = 0x0
+    Midpoint    = 0x1
+    IntMax      = 0x7fffffff
+}
+spvc_msl_component_swizzle :: enum #copy #repr("C") #tag_type(i32) {
+    Identity = 0x0
+    Zero     = 0x1
+    One      = 0x2
+    R        = 0x3
+    G        = 0x4
+    B        = 0x5
+    A        = 0x6
+    IntMax   = 0x7fffffff
+}
+spvc_msl_sampler_ycbcr_model_conversion :: enum #copy #repr("C") #tag_type(i32) {
+    RgbIdentity   = 0x0
+    YcbcrIdentity = 0x1
+    YcbcrBt709    = 0x2
+    YcbcrBt601    = 0x3
+    YcbcrBt2020   = 0x4
+    IntMax        = 0x7fffffff
+}
+spvc_msl_sampler_ycbcr_range :: enum #copy #repr("C") #tag_type(i32) {
+    ItuFull   = 0x0
+    ItuNarrow = 0x1
+    IntMax    = 0x7fffffff
+}
+spvc_hlsl_binding_flag_bits :: enum #copy #repr("C") #tag_type(i32) {
+    AutoNoneBit         = 0x0
+    AutoPushConstantBit = 0x1
+    AutoCbvBit          = 0x2
+    AutoSrvBit          = 0x4
+    AutoUavBit          = 0x8
+    AutoSamplerBit      = 0x10
+    AutoAll             = 0x7fffffff
+}
+spvc_compiler_option :: enum #copy #repr("C") #tag_type(i32) {
+    Unknown                                  = 0x0
+    ForceTemporary                           = 0x1000001
+    FlattenMultidimensionalArrays            = 0x1000002
+    FixupDepthConvention                     = 0x1000003
+    FlipVertexY                              = 0x1000004
+    GlslSupportNonzeroBaseInstance           = 0x2000005
+    GlslSeparateShaderObjects                = 0x2000006
+    GlslEnable420packExtension               = 0x2000007
+    GlslVersion                              = 0x2000008
+    GlslEs                                   = 0x2000009
+    GlslVulkanSemantics                      = 0x200000a
+    GlslEsDefaultFloatPrecisionHighp         = 0x200000b
+    GlslEsDefaultIntPrecisionHighp           = 0x200000c
+    HlslShaderModel                          = 0x400000d
+    HlslPointSizeCompat                      = 0x400000e
+    HlslPointCoordCompat                     = 0x400000f
+    HlslSupportNonzeroBaseVertexBaseInstance = 0x4000010
+    MslVersion                               = 0x8000011
+    MslTexelBufferTextureWidth               = 0x8000012
+    MslAuxBufferIndex                        = 0x8000013
+    MslSwizzleBufferIndex                    = 0x8000013
+    MslIndirectParamsBufferIndex             = 0x8000014
+    MslShaderOutputBufferIndex               = 0x8000015
+    MslShaderPatchOutputBufferIndex          = 0x8000016
+    MslShaderTessFactorOutputBufferIndex     = 0x8000017
+    MslShaderInputWorkgroupIndex             = 0x8000018
+    MslEnablePointSizeBuiltin                = 0x8000019
+    MslDisableRasterization                  = 0x800001a
+    MslCaptureOutputToBuffer                 = 0x800001b
+    MslSwizzleTextureSamples                 = 0x800001c
+    MslPadFragmentOutputComponents           = 0x800001d
+    MslTessDomainOriginLowerLeft             = 0x800001e
+    MslPlatform                              = 0x800001f
+    MslArgumentBuffers                       = 0x8000020
+    GlslEmitPushConstantAsUniformBuffer      = 0x2000021
+    MslTextureBufferNative                   = 0x8000022
+    GlslEmitUniformBufferAsPlainUniforms     = 0x2000023
+    MslBufferSizeBufferIndex                 = 0x8000024
+    EmitLineDirectives                       = 0x1000025
+    MslMultiview                             = 0x8000026
+    MslViewMaskBufferIndex                   = 0x8000027
+    MslDeviceIndex                           = 0x8000028
+    MslViewIndexFromDeviceIndex              = 0x8000029
+    MslDispatchBase                          = 0x800002a
+    MslDynamicOffsetsBufferIndex             = 0x800002b
+    MslTexture1dAs2d                         = 0x800002c
+    MslEnableBaseIndexZero                   = 0x800002d
+    MslIosFramebufferFetchSubpass            = 0x800002e
+    MslInvariantFpMath                       = 0x800002f
+    MslEmulateCubemapArray                   = 0x8000030
+    MslEnableDecorationBinding               = 0x8000031
+    MslForceActiveArgumentBufferResources    = 0x8000032
+    MslForceNativeArrays                     = 0x8000033
+    EnableStorageImageQualifierDeduction     = 0x1000034
+    HlslForceStorageBufferAsUav              = 0x4000035
+    ForceZeroInitializedVariables            = 0x1000036
+    HlslNonwritableUavTextureAsSrv           = 0x4000037
+    MslEnableFragOutputMask                  = 0x8000038
+    MslEnableFragDepthBuiltin                = 0x8000039
+    MslEnableFragStencilRefBuiltin           = 0x800003a
+    MslEnableClipDistanceUserVarying         = 0x800003b
+    HlslEnable16bitTypes                     = 0x400003c
+    MslMultiPatchWorkgroup                   = 0x800003d
+    MslShaderInputBufferIndex                = 0x800003e
+    MslShaderIndexBufferIndex                = 0x800003f
+    MslVertexForTessellation                 = 0x8000040
+    MslVertexIndexType                       = 0x8000041
+    IntMax                                   = 0x7fffffff
+}
+spvc_reflected_resource :: struct #copy {
+    id : spvc_variable_id = default
+    base_type_id : spvc_type_id = default
+    type_id : spvc_type_id = default
+    name : ^char8 = default
+}
+spvc_entry_point :: struct #copy {
+    execution_model : SpvExecutionModel = default
+    name : ^char8 = default
+}
+spvc_combined_image_sampler :: struct #copy {
+    combined_id : spvc_variable_id = default
+    image_id : spvc_variable_id = default
+    sampler_id : spvc_variable_id = default
+}
+spvc_specialization_constant :: struct #copy {
+    id : spvc_constant_id = default
+    constant_id : u32 = default
+}
+spvc_buffer_range :: struct #copy {
+    index : u32 = default
+    offset : size_t = default
+    range : size_t = default
+}
+spvc_hlsl_root_constants :: struct #copy {
+    start : u32 = default
+    end : u32 = default
+    binding : u32 = default
+    space : u32 = default
+}
+spvc_hlsl_vertex_attribute_remap :: struct #copy {
+    location : u32 = default
+    semantic : ^char8 = default
+}
+spvc_msl_vertex_attribute :: struct #copy {
+    location : u32 = default
+    msl_buffer : u32 = default
+    msl_offset : u32 = default
+    msl_stride : u32 = default
+    per_instance : spvc_bool = default
+    format : spvc_msl_vertex_format = default
+    builtin : SpvBuiltIn = default
+}
+spvc_msl_shader_input :: struct #copy {
+    location : u32 = default
+    format : spvc_msl_vertex_format = default
+    builtin : SpvBuiltIn = default
+    vecsize : u32 = default
+}
+spvc_msl_resource_binding :: struct #copy {
+    stage : SpvExecutionModel = default
+    desc_set : u32 = default
+    binding : u32 = default
+    msl_buffer : u32 = default
+    msl_texture : u32 = default
+    msl_sampler : u32 = default
+}
+spvc_msl_constexpr_sampler :: struct #copy {
+    coord : spvc_msl_sampler_coord = default
+    min_filter : spvc_msl_sampler_filter = default
+    mag_filter : spvc_msl_sampler_filter = default
+    mip_filter : spvc_msl_sampler_mip_filter = default
+    s_address : spvc_msl_sampler_address = default
+    t_address : spvc_msl_sampler_address = default
+    r_address : spvc_msl_sampler_address = default
+    compare_func : spvc_msl_sampler_compare_func = default
+    border_color : spvc_msl_sampler_border_color = default
+    lod_clamp_min : f32 = default
+    lod_clamp_max : f32 = default
+    max_anisotropy : i32 = default
+    compare_enable : spvc_bool = default
+    lod_clamp_enable : spvc_bool = default
+    anisotropy_enable : spvc_bool = default
+}
+spvc_msl_sampler_ycbcr_conversion :: struct #copy {
+    planes : u32 = default
+    resolution : spvc_msl_format_resolution = default
+    chroma_filter : spvc_msl_sampler_filter = default
+    x_chroma_offset : spvc_msl_chroma_location = default
+    y_chroma_offset : spvc_msl_chroma_location = default
+    swizzle : [4]spvc_msl_component_swizzle = default
+    ycbcr_model : spvc_msl_sampler_ycbcr_model_conversion = default
+    ycbcr_range : spvc_msl_sampler_ycbcr_range = default
+    bpc : u32 = default
+}
+spvc_hlsl_resource_binding_mapping :: struct #copy {
+    register_space : u32 = default
+    register_binding : u32 = default
+}
+spvc_hlsl_resource_binding :: struct #copy {
+    stage : SpvExecutionModel = default
+    desc_set : u32 = default
+    binding : u32 = default
+    cbv : spvc_hlsl_resource_binding_mapping = default
+    uav : spvc_hlsl_resource_binding_mapping = default
+    srv : spvc_hlsl_resource_binding_mapping = default
+    sampler : spvc_hlsl_resource_binding_mapping = default
+}
+spvc_get_version :: (_major: ^mut u32, _minor: ^mut u32, _patch: ^mut u32) {
+    __c__spvc_get_version(_major, _minor, _patch)
+}
+spvc_get_commit_revision_and_timestamp :: () -> ^char8 {
+    mut result : ^char8 = default
+    __c__spvc_get_commit_revision_and_timestamp(^result)
+    return result
+}
+spvc_msl_vertex_attribute_init :: (_attr: ^mut spvc_msl_vertex_attribute) {
+    __c__spvc_msl_vertex_attribute_init(_attr)
+}
+spvc_msl_shader_input_init :: (_input: ^mut spvc_msl_shader_input) {
+    __c__spvc_msl_shader_input_init(_input)
+}
+spvc_msl_resource_binding_init :: (_binding: ^mut spvc_msl_resource_binding) {
+    __c__spvc_msl_resource_binding_init(_binding)
+}
+spvc_msl_get_aux_buffer_struct_version :: () -> u32 {
+    mut result : u32 = default
+    __c__spvc_msl_get_aux_buffer_struct_version(^result)
+    return result
+}
+spvc_msl_constexpr_sampler_init :: (_sampler: ^mut spvc_msl_constexpr_sampler) {
+    __c__spvc_msl_constexpr_sampler_init(_sampler)
+}
+spvc_msl_sampler_ycbcr_conversion_init :: (_conv: ^mut spvc_msl_sampler_ycbcr_conversion) {
+    __c__spvc_msl_sampler_ycbcr_conversion_init(_conv)
+}
+spvc_hlsl_resource_binding_init :: (_binding: ^mut spvc_hlsl_resource_binding) {
+    __c__spvc_hlsl_resource_binding_init(_binding)
+}
+spvc_context_create :: (_context: ^mut spvc_context) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_context_create(^result, _context)
+    return result
+}
+spvc_context_destroy :: (_context: spvc_context) {
+    __c__spvc_context_destroy(_context)
+}
+spvc_context_release_allocations :: (_context: spvc_context) {
+    __c__spvc_context_release_allocations(_context)
+}
+spvc_context_get_last_error_string :: (_context: spvc_context) -> ^char8 {
+    mut result : ^char8 = default
+    __c__spvc_context_get_last_error_string(^result, _context)
+    return result
+}
+spvc_context_set_error_callback :: (_context: spvc_context, _cb: spvc_error_callback, _userdata: ^mut void) {
+    __c__spvc_context_set_error_callback(_context, _cb, _userdata)
+}
+spvc_context_parse_spirv :: (_context: spvc_context, _spirv: ^mut SpvId, _word_count: size_t, _parsed_ir: ^mut spvc_parsed_ir) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_context_parse_spirv(^result, _context, _spirv, _word_count, _parsed_ir)
+    return result
+}
+spvc_context_create_compiler :: (_context: spvc_context, _backend: spvc_backend, _parsed_ir: spvc_parsed_ir, _mode: spvc_capture_mode, _compiler: ^mut spvc_compiler) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_context_create_compiler(^result, _context, _backend, _parsed_ir, _mode, _compiler)
+    return result
+}
+spvc_compiler_get_current_id_bound :: (_compiler: spvc_compiler) -> u32 {
+    mut result : u32 = default
+    __c__spvc_compiler_get_current_id_bound(^result, _compiler)
+    return result
+}
+spvc_compiler_create_compiler_options :: (_compiler: spvc_compiler, _options: ^mut spvc_compiler_options) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_create_compiler_options(^result, _compiler, _options)
+    return result
+}
+spvc_compiler_options_set_bool :: (_options: spvc_compiler_options, _option: spvc_compiler_option, _value: spvc_bool) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_options_set_bool(^result, _options, _option, _value)
+    return result
+}
+spvc_compiler_options_set_uint :: (_options: spvc_compiler_options, _option: spvc_compiler_option, _value: u32) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_options_set_uint(^result, _options, _option, _value)
+    return result
+}
+spvc_compiler_install_compiler_options :: (_compiler: spvc_compiler, _options: spvc_compiler_options) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_install_compiler_options(^result, _compiler, _options)
+    return result
+}
+spvc_compiler_compile :: (_compiler: spvc_compiler, _source: ^mut ^char8) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_compile(^result, _compiler, _source)
+    return result
+}
+spvc_compiler_add_header_line :: (_compiler: spvc_compiler, _line: ^char8) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_add_header_line(^result, _compiler, _line)
+    return result
+}
+spvc_compiler_require_extension :: (_compiler: spvc_compiler, _ext: ^char8) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_require_extension(^result, _compiler, _ext)
+    return result
+}
+spvc_compiler_flatten_buffer_block :: (_compiler: spvc_compiler, _id: spvc_variable_id) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_flatten_buffer_block(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_variable_is_depth_or_compare :: (_compiler: spvc_compiler, _id: spvc_variable_id) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_variable_is_depth_or_compare(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_hlsl_set_root_constants_layout :: (_compiler: spvc_compiler, _constant_info: ^mut spvc_hlsl_root_constants, _count: size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_hlsl_set_root_constants_layout(^result, _compiler, _constant_info, _count)
+    return result
+}
+spvc_compiler_hlsl_add_vertex_attribute_remap :: (_compiler: spvc_compiler, _remap: ^mut spvc_hlsl_vertex_attribute_remap, _remaps: size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_hlsl_add_vertex_attribute_remap(^result, _compiler, _remap, _remaps)
+    return result
+}
+spvc_compiler_hlsl_remap_num_workgroups_builtin :: (_compiler: spvc_compiler) -> spvc_variable_id {
+    mut result : spvc_variable_id = default
+    __c__spvc_compiler_hlsl_remap_num_workgroups_builtin(^result, _compiler)
+    return result
+}
+spvc_compiler_hlsl_set_resource_binding_flags :: (_compiler: spvc_compiler, _flags: spvc_hlsl_binding_flags) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_hlsl_set_resource_binding_flags(^result, _compiler, _flags)
+    return result
+}
+spvc_compiler_hlsl_add_resource_binding :: (_compiler: spvc_compiler, _binding: ^mut spvc_hlsl_resource_binding) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_hlsl_add_resource_binding(^result, _compiler, _binding)
+    return result
+}
+spvc_compiler_hlsl_is_resource_used :: (_compiler: spvc_compiler, _model: SpvExecutionModel, _set: u32, _binding: u32) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_hlsl_is_resource_used(^result, _compiler, _model, _set, _binding)
+    return result
+}
+spvc_compiler_msl_is_rasterization_disabled :: (_compiler: spvc_compiler) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_is_rasterization_disabled(^result, _compiler)
+    return result
+}
+spvc_compiler_msl_needs_aux_buffer :: (_compiler: spvc_compiler) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_needs_aux_buffer(^result, _compiler)
+    return result
+}
+spvc_compiler_msl_needs_swizzle_buffer :: (_compiler: spvc_compiler) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_needs_swizzle_buffer(^result, _compiler)
+    return result
+}
+spvc_compiler_msl_needs_buffer_size_buffer :: (_compiler: spvc_compiler) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_needs_buffer_size_buffer(^result, _compiler)
+    return result
+}
+spvc_compiler_msl_needs_output_buffer :: (_compiler: spvc_compiler) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_needs_output_buffer(^result, _compiler)
+    return result
+}
+spvc_compiler_msl_needs_patch_output_buffer :: (_compiler: spvc_compiler) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_needs_patch_output_buffer(^result, _compiler)
+    return result
+}
+spvc_compiler_msl_needs_input_threadgroup_mem :: (_compiler: spvc_compiler) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_needs_input_threadgroup_mem(^result, _compiler)
+    return result
+}
+spvc_compiler_msl_add_vertex_attribute :: (_compiler: spvc_compiler, _attrs: ^mut spvc_msl_vertex_attribute) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_add_vertex_attribute(^result, _compiler, _attrs)
+    return result
+}
+spvc_compiler_msl_add_resource_binding :: (_compiler: spvc_compiler, _binding: ^mut spvc_msl_resource_binding) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_add_resource_binding(^result, _compiler, _binding)
+    return result
+}
+spvc_compiler_msl_add_shader_input :: (_compiler: spvc_compiler, _input: ^mut spvc_msl_shader_input) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_add_shader_input(^result, _compiler, _input)
+    return result
+}
+spvc_compiler_msl_add_discrete_descriptor_set :: (_compiler: spvc_compiler, _desc_set: u32) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_add_discrete_descriptor_set(^result, _compiler, _desc_set)
+    return result
+}
+spvc_compiler_msl_set_argument_buffer_device_address_space :: (_compiler: spvc_compiler, _desc_set: u32, _device_address: spvc_bool) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_set_argument_buffer_device_address_space(^result, _compiler, _desc_set, _device_address)
+    return result
+}
+spvc_compiler_msl_is_vertex_attribute_used :: (_compiler: spvc_compiler, _location: u32) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_is_vertex_attribute_used(^result, _compiler, _location)
+    return result
+}
+spvc_compiler_msl_is_shader_input_used :: (_compiler: spvc_compiler, _location: u32) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_is_shader_input_used(^result, _compiler, _location)
+    return result
+}
+spvc_compiler_msl_is_resource_used :: (_compiler: spvc_compiler, _model: SpvExecutionModel, _set: u32, _binding: u32) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_msl_is_resource_used(^result, _compiler, _model, _set, _binding)
+    return result
+}
+spvc_compiler_msl_remap_constexpr_sampler :: (_compiler: spvc_compiler, _id: spvc_variable_id, _sampler: ^mut spvc_msl_constexpr_sampler) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_remap_constexpr_sampler(^result, _compiler, _id, _sampler)
+    return result
+}
+spvc_compiler_msl_remap_constexpr_sampler_by_binding :: (_compiler: spvc_compiler, _desc_set: u32, _binding: u32, _sampler: ^mut spvc_msl_constexpr_sampler) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_remap_constexpr_sampler_by_binding(^result, _compiler, _desc_set, _binding, _sampler)
+    return result
+}
+spvc_compiler_msl_remap_constexpr_sampler_ycbcr :: (_compiler: spvc_compiler, _id: spvc_variable_id, _sampler: ^mut spvc_msl_constexpr_sampler, _conv: ^mut spvc_msl_sampler_ycbcr_conversion) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_remap_constexpr_sampler_ycbcr(^result, _compiler, _id, _sampler, _conv)
+    return result
+}
+spvc_compiler_msl_remap_constexpr_sampler_by_binding_ycbcr :: (_compiler: spvc_compiler, _desc_set: u32, _binding: u32, _sampler: ^mut spvc_msl_constexpr_sampler, _conv: ^mut spvc_msl_sampler_ycbcr_conversion) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_remap_constexpr_sampler_by_binding_ycbcr(^result, _compiler, _desc_set, _binding, _sampler, _conv)
+    return result
+}
+spvc_compiler_msl_set_fragment_output_components :: (_compiler: spvc_compiler, _location: u32, _components: u32) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_set_fragment_output_components(^result, _compiler, _location, _components)
+    return result
+}
+spvc_compiler_msl_get_automatic_resource_binding :: (_compiler: spvc_compiler, _id: spvc_variable_id) -> u32 {
+    mut result : u32 = default
+    __c__spvc_compiler_msl_get_automatic_resource_binding(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_msl_get_automatic_resource_binding_secondary :: (_compiler: spvc_compiler, _id: spvc_variable_id) -> u32 {
+    mut result : u32 = default
+    __c__spvc_compiler_msl_get_automatic_resource_binding_secondary(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_msl_add_dynamic_buffer :: (_compiler: spvc_compiler, _desc_set: u32, _binding: u32, _index: u32) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_add_dynamic_buffer(^result, _compiler, _desc_set, _binding, _index)
+    return result
+}
+spvc_compiler_msl_add_inline_uniform_block :: (_compiler: spvc_compiler, _desc_set: u32, _binding: u32) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_msl_add_inline_uniform_block(^result, _compiler, _desc_set, _binding)
+    return result
+}
+spvc_compiler_get_active_interface_variables :: (_compiler: spvc_compiler, _set: ^mut spvc_set) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_active_interface_variables(^result, _compiler, _set)
+    return result
+}
+spvc_compiler_set_enabled_interface_variables :: (_compiler: spvc_compiler, _set: spvc_set) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_set_enabled_interface_variables(^result, _compiler, _set)
+    return result
+}
+spvc_compiler_create_shader_resources :: (_compiler: spvc_compiler, _resources: ^mut spvc_resources) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_create_shader_resources(^result, _compiler, _resources)
+    return result
+}
+spvc_compiler_create_shader_resources_for_active_variables :: (_compiler: spvc_compiler, _resources: ^mut spvc_resources, _active: spvc_set) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_create_shader_resources_for_active_variables(^result, _compiler, _resources, _active)
+    return result
+}
+spvc_resources_get_resource_list_for_type :: (_resources: spvc_resources, _type: spvc_resource_type, _resource_list: ^mut ^mut spvc_reflected_resource, _resource_size: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_resources_get_resource_list_for_type(^result, _resources, _type, _resource_list, _resource_size)
+    return result
+}
+spvc_compiler_set_decoration :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration, _argument: u32) {
+    __c__spvc_compiler_set_decoration(_compiler, _id, _decoration, _argument)
+}
+spvc_compiler_set_decoration_string :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration, _argument: ^char8) {
+    __c__spvc_compiler_set_decoration_string(_compiler, _id, _decoration, _argument)
+}
+spvc_compiler_set_name :: (_compiler: spvc_compiler, _id: SpvId, _argument: ^char8) {
+    __c__spvc_compiler_set_name(_compiler, _id, _argument)
+}
+spvc_compiler_set_member_decoration :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration, _argument: u32) {
+    __c__spvc_compiler_set_member_decoration(_compiler, _id, _member_index, _decoration, _argument)
+}
+spvc_compiler_set_member_decoration_string :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration, _argument: ^char8) {
+    __c__spvc_compiler_set_member_decoration_string(_compiler, _id, _member_index, _decoration, _argument)
+}
+spvc_compiler_set_member_name :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _argument: ^char8) {
+    __c__spvc_compiler_set_member_name(_compiler, _id, _member_index, _argument)
+}
+spvc_compiler_unset_decoration :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration) {
+    __c__spvc_compiler_unset_decoration(_compiler, _id, _decoration)
+}
+spvc_compiler_unset_member_decoration :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration) {
+    __c__spvc_compiler_unset_member_decoration(_compiler, _id, _member_index, _decoration)
+}
+spvc_compiler_has_decoration :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_has_decoration(^result, _compiler, _id, _decoration)
+    return result
+}
+spvc_compiler_has_member_decoration :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_has_member_decoration(^result, _compiler, _id, _member_index, _decoration)
+    return result
+}
+spvc_compiler_get_name :: (_compiler: spvc_compiler, _id: SpvId) -> ^char8 {
+    mut result : ^char8 = default
+    __c__spvc_compiler_get_name(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_get_decoration :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration) -> u32 {
+    mut result : u32 = default
+    __c__spvc_compiler_get_decoration(^result, _compiler, _id, _decoration)
+    return result
+}
+spvc_compiler_get_decoration_string :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration) -> ^char8 {
+    mut result : ^char8 = default
+    __c__spvc_compiler_get_decoration_string(^result, _compiler, _id, _decoration)
+    return result
+}
+spvc_compiler_get_member_decoration :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration) -> u32 {
+    mut result : u32 = default
+    __c__spvc_compiler_get_member_decoration(^result, _compiler, _id, _member_index, _decoration)
+    return result
+}
+spvc_compiler_get_member_decoration_string :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration) -> ^char8 {
+    mut result : ^char8 = default
+    __c__spvc_compiler_get_member_decoration_string(^result, _compiler, _id, _member_index, _decoration)
+    return result
+}
+spvc_compiler_get_member_name :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32) -> ^char8 {
+    mut result : ^char8 = default
+    __c__spvc_compiler_get_member_name(^result, _compiler, _id, _member_index)
+    return result
+}
+spvc_compiler_get_entry_points :: (_compiler: spvc_compiler, _entry_points: ^mut ^mut spvc_entry_point, _num_entry_points: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_entry_points(^result, _compiler, _entry_points, _num_entry_points)
+    return result
+}
+spvc_compiler_set_entry_point :: (_compiler: spvc_compiler, _name: ^char8, _model: SpvExecutionModel) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_set_entry_point(^result, _compiler, _name, _model)
+    return result
+}
+spvc_compiler_rename_entry_point :: (_compiler: spvc_compiler, _old_name: ^char8, _new_name: ^char8, _model: SpvExecutionModel) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_rename_entry_point(^result, _compiler, _old_name, _new_name, _model)
+    return result
+}
+spvc_compiler_get_cleansed_entry_point_name :: (_compiler: spvc_compiler, _name: ^char8, _model: SpvExecutionModel) -> ^char8 {
+    mut result : ^char8 = default
+    __c__spvc_compiler_get_cleansed_entry_point_name(^result, _compiler, _name, _model)
+    return result
+}
+spvc_compiler_set_execution_mode :: (_compiler: spvc_compiler, _mode: SpvExecutionMode) {
+    __c__spvc_compiler_set_execution_mode(_compiler, _mode)
+}
+spvc_compiler_unset_execution_mode :: (_compiler: spvc_compiler, _mode: SpvExecutionMode) {
+    __c__spvc_compiler_unset_execution_mode(_compiler, _mode)
+}
+spvc_compiler_set_execution_mode_with_arguments :: (_compiler: spvc_compiler, _mode: SpvExecutionMode, _arg0: u32, _arg1: u32, _arg2: u32) {
+    __c__spvc_compiler_set_execution_mode_with_arguments(_compiler, _mode, _arg0, _arg1, _arg2)
+}
+spvc_compiler_get_execution_modes :: (_compiler: spvc_compiler, _modes: ^mut ^mut SpvExecutionMode, _num_modes: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_execution_modes(^result, _compiler, _modes, _num_modes)
+    return result
+}
+spvc_compiler_get_execution_mode_argument :: (_compiler: spvc_compiler, _mode: SpvExecutionMode) -> u32 {
+    mut result : u32 = default
+    __c__spvc_compiler_get_execution_mode_argument(^result, _compiler, _mode)
+    return result
+}
+spvc_compiler_get_execution_mode_argument_by_index :: (_compiler: spvc_compiler, _mode: SpvExecutionMode, _index: u32) -> u32 {
+    mut result : u32 = default
+    __c__spvc_compiler_get_execution_mode_argument_by_index(^result, _compiler, _mode, _index)
+    return result
+}
+spvc_compiler_get_execution_model :: (_compiler: spvc_compiler) -> SpvExecutionModel {
+    mut result : SpvExecutionModel = default
+    __c__spvc_compiler_get_execution_model(^result, _compiler)
+    return result
+}
+spvc_compiler_get_type_handle :: (_compiler: spvc_compiler, _id: spvc_type_id) -> spvc_type {
+    mut result : spvc_type = default
+    __c__spvc_compiler_get_type_handle(^result, _compiler, _id)
+    return result
+}
+spvc_type_get_base_type_id :: (_type: spvc_type) -> spvc_type_id {
+    mut result : spvc_type_id = default
+    __c__spvc_type_get_base_type_id(^result, _type)
+    return result
+}
+spvc_type_get_basetype :: (_type: spvc_type) -> spvc_basetype {
+    mut result : spvc_basetype = default
+    __c__spvc_type_get_basetype(^result, _type)
+    return result
+}
+spvc_type_get_bit_width :: (_type: spvc_type) -> u32 {
+    mut result : u32 = default
+    __c__spvc_type_get_bit_width(^result, _type)
+    return result
+}
+spvc_type_get_vector_size :: (_type: spvc_type) -> u32 {
+    mut result : u32 = default
+    __c__spvc_type_get_vector_size(^result, _type)
+    return result
+}
+spvc_type_get_columns :: (_type: spvc_type) -> u32 {
+    mut result : u32 = default
+    __c__spvc_type_get_columns(^result, _type)
+    return result
+}
+spvc_type_get_num_array_dimensions :: (_type: spvc_type) -> u32 {
+    mut result : u32 = default
+    __c__spvc_type_get_num_array_dimensions(^result, _type)
+    return result
+}
+spvc_type_array_dimension_is_literal :: (_type: spvc_type, _dimension: u32) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_type_array_dimension_is_literal(^result, _type, _dimension)
+    return result
+}
+spvc_type_get_array_dimension :: (_type: spvc_type, _dimension: u32) -> SpvId {
+    mut result : SpvId = default
+    __c__spvc_type_get_array_dimension(^result, _type, _dimension)
+    return result
+}
+spvc_type_get_num_member_types :: (_type: spvc_type) -> u32 {
+    mut result : u32 = default
+    __c__spvc_type_get_num_member_types(^result, _type)
+    return result
+}
+spvc_type_get_member_type :: (_type: spvc_type, _index: u32) -> spvc_type_id {
+    mut result : spvc_type_id = default
+    __c__spvc_type_get_member_type(^result, _type, _index)
+    return result
+}
+spvc_type_get_storage_class :: (_type: spvc_type) -> SpvStorageClass {
+    mut result : SpvStorageClass = default
+    __c__spvc_type_get_storage_class(^result, _type)
+    return result
+}
+spvc_type_get_image_sampled_type :: (_type: spvc_type) -> spvc_type_id {
+    mut result : spvc_type_id = default
+    __c__spvc_type_get_image_sampled_type(^result, _type)
+    return result
+}
+spvc_type_get_image_dimension :: (_type: spvc_type) -> SpvDim {
+    mut result : SpvDim = default
+    __c__spvc_type_get_image_dimension(^result, _type)
+    return result
+}
+spvc_type_get_image_is_depth :: (_type: spvc_type) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_type_get_image_is_depth(^result, _type)
+    return result
+}
+spvc_type_get_image_arrayed :: (_type: spvc_type) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_type_get_image_arrayed(^result, _type)
+    return result
+}
+spvc_type_get_image_multisampled :: (_type: spvc_type) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_type_get_image_multisampled(^result, _type)
+    return result
+}
+spvc_type_get_image_is_storage :: (_type: spvc_type) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_type_get_image_is_storage(^result, _type)
+    return result
+}
+spvc_type_get_image_storage_format :: (_type: spvc_type) -> SpvImageFormat {
+    mut result : SpvImageFormat = default
+    __c__spvc_type_get_image_storage_format(^result, _type)
+    return result
+}
+spvc_type_get_image_access_qualifier :: (_type: spvc_type) -> SpvAccessQualifier {
+    mut result : SpvAccessQualifier = default
+    __c__spvc_type_get_image_access_qualifier(^result, _type)
+    return result
+}
+spvc_compiler_get_declared_struct_size :: (_compiler: spvc_compiler, _struct_type: spvc_type, _size: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_declared_struct_size(^result, _compiler, _struct_type, _size)
+    return result
+}
+spvc_compiler_get_declared_struct_size_runtime_array :: (_compiler: spvc_compiler, _struct_type: spvc_type, _array_size: size_t, _size: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_declared_struct_size_runtime_array(^result, _compiler, _struct_type, _array_size, _size)
+    return result
+}
+spvc_compiler_get_declared_struct_member_size :: (_compiler: spvc_compiler, _type: spvc_type, _index: u32, _size: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_declared_struct_member_size(^result, _compiler, _type, _index, _size)
+    return result
+}
+spvc_compiler_type_struct_member_offset :: (_compiler: spvc_compiler, _type: spvc_type, _index: u32, _offset: ^mut u32) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_type_struct_member_offset(^result, _compiler, _type, _index, _offset)
+    return result
+}
+spvc_compiler_type_struct_member_array_stride :: (_compiler: spvc_compiler, _type: spvc_type, _index: u32, _stride: ^mut u32) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_type_struct_member_array_stride(^result, _compiler, _type, _index, _stride)
+    return result
+}
+spvc_compiler_type_struct_member_matrix_stride :: (_compiler: spvc_compiler, _type: spvc_type, _index: u32, _stride: ^mut u32) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_type_struct_member_matrix_stride(^result, _compiler, _type, _index, _stride)
+    return result
+}
+spvc_compiler_build_dummy_sampler_for_combined_images :: (_compiler: spvc_compiler, _id: ^mut spvc_variable_id) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_build_dummy_sampler_for_combined_images(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_build_combined_image_samplers :: (_compiler: spvc_compiler) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_build_combined_image_samplers(^result, _compiler)
+    return result
+}
+spvc_compiler_get_combined_image_samplers :: (_compiler: spvc_compiler, _samplers: ^mut ^mut spvc_combined_image_sampler, _num_samplers: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_combined_image_samplers(^result, _compiler, _samplers, _num_samplers)
+    return result
+}
+spvc_compiler_get_specialization_constants :: (_compiler: spvc_compiler, _constants: ^mut ^mut spvc_specialization_constant, _num_constants: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_specialization_constants(^result, _compiler, _constants, _num_constants)
+    return result
+}
+spvc_compiler_get_constant_handle :: (_compiler: spvc_compiler, _id: spvc_constant_id) -> spvc_constant {
+    mut result : spvc_constant = default
+    __c__spvc_compiler_get_constant_handle(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_get_work_group_size_specialization_constants :: (_compiler: spvc_compiler, _x: ^mut spvc_specialization_constant, _y: ^mut spvc_specialization_constant, _z: ^mut spvc_specialization_constant) -> spvc_constant_id {
+    mut result : spvc_constant_id = default
+    __c__spvc_compiler_get_work_group_size_specialization_constants(^result, _compiler, _x, _y, _z)
+    return result
+}
+spvc_compiler_get_active_buffer_ranges :: (_compiler: spvc_compiler, _id: spvc_variable_id, _ranges: ^mut ^mut spvc_buffer_range, _num_ranges: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_active_buffer_ranges(^result, _compiler, _id, _ranges, _num_ranges)
+    return result
+}
+spvc_constant_get_scalar_fp16 :: (_constant: spvc_constant, _column: u32, _row: u32) -> f32 {
+    mut result : f32 = default
+    __c__spvc_constant_get_scalar_fp16(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_scalar_fp32 :: (_constant: spvc_constant, _column: u32, _row: u32) -> f32 {
+    mut result : f32 = default
+    __c__spvc_constant_get_scalar_fp32(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_scalar_fp64 :: (_constant: spvc_constant, _column: u32, _row: u32) -> f64 {
+    mut result : f64 = default
+    __c__spvc_constant_get_scalar_fp64(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_scalar_u32 :: (_constant: spvc_constant, _column: u32, _row: u32) -> u32 {
+    mut result : u32 = default
+    __c__spvc_constant_get_scalar_u32(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_scalar_i32 :: (_constant: spvc_constant, _column: u32, _row: u32) -> i32 {
+    mut result : i32 = default
+    __c__spvc_constant_get_scalar_i32(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_scalar_u16 :: (_constant: spvc_constant, _column: u32, _row: u32) -> u32 {
+    mut result : u32 = default
+    __c__spvc_constant_get_scalar_u16(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_scalar_i16 :: (_constant: spvc_constant, _column: u32, _row: u32) -> i32 {
+    mut result : i32 = default
+    __c__spvc_constant_get_scalar_i16(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_scalar_u8 :: (_constant: spvc_constant, _column: u32, _row: u32) -> u32 {
+    mut result : u32 = default
+    __c__spvc_constant_get_scalar_u8(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_scalar_i8 :: (_constant: spvc_constant, _column: u32, _row: u32) -> i32 {
+    mut result : i32 = default
+    __c__spvc_constant_get_scalar_i8(^result, _constant, _column, _row)
+    return result
+}
+spvc_constant_get_subconstants :: (_constant: spvc_constant, _constituents: ^mut ^mut spvc_constant_id, _count: ^mut size_t) {
+    __c__spvc_constant_get_subconstants(_constant, _constituents, _count)
+}
+spvc_constant_get_type :: (_constant: spvc_constant) -> spvc_type_id {
+    mut result : spvc_type_id = default
+    __c__spvc_constant_get_type(^result, _constant)
+    return result
+}
+spvc_compiler_get_binary_offset_for_decoration :: (_compiler: spvc_compiler, _id: spvc_variable_id, _decoration: SpvDecoration, _word_offset: ^mut u32) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_get_binary_offset_for_decoration(^result, _compiler, _id, _decoration, _word_offset)
+    return result
+}
+spvc_compiler_buffer_is_hlsl_counter_buffer :: (_compiler: spvc_compiler, _id: spvc_variable_id) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_buffer_is_hlsl_counter_buffer(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_buffer_get_hlsl_counter_buffer :: (_compiler: spvc_compiler, _id: spvc_variable_id, _counter_id: ^mut spvc_variable_id) -> spvc_bool {
+    mut result : spvc_bool = default
+    __c__spvc_compiler_buffer_get_hlsl_counter_buffer(^result, _compiler, _id, _counter_id)
+    return result
+}
+spvc_compiler_get_declared_capabilities :: (_compiler: spvc_compiler, _capabilities: ^mut ^mut SpvCapability, _num_capabilities: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_declared_capabilities(^result, _compiler, _capabilities, _num_capabilities)
+    return result
+}
+spvc_compiler_get_declared_extensions :: (_compiler: spvc_compiler, _extensions: ^mut ^mut ^char8, _num_extensions: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_declared_extensions(^result, _compiler, _extensions, _num_extensions)
+    return result
+}
+spvc_compiler_get_remapped_declared_block_name :: (_compiler: spvc_compiler, _id: spvc_variable_id) -> ^char8 {
+    mut result : ^char8 = default
+    __c__spvc_compiler_get_remapped_declared_block_name(^result, _compiler, _id)
+    return result
+}
+spvc_compiler_get_buffer_block_decorations :: (_compiler: spvc_compiler, _id: spvc_variable_id, _decorations: ^mut ^mut SpvDecoration, _num_decorations: ^mut size_t) -> spvc_result {
+    mut result : spvc_result = default
+    __c__spvc_compiler_get_buffer_block_decorations(^result, _compiler, _id, _decorations, _num_decorations)
+    return result
+}
+
+// ==========================================================
+// ==========================================================
+// ==========================================================
+
+#file_scope
+
+__c__spvc_get_version :: (_major: ^mut u32, _minor: ^mut u32, _patch: ^mut u32);
+__c__spvc_get_commit_revision_and_timestamp :: (ret: ^mut ^char8);
+__c__spvc_msl_vertex_attribute_init :: (_attr: ^mut spvc_msl_vertex_attribute);
+__c__spvc_msl_shader_input_init :: (_input: ^mut spvc_msl_shader_input);
+__c__spvc_msl_resource_binding_init :: (_binding: ^mut spvc_msl_resource_binding);
+__c__spvc_msl_get_aux_buffer_struct_version :: (ret: ^mut u32);
+__c__spvc_msl_constexpr_sampler_init :: (_sampler: ^mut spvc_msl_constexpr_sampler);
+__c__spvc_msl_sampler_ycbcr_conversion_init :: (_conv: ^mut spvc_msl_sampler_ycbcr_conversion);
+__c__spvc_hlsl_resource_binding_init :: (_binding: ^mut spvc_hlsl_resource_binding);
+__c__spvc_context_create :: (ret: ^mut spvc_result, _context: ^mut spvc_context);
+__c__spvc_context_destroy :: (_context: spvc_context);
+__c__spvc_context_release_allocations :: (_context: spvc_context);
+__c__spvc_context_get_last_error_string :: (ret: ^mut ^char8, _context: spvc_context);
+__c__spvc_context_set_error_callback :: (_context: spvc_context, _cb: spvc_error_callback, _userdata: ^mut void);
+__c__spvc_context_parse_spirv :: (ret: ^mut spvc_result, _context: spvc_context, _spirv: ^mut SpvId, _word_count: size_t, _parsed_ir: ^mut spvc_parsed_ir);
+__c__spvc_context_create_compiler :: (ret: ^mut spvc_result, _context: spvc_context, _backend: spvc_backend, _parsed_ir: spvc_parsed_ir, _mode: spvc_capture_mode, _compiler: ^mut spvc_compiler);
+__c__spvc_compiler_get_current_id_bound :: (ret: ^mut u32, _compiler: spvc_compiler);
+__c__spvc_compiler_create_compiler_options :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _options: ^mut spvc_compiler_options);
+__c__spvc_compiler_options_set_bool :: (ret: ^mut spvc_result, _options: spvc_compiler_options, _option: spvc_compiler_option, _value: spvc_bool);
+__c__spvc_compiler_options_set_uint :: (ret: ^mut spvc_result, _options: spvc_compiler_options, _option: spvc_compiler_option, _value: u32);
+__c__spvc_compiler_install_compiler_options :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _options: spvc_compiler_options);
+__c__spvc_compiler_compile :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _source: ^mut ^char8);
+__c__spvc_compiler_add_header_line :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _line: ^char8);
+__c__spvc_compiler_require_extension :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _ext: ^char8);
+__c__spvc_compiler_flatten_buffer_block :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _id: spvc_variable_id);
+__c__spvc_compiler_variable_is_depth_or_compare :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _id: spvc_variable_id);
+__c__spvc_compiler_hlsl_set_root_constants_layout :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _constant_info: ^mut spvc_hlsl_root_constants, _count: size_t);
+__c__spvc_compiler_hlsl_add_vertex_attribute_remap :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _remap: ^mut spvc_hlsl_vertex_attribute_remap, _remaps: size_t);
+__c__spvc_compiler_hlsl_remap_num_workgroups_builtin :: (ret: ^mut spvc_variable_id, _compiler: spvc_compiler);
+__c__spvc_compiler_hlsl_set_resource_binding_flags :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _flags: spvc_hlsl_binding_flags);
+__c__spvc_compiler_hlsl_add_resource_binding :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _binding: ^mut spvc_hlsl_resource_binding);
+__c__spvc_compiler_hlsl_is_resource_used :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _model: SpvExecutionModel, _set: u32, _binding: u32);
+__c__spvc_compiler_msl_is_rasterization_disabled :: (ret: ^mut spvc_bool, _compiler: spvc_compiler);
+__c__spvc_compiler_msl_needs_aux_buffer :: (ret: ^mut spvc_bool, _compiler: spvc_compiler);
+__c__spvc_compiler_msl_needs_swizzle_buffer :: (ret: ^mut spvc_bool, _compiler: spvc_compiler);
+__c__spvc_compiler_msl_needs_buffer_size_buffer :: (ret: ^mut spvc_bool, _compiler: spvc_compiler);
+__c__spvc_compiler_msl_needs_output_buffer :: (ret: ^mut spvc_bool, _compiler: spvc_compiler);
+__c__spvc_compiler_msl_needs_patch_output_buffer :: (ret: ^mut spvc_bool, _compiler: spvc_compiler);
+__c__spvc_compiler_msl_needs_input_threadgroup_mem :: (ret: ^mut spvc_bool, _compiler: spvc_compiler);
+__c__spvc_compiler_msl_add_vertex_attribute :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _attrs: ^mut spvc_msl_vertex_attribute);
+__c__spvc_compiler_msl_add_resource_binding :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _binding: ^mut spvc_msl_resource_binding);
+__c__spvc_compiler_msl_add_shader_input :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _input: ^mut spvc_msl_shader_input);
+__c__spvc_compiler_msl_add_discrete_descriptor_set :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _desc_set: u32);
+__c__spvc_compiler_msl_set_argument_buffer_device_address_space :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _desc_set: u32, _device_address: spvc_bool);
+__c__spvc_compiler_msl_is_vertex_attribute_used :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _location: u32);
+__c__spvc_compiler_msl_is_shader_input_used :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _location: u32);
+__c__spvc_compiler_msl_is_resource_used :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _model: SpvExecutionModel, _set: u32, _binding: u32);
+__c__spvc_compiler_msl_remap_constexpr_sampler :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _id: spvc_variable_id, _sampler: ^mut spvc_msl_constexpr_sampler);
+__c__spvc_compiler_msl_remap_constexpr_sampler_by_binding :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _desc_set: u32, _binding: u32, _sampler: ^mut spvc_msl_constexpr_sampler);
+__c__spvc_compiler_msl_remap_constexpr_sampler_ycbcr :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _id: spvc_variable_id, _sampler: ^mut spvc_msl_constexpr_sampler, _conv: ^mut spvc_msl_sampler_ycbcr_conversion);
+__c__spvc_compiler_msl_remap_constexpr_sampler_by_binding_ycbcr :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _desc_set: u32, _binding: u32, _sampler: ^mut spvc_msl_constexpr_sampler, _conv: ^mut spvc_msl_sampler_ycbcr_conversion);
+__c__spvc_compiler_msl_set_fragment_output_components :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _location: u32, _components: u32);
+__c__spvc_compiler_msl_get_automatic_resource_binding :: (ret: ^mut u32, _compiler: spvc_compiler, _id: spvc_variable_id);
+__c__spvc_compiler_msl_get_automatic_resource_binding_secondary :: (ret: ^mut u32, _compiler: spvc_compiler, _id: spvc_variable_id);
+__c__spvc_compiler_msl_add_dynamic_buffer :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _desc_set: u32, _binding: u32, _index: u32);
+__c__spvc_compiler_msl_add_inline_uniform_block :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _desc_set: u32, _binding: u32);
+__c__spvc_compiler_get_active_interface_variables :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _set: ^mut spvc_set);
+__c__spvc_compiler_set_enabled_interface_variables :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _set: spvc_set);
+__c__spvc_compiler_create_shader_resources :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _resources: ^mut spvc_resources);
+__c__spvc_compiler_create_shader_resources_for_active_variables :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _resources: ^mut spvc_resources, _active: spvc_set);
+__c__spvc_resources_get_resource_list_for_type :: (ret: ^mut spvc_result, _resources: spvc_resources, _type: spvc_resource_type, _resource_list: ^mut ^mut spvc_reflected_resource, _resource_size: ^mut size_t);
+__c__spvc_compiler_set_decoration :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration, _argument: u32);
+__c__spvc_compiler_set_decoration_string :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration, _argument: ^char8);
+__c__spvc_compiler_set_name :: (_compiler: spvc_compiler, _id: SpvId, _argument: ^char8);
+__c__spvc_compiler_set_member_decoration :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration, _argument: u32);
+__c__spvc_compiler_set_member_decoration_string :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration, _argument: ^char8);
+__c__spvc_compiler_set_member_name :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _argument: ^char8);
+__c__spvc_compiler_unset_decoration :: (_compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration);
+__c__spvc_compiler_unset_member_decoration :: (_compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration);
+__c__spvc_compiler_has_decoration :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration);
+__c__spvc_compiler_has_member_decoration :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration);
+__c__spvc_compiler_get_name :: (ret: ^mut ^char8, _compiler: spvc_compiler, _id: SpvId);
+__c__spvc_compiler_get_decoration :: (ret: ^mut u32, _compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration);
+__c__spvc_compiler_get_decoration_string :: (ret: ^mut ^char8, _compiler: spvc_compiler, _id: SpvId, _decoration: SpvDecoration);
+__c__spvc_compiler_get_member_decoration :: (ret: ^mut u32, _compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration);
+__c__spvc_compiler_get_member_decoration_string :: (ret: ^mut ^char8, _compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32, _decoration: SpvDecoration);
+__c__spvc_compiler_get_member_name :: (ret: ^mut ^char8, _compiler: spvc_compiler, _id: spvc_type_id, _member_index: u32);
+__c__spvc_compiler_get_entry_points :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _entry_points: ^mut ^mut spvc_entry_point, _num_entry_points: ^mut size_t);
+__c__spvc_compiler_set_entry_point :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _name: ^char8, _model: SpvExecutionModel);
+__c__spvc_compiler_rename_entry_point :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _old_name: ^char8, _new_name: ^char8, _model: SpvExecutionModel);
+__c__spvc_compiler_get_cleansed_entry_point_name :: (ret: ^mut ^char8, _compiler: spvc_compiler, _name: ^char8, _model: SpvExecutionModel);
+__c__spvc_compiler_set_execution_mode :: (_compiler: spvc_compiler, _mode: SpvExecutionMode);
+__c__spvc_compiler_unset_execution_mode :: (_compiler: spvc_compiler, _mode: SpvExecutionMode);
+__c__spvc_compiler_set_execution_mode_with_arguments :: (_compiler: spvc_compiler, _mode: SpvExecutionMode, _arg0: u32, _arg1: u32, _arg2: u32);
+__c__spvc_compiler_get_execution_modes :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _modes: ^mut ^mut SpvExecutionMode, _num_modes: ^mut size_t);
+__c__spvc_compiler_get_execution_mode_argument :: (ret: ^mut u32, _compiler: spvc_compiler, _mode: SpvExecutionMode);
+__c__spvc_compiler_get_execution_mode_argument_by_index :: (ret: ^mut u32, _compiler: spvc_compiler, _mode: SpvExecutionMode, _index: u32);
+__c__spvc_compiler_get_execution_model :: (ret: ^mut SpvExecutionModel, _compiler: spvc_compiler);
+__c__spvc_compiler_get_type_handle :: (ret: ^mut spvc_type, _compiler: spvc_compiler, _id: spvc_type_id);
+__c__spvc_type_get_base_type_id :: (ret: ^mut spvc_type_id, _type: spvc_type);
+__c__spvc_type_get_basetype :: (ret: ^mut spvc_basetype, _type: spvc_type);
+__c__spvc_type_get_bit_width :: (ret: ^mut u32, _type: spvc_type);
+__c__spvc_type_get_vector_size :: (ret: ^mut u32, _type: spvc_type);
+__c__spvc_type_get_columns :: (ret: ^mut u32, _type: spvc_type);
+__c__spvc_type_get_num_array_dimensions :: (ret: ^mut u32, _type: spvc_type);
+__c__spvc_type_array_dimension_is_literal :: (ret: ^mut spvc_bool, _type: spvc_type, _dimension: u32);
+__c__spvc_type_get_array_dimension :: (ret: ^mut SpvId, _type: spvc_type, _dimension: u32);
+__c__spvc_type_get_num_member_types :: (ret: ^mut u32, _type: spvc_type);
+__c__spvc_type_get_member_type :: (ret: ^mut spvc_type_id, _type: spvc_type, _index: u32);
+__c__spvc_type_get_storage_class :: (ret: ^mut SpvStorageClass, _type: spvc_type);
+__c__spvc_type_get_image_sampled_type :: (ret: ^mut spvc_type_id, _type: spvc_type);
+__c__spvc_type_get_image_dimension :: (ret: ^mut SpvDim, _type: spvc_type);
+__c__spvc_type_get_image_is_depth :: (ret: ^mut spvc_bool, _type: spvc_type);
+__c__spvc_type_get_image_arrayed :: (ret: ^mut spvc_bool, _type: spvc_type);
+__c__spvc_type_get_image_multisampled :: (ret: ^mut spvc_bool, _type: spvc_type);
+__c__spvc_type_get_image_is_storage :: (ret: ^mut spvc_bool, _type: spvc_type);
+__c__spvc_type_get_image_storage_format :: (ret: ^mut SpvImageFormat, _type: spvc_type);
+__c__spvc_type_get_image_access_qualifier :: (ret: ^mut SpvAccessQualifier, _type: spvc_type);
+__c__spvc_compiler_get_declared_struct_size :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _struct_type: spvc_type, _size: ^mut size_t);
+__c__spvc_compiler_get_declared_struct_size_runtime_array :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _struct_type: spvc_type, _array_size: size_t, _size: ^mut size_t);
+__c__spvc_compiler_get_declared_struct_member_size :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _type: spvc_type, _index: u32, _size: ^mut size_t);
+__c__spvc_compiler_type_struct_member_offset :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _type: spvc_type, _index: u32, _offset: ^mut u32);
+__c__spvc_compiler_type_struct_member_array_stride :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _type: spvc_type, _index: u32, _stride: ^mut u32);
+__c__spvc_compiler_type_struct_member_matrix_stride :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _type: spvc_type, _index: u32, _stride: ^mut u32);
+__c__spvc_compiler_build_dummy_sampler_for_combined_images :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _id: ^mut spvc_variable_id);
+__c__spvc_compiler_build_combined_image_samplers :: (ret: ^mut spvc_result, _compiler: spvc_compiler);
+__c__spvc_compiler_get_combined_image_samplers :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _samplers: ^mut ^mut spvc_combined_image_sampler, _num_samplers: ^mut size_t);
+__c__spvc_compiler_get_specialization_constants :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _constants: ^mut ^mut spvc_specialization_constant, _num_constants: ^mut size_t);
+__c__spvc_compiler_get_constant_handle :: (ret: ^mut spvc_constant, _compiler: spvc_compiler, _id: spvc_constant_id);
+__c__spvc_compiler_get_work_group_size_specialization_constants :: (ret: ^mut spvc_constant_id, _compiler: spvc_compiler, _x: ^mut spvc_specialization_constant, _y: ^mut spvc_specialization_constant, _z: ^mut spvc_specialization_constant);
+__c__spvc_compiler_get_active_buffer_ranges :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _id: spvc_variable_id, _ranges: ^mut ^mut spvc_buffer_range, _num_ranges: ^mut size_t);
+__c__spvc_constant_get_scalar_fp16 :: (ret: ^mut f32, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_scalar_fp32 :: (ret: ^mut f32, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_scalar_fp64 :: (ret: ^mut f64, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_scalar_u32 :: (ret: ^mut u32, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_scalar_i32 :: (ret: ^mut i32, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_scalar_u16 :: (ret: ^mut u32, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_scalar_i16 :: (ret: ^mut i32, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_scalar_u8 :: (ret: ^mut u32, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_scalar_i8 :: (ret: ^mut i32, _constant: spvc_constant, _column: u32, _row: u32);
+__c__spvc_constant_get_subconstants :: (_constant: spvc_constant, _constituents: ^mut ^mut spvc_constant_id, _count: ^mut size_t);
+__c__spvc_constant_get_type :: (ret: ^mut spvc_type_id, _constant: spvc_constant);
+__c__spvc_compiler_get_binary_offset_for_decoration :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _id: spvc_variable_id, _decoration: SpvDecoration, _word_offset: ^mut u32);
+__c__spvc_compiler_buffer_is_hlsl_counter_buffer :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _id: spvc_variable_id);
+__c__spvc_compiler_buffer_get_hlsl_counter_buffer :: (ret: ^mut spvc_bool, _compiler: spvc_compiler, _id: spvc_variable_id, _counter_id: ^mut spvc_variable_id);
+__c__spvc_compiler_get_declared_capabilities :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _capabilities: ^mut ^mut SpvCapability, _num_capabilities: ^mut size_t);
+__c__spvc_compiler_get_declared_extensions :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _extensions: ^mut ^mut ^char8, _num_extensions: ^mut size_t);
+__c__spvc_compiler_get_remapped_declared_block_name :: (ret: ^mut ^char8, _compiler: spvc_compiler, _id: spvc_variable_id);
+__c__spvc_compiler_get_buffer_block_decorations :: (ret: ^mut spvc_result, _compiler: spvc_compiler, _id: spvc_variable_id, _decorations: ^mut ^mut SpvDecoration, _num_decorations: ^mut size_t);

@@ -1,7 +1,7 @@
 source_file = "vulkan_binding_source.cpp"
 
 function prepend_to_cpp()
-	return [[
+    return [[
 #include <memory>
 #include "../vulkan_binding_source.cpp"
 ]]
@@ -376,7 +376,7 @@ exclude_functions = {
 }
 
 function on_struct(decl, name, type)
-	if excludes[name] then
+    if excludes[name] then
         return true, nil
     end
 
@@ -384,7 +384,7 @@ function on_struct(decl, name, type)
 end
 
 function on_typedef(decl, name, type)
-	if excludes[name] then
+    if excludes[name] then
         return true, nil
     end
 
@@ -410,7 +410,7 @@ special_macros = {
 }
 
 function on_macro(decl, name)
-	if excludes[name] then
+    if excludes[name] then
         return true, nil
     end
 
@@ -423,10 +423,10 @@ function on_macro(decl, name)
 end
 
 function on_function(decl, name)
-	index = name:find("vk")
-	if (index == nil) then
-		-- doesn't start with glfw*, so don't emit anything
-		return true, nil
+    index = name:find("vk")
+    if (index == nil) then
+        -- doesn't start with glfw*, so don't emit anything
+        return true, nil
     end
 
     if exclude_functions[name] then
@@ -452,60 +452,60 @@ builtin_types = {
 }
 
 function transform_enum_member_name(c, enum_name, member_name)
-	-- enum_name is in CamelCase
-	-- member_name is in WHATEVEL_CASE
-	
-	local result = ""
-	for i=1, #member_name do
-		local prev = member_name:sub(i-1, i-1)
-		local c = member_name:sub(i,i)
+    -- enum_name is in CamelCase
+    -- member_name is in WHATEVEL_CASE
+    
+    local result = ""
+    for i=1, #member_name do
+        local prev = member_name:sub(i-1, i-1)
+        local c = member_name:sub(i,i)
 
-		if i == 1 or prev == "_" then
-			c = c:upper()
-		else
-			c = c:lower()
-		end
+        if i == 1 or prev == "_" then
+            c = c:upper()
+        else
+            c = c:lower()
+        end
 
-		if not (c == "_") then
-			result = result .. c
-		end
-	end
+        if not (c == "_") then
+            result = result .. c
+        end
+    end
 
-	local i = 1
-	while i <= #enum_name and i <= #result and enum_name:sub(i, i) == result:sub(i, i) do
-		i = i + 1
-	end
+    local i = 1
+    while i <= #enum_name and i <= #result and enum_name:sub(i, i) == result:sub(i, i) do
+        i = i + 1
+    end
 
-	result = result:sub(i)
+    result = result:sub(i)
 
-	if tonumber(result:sub(1, 1)) ~= nil then
-		result = "_" .. result
-	end
+    if tonumber(result:sub(1, 1)) ~= nil then
+        result = "_" .. result
+    end
 
     if builtin_types[result] then
         print(result)
-		result = "_" .. result
-	end
+        result = "_" .. result
+    end
 
-	-- print(enum_name .. ": " .. member_name .. " -> " .. result)
-	
-	return result
+    -- print(enum_name .. ": " .. member_name .. " -> " .. result)
+    
+    return result
 end
 
 function transform_union_member_name(c, union_name, member_name)
-	-- union_name is in CamelCase
-	-- member_name is in WHATEVEL_CASE
-	
-	local result = member_name
+    -- union_name is in CamelCase
+    -- member_name is in WHATEVEL_CASE
+    
+    local result = member_name
     if builtin_types[result] then
-		result = "_" .. result
-	end
+        result = "_" .. result
+    end
 
-	-- print(union_name .. ": " .. member_name .. " -> " .. result)
-	
-	return result
+    -- print(union_name .. ": " .. member_name .. " -> " .. result)
+    
+    return result
 end
 
 function on_global_variable(decl, name, type)
-	return true, nil
+    return true, nil
 end
