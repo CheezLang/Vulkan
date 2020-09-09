@@ -1,6 +1,8 @@
 *.o
 *.obj
 *.out
-int
+int/*.o
+int/*.lib
+int/*.che
 bin
 lib
