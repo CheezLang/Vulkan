@@ -44,7 +44,163 @@ function prepend_to_cheez()
 #export_scope
 
 VK_MAKE_VERSION :: (major: u32, minor: u32, patch: u32) #macro {
-    @bin_or(@bin_lsl(major, 16), @bin_lsl(minor, 8), patch)
+    @bin_or(@bin_lsl(major, 22), @bin_lsl(minor, 12), patch)
+}
+
+VK_EXTRACT_VERSION :: (version: u32) #macro {
+    cast ((major: u32, minor: u32, patch: u32)) (
+        version | @bin_lsr(_, 22) | @bin_and(0b11_1111_1111),
+        version | @bin_lsr(_, 12) | @bin_and(0b11_1111_1111),
+        version | @bin_lsr(_, 0) | @bin_and(0b1111_1111_1111)
+    )
+}
+
+VkEventCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkQueryPoolCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkBufferViewCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineVertexInputStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineInputAssemblyStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineTessellationStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineViewportStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineRasterizationStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineMultisampleStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineDepthStencilStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineColorBlendStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineDynamicStateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineLayoutCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDescriptorPoolResetFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkCommandPoolTrimFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDescriptorUpdateTemplateCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDisplayModeCreateFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDisplaySurfaceCreateFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkInstanceCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDeviceCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkMemoryMapFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkSemaphoreCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDebugReportFlagBitsExt :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineRasterizationStateStreamCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineViewportSwizzleStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineDiscardRectangleStateCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineRasterizationConservativeStateCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineRasterizationDepthClipStateCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDebugUtilsMessengerCallbackDataFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkDebugUtilsMessengerCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineCoverageToColorStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineCoverageModulationStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkValidationCacheCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkGeometryInstanceFlagsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkBuildAccelerationStructureFlagsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkPipelineCoverageReductionStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
+}
+
+VkHeadlessSurfaceCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None = 0x0
 }
 ]]
 end
@@ -148,7 +304,8 @@ excludes = {
     VKAPI_PTR                 = true,
     __crt_locale_data_public  = true,
     __crt_locale_pointers     = true,
-    _Mbstatet                 = true
+    _Mbstatet                 = true,
+    VkCullModeFlags           = true
 }
 
 special_typedefs = {
@@ -191,6 +348,125 @@ special_typedefs = {
     VkPerformanceConfigurationINTEL = true,
     VkIndirectCommandsLayoutNV      = true,
     VkPrivateDataSlotEXT            = true
+}
+
+flag_typedefs = {
+    VkAccessFlags                                           = "VkAccessFlagBits",
+    VkImageAspectFlags                                      = "VkImageAspectFlagBits",
+    VkFormatFeatureFlags                                    = "VkFormatFeatureFlagBits",
+    VkImageCreateFlags                                      = "VkImageCreateFlagBits",
+    VkSampleCountFlags                                      = "VkSampleCountFlagBits",
+    VkImageUsageFlags                                       = "VkImageUsageFlagBits",
+    VkInstanceCreateFlags                                   = "VkInstanceCreateFlagBits",
+    VkMemoryHeapFlags                                       = "VkMemoryHeapFlagBits",
+    VkMemoryPropertyFlags                                   = "VkMemoryPropertyFlagBits",
+    VkQueueFlags                                            = "VkQueueFlagBits",
+    VkDeviceCreateFlags                                     = "VkDeviceCreateFlagBits",
+    VkDeviceQueueCreateFlags                                = "VkDeviceQueueCreateFlagBits",
+    VkPipelineStageFlags                                    = "VkPipelineStageFlagBits",
+    VkMemoryMapFlags                                        = "VkMemoryMapFlagBits",
+    VkSparseMemoryBindFlags                                 = "VkSparseMemoryBindFlagBits",
+    VkSparseImageFormatFlags                                = "VkSparseImageFormatFlagBits",
+    VkFenceCreateFlags                                      = "VkFenceCreateFlagBits",
+    VkSemaphoreCreateFlags                                  = "VkSemaphoreCreateFlagBits",
+    VkEventCreateFlags                                      = "VkEventCreateFlagBits",
+    VkQueryPipelineStatisticFlags                           = "VkQueryPipelineStatisticFlagBits",
+    VkQueryPoolCreateFlags                                  = "VkQueryPoolCreateFlagBits",
+    VkQueryResultFlags                                      = "VkQueryResultFlagBits",
+    VkBufferCreateFlags                                     = "VkBufferCreateFlagBits",
+    VkBufferUsageFlags                                      = "VkBufferUsageFlagBits",
+    VkBufferViewCreateFlags                                 = "VkBufferViewCreateFlagBits",
+    VkImageViewCreateFlags                                  = "VkImageViewCreateFlagBits",
+    VkShaderModuleCreateFlags                               = "VkShaderModuleCreateFlagBits",
+    VkPipelineCacheCreateFlags                              = "VkPipelineCacheCreateFlagBits",
+    VkColorComponentFlags                                   = "VkColorComponentFlagBits",
+    VkPipelineCreateFlags                                   = "VkPipelineCreateFlagBits",
+    VkPipelineShaderStageCreateFlags                        = "VkPipelineShaderStageCreateFlagBits",
+    VkPipelineVertexInputStateCreateFlags                   = "VkPipelineVertexInputStateCreateFlagBits",
+    VkPipelineInputAssemblyStateCreateFlags                 = "VkPipelineInputAssemblyStateCreateFlagBits",
+    VkPipelineTessellationStateCreateFlags                  = "VkPipelineTessellationStateCreateFlagBits",
+    VkPipelineViewportStateCreateFlags                      = "VkPipelineViewportStateCreateFlagBits",
+    VkPipelineRasterizationStateCreateFlags                 = "VkPipelineRasterizationStateCreateFlagBits",
+    VkPipelineMultisampleStateCreateFlags                   = "VkPipelineMultisampleStateCreateFlagBits",
+    VkPipelineDepthStencilStateCreateFlags                  = "VkPipelineDepthStencilStateCreateFlagBits",
+    VkPipelineColorBlendStateCreateFlags                    = "VkPipelineColorBlendStateCreateFlagBits",
+    VkPipelineDynamicStateCreateFlags                       = "VkPipelineDynamicStateCreateFlagBits",
+    VkPipelineLayoutCreateFlags                             = "VkPipelineLayoutCreateFlagBits",
+    VkShaderStageFlags                                      = "VkShaderStageFlagBits",
+    VkSamplerCreateFlags                                    = "VkSamplerCreateFlagBits",
+    VkDescriptorPoolCreateFlags                             = "VkDescriptorPoolCreateFlagBits",
+    VkDescriptorPoolResetFlags                              = "VkDescriptorPoolResetFlagBits",
+    VkDescriptorSetLayoutCreateFlags                        = "VkDescriptorSetLayoutCreateFlagBits",
+    VkAttachmentDescriptionFlags                            = "VkAttachmentDescriptionFlagBits",
+    VkDependencyFlags                                       = "VkDependencyFlagBits",
+    VkFramebufferCreateFlags                                = "VkFramebufferCreateFlagBits",
+    VkRenderPassCreateFlags                                 = "VkRenderPassCreateFlagBits",
+    VkSubpassDescriptionFlags                               = "VkSubpassDescriptionFlagBits",
+    VkCommandPoolCreateFlags                                = "VkCommandPoolCreateFlagBits",
+    VkCommandPoolResetFlags                                 = "VkCommandPoolResetFlagBits",
+    VkCommandBufferUsageFlags                               = "VkCommandBufferUsageFlagBits",
+    VkQueryControlFlags                                     = "VkQueryControlFlagBits",
+    VkCommandBufferResetFlags                               = "VkCommandBufferResetFlagBits",
+    VkStencilFaceFlags                                      = "VkStencilFaceFlagBits",
+    VkSubgroupFeatureFlags                                  = "VkSubgroupFeatureFlagBits",
+    VkPeerMemoryFeatureFlags                                = "VkPeerMemoryFeatureFlagBits",
+    VkMemoryAllocateFlags                                   = "VkMemoryAllocateFlagBits",
+    VkCommandPoolTrimFlags                                  = "VkCommandPoolTrimFlagBits",
+    VkDescriptorUpdateTemplateCreateFlags                   = "VkDescriptorUpdateTemplateCreateFlagBits",
+    VkExternalMemoryHandleTypeFlags                         = "VkExternalMemoryHandleTypeFlagBits",
+    VkExternalMemoryFeatureFlags                            = "VkExternalMemoryFeatureFlagBits",
+    VkExternalFenceHandleTypeFlags                          = "VkExternalFenceHandleTypeFlagBits",
+    VkExternalFenceFeatureFlags                             = "VkExternalFenceFeatureFlagBits",
+    VkFenceImportFlags                                      = "VkFenceImportFlagBits",
+    VkSemaphoreImportFlags                                  = "VkSemaphoreImportFlagBits",
+    VkExternalSemaphoreHandleTypeFlags                      = "VkExternalSemaphoreHandleTypeFlagBits",
+    VkExternalSemaphoreFeatureFlags                         = "VkExternalSemaphoreFeatureFlagBits",
+    VkResolveModeFlags                                      = "VkResolveModeFlagBits",
+    VkDescriptorBindingFlags                                = "VkDescriptorBindingFlagBits",
+    VkSemaphoreWaitFlags                                    = "VkSemaphoreWaitFlagBits",
+    VkCompositeAlphaFlagsKHR                                = "VkCompositeAlphaFlagBitsKHR",
+    VkSurfaceTransformFlagsKHR                              = "VkSurfaceTransformFlagBitsKHR",
+    VkSwapchainCreateFlagsKHR                               = "VkSwapchainCreateFlagBitsKHR",
+    VkDeviceGroupPresentModeFlagsKHR                        = "VkDeviceGroupPresentModeFlagBitsKHR",
+    VkDisplayModeCreateFlagsKHR                             = "VkDisplayModeCreateFlagBitsKHR",
+    VkDisplayPlaneAlphaFlagsKHR                             = "VkDisplayPlaneAlphaFlagBitsKHR",
+    VkDisplaySurfaceCreateFlagsKHR                          = "VkDisplaySurfaceCreateFlagBitsKHR",
+    VkPerformanceCounterDescriptionFlagsKHR                 = "VkPerformanceCounterDescriptionFlagBitsKHR",
+    VkAcquireProfilingLockFlagsKHR                          = "VkAcquireProfilingLockFlagBitsKHR",
+    VkDebugReportFlagsEXT                                   = "VkDebugReportFlagBitsEXT",
+    VkPipelineRasterizationStateStreamCreateFlagsEXT        = "VkPipelineRasterizationStateStreamCreateFlagBitsEXT",
+    VkExternalMemoryHandleTypeFlagsNV                       = "VkExternalMemoryHandleTypeFlagBitsNV",
+    VkExternalMemoryFeatureFlagsNV                          = "VkExternalMemoryFeatureFlagBitsNV",
+    VkConditionalRenderingFlagsEXT                          = "VkConditionalRenderingFlagBitsEXT",
+    VkSurfaceCounterFlagsEXT                                = "VkSurfaceCounterFlagBitsEXT",
+    VkPipelineViewportSwizzleStateCreateFlagsNV             = "VkPipelineViewportSwizzleStateCreateFlagBitsNV",
+    VkPipelineDiscardRectangleStateCreateFlagsEXT           = "VkPipelineDiscardRectangleStateCreateFlagBitsEXT",
+    VkPipelineRasterizationConservativeStateCreateFlagsEXT  = "VkPipelineRasterizationConservativeStateCreateFlagBitsEXT",
+    VkPipelineRasterizationDepthClipStateCreateFlagsEXT     = "VkPipelineRasterizationDepthClipStateCreateFlagBitsEXT",
+    VkDebugUtilsMessengerCallbackDataFlagsEXT               = "VkDebugUtilsMessengerCallbackDataFlagBitsEXT",
+    VkDebugUtilsMessageTypeFlagsEXT                         = "VkDebugUtilsMessageTypeFlagBitsEXT",
+    VkDebugUtilsMessageSeverityFlagsEXT                     = "VkDebugUtilsMessageSeverityFlagBitsEXT",
+    VkDebugUtilsMessengerCreateFlagsEXT                     = "VkDebugUtilsMessengerCreateFlagBitsEXT",
+    VkPipelineCoverageToColorStateCreateFlagsNV             = "VkPipelineCoverageToColorStateCreateFlagBitsNV",
+    VkPipelineCoverageModulationStateCreateFlagsNV          = "VkPipelineCoverageModulationStateCreateFlagBitsNV",
+    VkValidationCacheCreateFlagsEXT                         = "VkValidationCacheCreateFlagBitsEXT",
+    VkGeometryFlags                                         = "VkGeometryFlagBitsKHR",
+    VkGeometryFlagsNV                                       = "VkGeometryFlagBitsKHR",
+    VkGeometryFlagsKHR                                      = "VkGeometryFlagBitsKHR",
+    VkGeometryInstanceFlags                                 = "VkGeometryInstanceFlagBitsKHR",
+    VkGeometryInstanceFlagsKHR                              = "VkGeometryInstanceFlagBitsKHR",
+    VkBuildAccelerationStructureFlags                       = "VkBuildAccelerationStructureFlagBitsKHR",
+    VkBuildAccelerationStructureFlagsKHR                    = "VkBuildAccelerationStructureFlagBitsKHR",
+    VkPipelineCompilerControlFlagsAMD                       = "VkPipelineCompilerControlFlagBitsAMD",
+    VkPipelineCreationFeedbackFlagsEXT                      = "VkPipelineCreationFeedbackFlagBitsEXT",
+    VkShaderCorePropertiesFlagsAMD                          = "VkShaderCorePropertiesFlagBitsAMD",
+    VkToolPurposeFlagsEXT                                   = "VkToolPurposeFlagBitsEXT",
+    VkPipelineCoverageReductionStateCreateFlagsNV           = "VkPipelineCoverageReductionStateCreateFlagBitsNV",
+    VkHeadlessSurfaceCreateFlagsEXT                         = "VkHeadlessSurfaceCreateFlagBitsEXT",
+    VkIndirectStateFlagsNV                                  = "VkIndirectStateFlagBitsNV",
+    VkIndirectCommandsLayoutUsageFlagsNV                    = "VkIndirectCommandsLayoutUsageFlagBitsNV",
+    VkPrivateDataSlotCreateFlagsEXT                         = "VkPrivateDataSlotCreateFlagBitsEXT",
+    VkDeviceDiagnosticsConfigFlagsNV                        = "VkDeviceDiagnosticsConfigFlagBitsNV"
 }
 
 exclude_functions = {
@@ -375,28 +651,6 @@ exclude_functions = {
     vkGetDeviceGroupPeerMemoryFeaturesKHR                               = true
 }
 
-function on_struct(decl, name, type)
-    if excludes[name] then
-        return true, nil
-    end
-
-    return false, nil
-end
-
-function on_typedef(decl, name, type)
-    if excludes[name] then
-        return true, nil
-    end
-
-    local special = special_typedefs[name]
-    if special then
-        return false, name .. "_T :: struct #copy {}"
-    end
-
-    return false, nil
-end
-
-
 special_macros = {
     VK_ATTACHMENT_UNUSED        = "u32.max",
     VK_QUEUE_FAMILY_IGNORED     = "u32.max",
@@ -409,7 +663,98 @@ special_macros = {
     VK_SHADER_UNUSED_KHR        = "u32.max"
 }
 
-function on_macro(decl, name)
+builtin_types = {
+    i8 = true,
+    i16 = true,
+    i32 = true,
+    i64 = true,
+    u8 = true,
+    u16 = true,
+    u32 = true,
+    u64 = true,
+    f32 = true,
+    f64 = true,
+    bool = true,
+    string = true
+}
+
+function split_camel_case(name)
+    local result = {}
+    local temp = ""
+    for i=1, #name do
+        local c = name:sub(i, i)
+        if c == c:upper() then
+            if not (temp == "") then
+                result[#result+1] = temp
+                temp = ""
+            end
+        end
+        temp = temp .. c
+    end
+    if not (temp == "") then
+        result[#result+1] = temp
+        temp = ""
+    end
+    return result
+end
+
+function split_snake_case(name)
+    local result = {}
+    local temp = ""
+    for i=1, #name do
+        local c = name:sub(i, i)
+        if c == "_" then
+            if not (temp == "") then
+                result[#result+1] = temp
+                temp = ""
+            end
+        else
+            temp = temp .. c
+        end
+    end
+    if not (temp == "") then
+        result[#result+1] = temp
+        temp = ""
+    end
+    return result
+end
+
+function on_struct(decl, name, type)
+    if excludes[name] then
+        return true, nil
+    end
+
+    return false, nil
+end
+
+function on_typedef(decl, name, text)
+    if excludes[name] then
+        return ""
+    end
+
+    local special = special_typedefs[name]
+    if special then
+        return name .. "_T :: struct #copy {}\n" .. name .. " :: " .. text
+    end
+
+    local flags = flag_typedefs[name]
+    if flags then
+        return name .. " :: " .. flags
+    end
+
+    if name:find("PFN_") == 1 and text:find("fn") == 1 then
+        return name .. " :: " .. text .. " #stdcall"
+    end
+    return nil
+end
+
+function on_macro2(decl, name, value)
+    if value:sub(1, 1) == '"' and value:sub(#value, #value) == '"' then
+        return name .. " :: " .. value .. "c"
+    end
+end
+
+function on_macro(decl, name, value)
     if excludes[name] then
         return true, nil
     end
@@ -436,59 +781,39 @@ function on_function(decl, name)
     return false, nil
 end
 
-builtin_types = {
-    i8 = true,
-    i16 = true,
-    i32 = true,
-    i64 = true,
-    u8 = true,
-    u16 = true,
-    u32 = true,
-    u64 = true,
-    f32 = true,
-    f64 = true,
-    bool = true,
-    string = true
-}
-
 function transform_enum_member_name(c, enum_name, member_name)
     -- enum_name is in CamelCase
     -- member_name is in WHATEVEL_CASE
     
-    local result = ""
-    for i=1, #member_name do
-        local prev = member_name:sub(i-1, i-1)
-        local c = member_name:sub(i,i)
-
-        if i == 1 or prev == "_" then
-            c = c:upper()
-        else
-            c = c:lower()
-        end
-
-        if not (c == "_") then
-            result = result .. c
-        end
-    end
-
+    local member_parts = {}
     local i = 1
-    while i <= #enum_name and i <= #result and enum_name:sub(i, i) == result:sub(i, i) do
+
+    local enum_parts = split_camel_case(enum_name)
+    member_parts = split_snake_case(member_name)
+
+    while i <= #enum_parts and i <= #member_parts do
+        local enum = enum_parts[i]:lower()
+        local member = member_parts[i]:lower()
+        if not (enum == member) then
+            break
+        end
         i = i + 1
     end
 
-    result = result:sub(i)
+    local result = ""
+    for k=i, #member_parts do
+        local part = member_parts[k]:sub(1, 1):upper() .. member_parts[k]:sub(2):lower()
+
+        if i > 1 and i == #member_parts and part == "Bit" then
+            break
+        end
+        result = result .. part
+    end
 
     if tonumber(result:sub(1, 1)) ~= nil then
         result = "_" .. result
     end
 
-    if builtin_types[result] then
-        print(result)
-        result = "_" .. result
-    end
-
-    -- print(enum_name .. ": " .. member_name .. " -> " .. result)
-    
     return result
 end
 

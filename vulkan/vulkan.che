@@ -314,149 +314,149 @@ VkCommandBufferUsageFlags :: VkCommandBufferUsageFlagBits
 VkQueryControlFlags :: VkQueryControlFlagBits
 VkCommandBufferResetFlags :: VkCommandBufferResetFlagBits
 VkStencilFaceFlags :: VkStencilFaceFlagBits
-PFN_vkAllocationFunction :: fn(^mut void, size_t, size_t, VkSystemAllocationScope) -> ^mut void
-PFN_vkFreeFunction :: fn(^mut void, ^mut void) -> void
-PFN_vkInternalAllocationNotification :: fn(^mut void, size_t, VkInternalAllocationType, VkSystemAllocationScope) -> void
-PFN_vkInternalFreeNotification :: fn(^mut void, size_t, VkInternalAllocationType, VkSystemAllocationScope) -> void
-PFN_vkReallocationFunction :: fn(^mut void, ^mut void, size_t, size_t, VkSystemAllocationScope) -> ^mut void
-PFN_vkVoidFunction :: fn() -> void
-PFN_vkCreateInstance :: fn(^mut VkInstanceCreateInfo, ^mut VkAllocationCallbacks, ^mut VkInstance) -> VkResult
-PFN_vkDestroyInstance :: fn(VkInstance, ^mut VkAllocationCallbacks) -> void
-PFN_vkEnumeratePhysicalDevices :: fn(VkInstance, ^mut uint32_t, ^mut VkPhysicalDevice) -> VkResult
-PFN_vkGetPhysicalDeviceFeatures :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceFeatures) -> void
-PFN_vkGetPhysicalDeviceFormatProperties :: fn(VkPhysicalDevice, VkFormat, ^mut VkFormatProperties) -> void
-PFN_vkGetPhysicalDeviceImageFormatProperties :: fn(VkPhysicalDevice, VkFormat, VkImageType, VkImageTiling, VkImageUsageFlags, VkImageCreateFlags, ^mut VkImageFormatProperties) -> VkResult
-PFN_vkGetPhysicalDeviceProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceProperties) -> void
-PFN_vkGetPhysicalDeviceQueueFamilyProperties :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkQueueFamilyProperties) -> void
-PFN_vkGetPhysicalDeviceMemoryProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceMemoryProperties) -> void
-PFN_vkGetInstanceProcAddr :: fn(VkInstance, ^char8) -> PFN_vkVoidFunction
-PFN_vkGetDeviceProcAddr :: fn(VkDevice, ^char8) -> PFN_vkVoidFunction
-PFN_vkCreateDevice :: fn(VkPhysicalDevice, ^mut VkDeviceCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDevice) -> VkResult
-PFN_vkDestroyDevice :: fn(VkDevice, ^mut VkAllocationCallbacks) -> void
-PFN_vkEnumerateInstanceExtensionProperties :: fn(^char8, ^mut uint32_t, ^mut VkExtensionProperties) -> VkResult
-PFN_vkEnumerateDeviceExtensionProperties :: fn(VkPhysicalDevice, ^char8, ^mut uint32_t, ^mut VkExtensionProperties) -> VkResult
-PFN_vkEnumerateInstanceLayerProperties :: fn(^mut uint32_t, ^mut VkLayerProperties) -> VkResult
-PFN_vkEnumerateDeviceLayerProperties :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkLayerProperties) -> VkResult
-PFN_vkGetDeviceQueue :: fn(VkDevice, uint32_t, uint32_t, ^mut VkQueue) -> void
-PFN_vkQueueSubmit :: fn(VkQueue, uint32_t, ^mut VkSubmitInfo, VkFence) -> VkResult
-PFN_vkQueueWaitIdle :: fn(VkQueue) -> VkResult
-PFN_vkDeviceWaitIdle :: fn(VkDevice) -> VkResult
-PFN_vkAllocateMemory :: fn(VkDevice, ^mut VkMemoryAllocateInfo, ^mut VkAllocationCallbacks, ^mut VkDeviceMemory) -> VkResult
-PFN_vkFreeMemory :: fn(VkDevice, VkDeviceMemory, ^mut VkAllocationCallbacks) -> void
-PFN_vkMapMemory :: fn(VkDevice, VkDeviceMemory, VkDeviceSize, VkDeviceSize, VkMemoryMapFlags, ^mut ^mut void) -> VkResult
-PFN_vkUnmapMemory :: fn(VkDevice, VkDeviceMemory) -> void
-PFN_vkFlushMappedMemoryRanges :: fn(VkDevice, uint32_t, ^mut VkMappedMemoryRange) -> VkResult
-PFN_vkInvalidateMappedMemoryRanges :: fn(VkDevice, uint32_t, ^mut VkMappedMemoryRange) -> VkResult
-PFN_vkGetDeviceMemoryCommitment :: fn(VkDevice, VkDeviceMemory, ^mut VkDeviceSize) -> void
-PFN_vkBindBufferMemory :: fn(VkDevice, VkBuffer, VkDeviceMemory, VkDeviceSize) -> VkResult
-PFN_vkBindImageMemory :: fn(VkDevice, VkImage, VkDeviceMemory, VkDeviceSize) -> VkResult
-PFN_vkGetBufferMemoryRequirements :: fn(VkDevice, VkBuffer, ^mut VkMemoryRequirements) -> void
-PFN_vkGetImageMemoryRequirements :: fn(VkDevice, VkImage, ^mut VkMemoryRequirements) -> void
-PFN_vkGetImageSparseMemoryRequirements :: fn(VkDevice, VkImage, ^mut uint32_t, ^mut VkSparseImageMemoryRequirements) -> void
-PFN_vkGetPhysicalDeviceSparseImageFormatProperties :: fn(VkPhysicalDevice, VkFormat, VkImageType, VkSampleCountFlagBits, VkImageUsageFlags, VkImageTiling, ^mut uint32_t, ^mut VkSparseImageFormatProperties) -> void
-PFN_vkQueueBindSparse :: fn(VkQueue, uint32_t, ^mut VkBindSparseInfo, VkFence) -> VkResult
-PFN_vkCreateFence :: fn(VkDevice, ^mut VkFenceCreateInfo, ^mut VkAllocationCallbacks, ^mut VkFence) -> VkResult
-PFN_vkDestroyFence :: fn(VkDevice, VkFence, ^mut VkAllocationCallbacks) -> void
-PFN_vkResetFences :: fn(VkDevice, uint32_t, ^mut VkFence) -> VkResult
-PFN_vkGetFenceStatus :: fn(VkDevice, VkFence) -> VkResult
-PFN_vkWaitForFences :: fn(VkDevice, uint32_t, ^mut VkFence, VkBool32, uint64_t) -> VkResult
-PFN_vkCreateSemaphore :: fn(VkDevice, ^mut VkSemaphoreCreateInfo, ^mut VkAllocationCallbacks, ^mut VkSemaphore) -> VkResult
-PFN_vkDestroySemaphore :: fn(VkDevice, VkSemaphore, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateEvent :: fn(VkDevice, ^mut VkEventCreateInfo, ^mut VkAllocationCallbacks, ^mut VkEvent) -> VkResult
-PFN_vkDestroyEvent :: fn(VkDevice, VkEvent, ^mut VkAllocationCallbacks) -> void
-PFN_vkGetEventStatus :: fn(VkDevice, VkEvent) -> VkResult
-PFN_vkSetEvent :: fn(VkDevice, VkEvent) -> VkResult
-PFN_vkResetEvent :: fn(VkDevice, VkEvent) -> VkResult
-PFN_vkCreateQueryPool :: fn(VkDevice, ^mut VkQueryPoolCreateInfo, ^mut VkAllocationCallbacks, ^mut VkQueryPool) -> VkResult
-PFN_vkDestroyQueryPool :: fn(VkDevice, VkQueryPool, ^mut VkAllocationCallbacks) -> void
-PFN_vkGetQueryPoolResults :: fn(VkDevice, VkQueryPool, uint32_t, uint32_t, size_t, ^mut void, VkDeviceSize, VkQueryResultFlags) -> VkResult
-PFN_vkCreateBuffer :: fn(VkDevice, ^mut VkBufferCreateInfo, ^mut VkAllocationCallbacks, ^mut VkBuffer) -> VkResult
-PFN_vkDestroyBuffer :: fn(VkDevice, VkBuffer, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateBufferView :: fn(VkDevice, ^mut VkBufferViewCreateInfo, ^mut VkAllocationCallbacks, ^mut VkBufferView) -> VkResult
-PFN_vkDestroyBufferView :: fn(VkDevice, VkBufferView, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateImage :: fn(VkDevice, ^mut VkImageCreateInfo, ^mut VkAllocationCallbacks, ^mut VkImage) -> VkResult
-PFN_vkDestroyImage :: fn(VkDevice, VkImage, ^mut VkAllocationCallbacks) -> void
-PFN_vkGetImageSubresourceLayout :: fn(VkDevice, VkImage, ^mut VkImageSubresource, ^mut VkSubresourceLayout) -> void
-PFN_vkCreateImageView :: fn(VkDevice, ^mut VkImageViewCreateInfo, ^mut VkAllocationCallbacks, ^mut VkImageView) -> VkResult
-PFN_vkDestroyImageView :: fn(VkDevice, VkImageView, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateShaderModule :: fn(VkDevice, ^mut VkShaderModuleCreateInfo, ^mut VkAllocationCallbacks, ^mut VkShaderModule) -> VkResult
-PFN_vkDestroyShaderModule :: fn(VkDevice, VkShaderModule, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreatePipelineCache :: fn(VkDevice, ^mut VkPipelineCacheCreateInfo, ^mut VkAllocationCallbacks, ^mut VkPipelineCache) -> VkResult
-PFN_vkDestroyPipelineCache :: fn(VkDevice, VkPipelineCache, ^mut VkAllocationCallbacks) -> void
-PFN_vkGetPipelineCacheData :: fn(VkDevice, VkPipelineCache, ^mut size_t, ^mut void) -> VkResult
-PFN_vkMergePipelineCaches :: fn(VkDevice, VkPipelineCache, uint32_t, ^mut VkPipelineCache) -> VkResult
-PFN_vkCreateGraphicsPipelines :: fn(VkDevice, VkPipelineCache, uint32_t, ^mut VkGraphicsPipelineCreateInfo, ^mut VkAllocationCallbacks, ^mut VkPipeline) -> VkResult
-PFN_vkCreateComputePipelines :: fn(VkDevice, VkPipelineCache, uint32_t, ^mut VkComputePipelineCreateInfo, ^mut VkAllocationCallbacks, ^mut VkPipeline) -> VkResult
-PFN_vkDestroyPipeline :: fn(VkDevice, VkPipeline, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreatePipelineLayout :: fn(VkDevice, ^mut VkPipelineLayoutCreateInfo, ^mut VkAllocationCallbacks, ^mut VkPipelineLayout) -> VkResult
-PFN_vkDestroyPipelineLayout :: fn(VkDevice, VkPipelineLayout, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateSampler :: fn(VkDevice, ^mut VkSamplerCreateInfo, ^mut VkAllocationCallbacks, ^mut VkSampler) -> VkResult
-PFN_vkDestroySampler :: fn(VkDevice, VkSampler, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateDescriptorSetLayout :: fn(VkDevice, ^mut VkDescriptorSetLayoutCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDescriptorSetLayout) -> VkResult
-PFN_vkDestroyDescriptorSetLayout :: fn(VkDevice, VkDescriptorSetLayout, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateDescriptorPool :: fn(VkDevice, ^mut VkDescriptorPoolCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDescriptorPool) -> VkResult
-PFN_vkDestroyDescriptorPool :: fn(VkDevice, VkDescriptorPool, ^mut VkAllocationCallbacks) -> void
-PFN_vkResetDescriptorPool :: fn(VkDevice, VkDescriptorPool, VkDescriptorPoolResetFlags) -> VkResult
-PFN_vkAllocateDescriptorSets :: fn(VkDevice, ^mut VkDescriptorSetAllocateInfo, ^mut VkDescriptorSet) -> VkResult
-PFN_vkFreeDescriptorSets :: fn(VkDevice, VkDescriptorPool, uint32_t, ^mut VkDescriptorSet) -> VkResult
-PFN_vkUpdateDescriptorSets :: fn(VkDevice, uint32_t, ^mut VkWriteDescriptorSet, uint32_t, ^mut VkCopyDescriptorSet) -> void
-PFN_vkCreateFramebuffer :: fn(VkDevice, ^mut VkFramebufferCreateInfo, ^mut VkAllocationCallbacks, ^mut VkFramebuffer) -> VkResult
-PFN_vkDestroyFramebuffer :: fn(VkDevice, VkFramebuffer, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateRenderPass :: fn(VkDevice, ^mut VkRenderPassCreateInfo, ^mut VkAllocationCallbacks, ^mut VkRenderPass) -> VkResult
-PFN_vkDestroyRenderPass :: fn(VkDevice, VkRenderPass, ^mut VkAllocationCallbacks) -> void
-PFN_vkGetRenderAreaGranularity :: fn(VkDevice, VkRenderPass, ^mut VkExtent2D) -> void
-PFN_vkCreateCommandPool :: fn(VkDevice, ^mut VkCommandPoolCreateInfo, ^mut VkAllocationCallbacks, ^mut VkCommandPool) -> VkResult
-PFN_vkDestroyCommandPool :: fn(VkDevice, VkCommandPool, ^mut VkAllocationCallbacks) -> void
-PFN_vkResetCommandPool :: fn(VkDevice, VkCommandPool, VkCommandPoolResetFlags) -> VkResult
-PFN_vkAllocateCommandBuffers :: fn(VkDevice, ^mut VkCommandBufferAllocateInfo, ^mut VkCommandBuffer) -> VkResult
-PFN_vkFreeCommandBuffers :: fn(VkDevice, VkCommandPool, uint32_t, ^mut VkCommandBuffer) -> void
-PFN_vkBeginCommandBuffer :: fn(VkCommandBuffer, ^mut VkCommandBufferBeginInfo) -> VkResult
-PFN_vkEndCommandBuffer :: fn(VkCommandBuffer) -> VkResult
-PFN_vkResetCommandBuffer :: fn(VkCommandBuffer, VkCommandBufferResetFlags) -> VkResult
-PFN_vkCmdBindPipeline :: fn(VkCommandBuffer, VkPipelineBindPoint, VkPipeline) -> void
-PFN_vkCmdSetViewport :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkViewport) -> void
-PFN_vkCmdSetScissor :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkRect2D) -> void
-PFN_vkCmdSetLineWidth :: fn(VkCommandBuffer, f32) -> void
-PFN_vkCmdSetDepthBias :: fn(VkCommandBuffer, f32, f32, f32) -> void
-PFN_vkCmdSetBlendConstants :: fn(VkCommandBuffer, ^f32) -> void
-PFN_vkCmdSetDepthBounds :: fn(VkCommandBuffer, f32, f32) -> void
-PFN_vkCmdSetStencilCompareMask :: fn(VkCommandBuffer, VkStencilFaceFlags, uint32_t) -> void
-PFN_vkCmdSetStencilWriteMask :: fn(VkCommandBuffer, VkStencilFaceFlags, uint32_t) -> void
-PFN_vkCmdSetStencilReference :: fn(VkCommandBuffer, VkStencilFaceFlags, uint32_t) -> void
-PFN_vkCmdBindDescriptorSets :: fn(VkCommandBuffer, VkPipelineBindPoint, VkPipelineLayout, uint32_t, uint32_t, ^mut VkDescriptorSet, uint32_t, ^mut uint32_t) -> void
-PFN_vkCmdBindIndexBuffer :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkIndexType) -> void
-PFN_vkCmdBindVertexBuffers :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize) -> void
-PFN_vkCmdDraw :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t, uint32_t) -> void
-PFN_vkCmdDrawIndexed :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t, int32_t, uint32_t) -> void
-PFN_vkCmdDrawIndirect :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkCmdDrawIndexedIndirect :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkCmdDispatch :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t) -> void
-PFN_vkCmdDispatchIndirect :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize) -> void
-PFN_vkCmdCopyBuffer :: fn(VkCommandBuffer, VkBuffer, VkBuffer, uint32_t, ^mut VkBufferCopy) -> void
-PFN_vkCmdCopyImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, VkImage, VkImageLayout, uint32_t, ^mut VkImageCopy) -> void
-PFN_vkCmdBlitImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, VkImage, VkImageLayout, uint32_t, ^mut VkImageBlit, VkFilter) -> void
-PFN_vkCmdCopyBufferToImage :: fn(VkCommandBuffer, VkBuffer, VkImage, VkImageLayout, uint32_t, ^mut VkBufferImageCopy) -> void
-PFN_vkCmdCopyImageToBuffer :: fn(VkCommandBuffer, VkImage, VkImageLayout, VkBuffer, uint32_t, ^mut VkBufferImageCopy) -> void
-PFN_vkCmdUpdateBuffer :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkDeviceSize, ^mut void) -> void
-PFN_vkCmdFillBuffer :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkDeviceSize, uint32_t) -> void
-PFN_vkCmdClearColorImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, ^mut VkClearColorValue, uint32_t, ^mut VkImageSubresourceRange) -> void
-PFN_vkCmdClearDepthStencilImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, ^mut VkClearDepthStencilValue, uint32_t, ^mut VkImageSubresourceRange) -> void
-PFN_vkCmdClearAttachments :: fn(VkCommandBuffer, uint32_t, ^mut VkClearAttachment, uint32_t, ^mut VkClearRect) -> void
-PFN_vkCmdResolveImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, VkImage, VkImageLayout, uint32_t, ^mut VkImageResolve) -> void
-PFN_vkCmdSetEvent :: fn(VkCommandBuffer, VkEvent, VkPipelineStageFlags) -> void
-PFN_vkCmdResetEvent :: fn(VkCommandBuffer, VkEvent, VkPipelineStageFlags) -> void
-PFN_vkCmdWaitEvents :: fn(VkCommandBuffer, uint32_t, ^mut VkEvent, VkPipelineStageFlags, VkPipelineStageFlags, uint32_t, ^mut VkMemoryBarrier, uint32_t, ^mut VkBufferMemoryBarrier, uint32_t, ^mut VkImageMemoryBarrier) -> void
-PFN_vkCmdPipelineBarrier :: fn(VkCommandBuffer, VkPipelineStageFlags, VkPipelineStageFlags, VkDependencyFlags, uint32_t, ^mut VkMemoryBarrier, uint32_t, ^mut VkBufferMemoryBarrier, uint32_t, ^mut VkImageMemoryBarrier) -> void
-PFN_vkCmdBeginQuery :: fn(VkCommandBuffer, VkQueryPool, uint32_t, VkQueryControlFlags) -> void
-PFN_vkCmdEndQuery :: fn(VkCommandBuffer, VkQueryPool, uint32_t) -> void
-PFN_vkCmdResetQueryPool :: fn(VkCommandBuffer, VkQueryPool, uint32_t, uint32_t) -> void
-PFN_vkCmdWriteTimestamp :: fn(VkCommandBuffer, VkPipelineStageFlagBits, VkQueryPool, uint32_t) -> void
-PFN_vkCmdCopyQueryPoolResults :: fn(VkCommandBuffer, VkQueryPool, uint32_t, uint32_t, VkBuffer, VkDeviceSize, VkDeviceSize, VkQueryResultFlags) -> void
-PFN_vkCmdPushConstants :: fn(VkCommandBuffer, VkPipelineLayout, VkShaderStageFlags, uint32_t, uint32_t, ^mut void) -> void
-PFN_vkCmdBeginRenderPass :: fn(VkCommandBuffer, ^mut VkRenderPassBeginInfo, VkSubpassContents) -> void
-PFN_vkCmdNextSubpass :: fn(VkCommandBuffer, VkSubpassContents) -> void
-PFN_vkCmdEndRenderPass :: fn(VkCommandBuffer) -> void
-PFN_vkCmdExecuteCommands :: fn(VkCommandBuffer, uint32_t, ^mut VkCommandBuffer) -> void
+PFN_vkAllocationFunction :: fn(^mut void, size_t, size_t, VkSystemAllocationScope) -> ^mut void #stdcall
+PFN_vkFreeFunction :: fn(^mut void, ^mut void) -> void #stdcall
+PFN_vkInternalAllocationNotification :: fn(^mut void, size_t, VkInternalAllocationType, VkSystemAllocationScope) -> void #stdcall
+PFN_vkInternalFreeNotification :: fn(^mut void, size_t, VkInternalAllocationType, VkSystemAllocationScope) -> void #stdcall
+PFN_vkReallocationFunction :: fn(^mut void, ^mut void, size_t, size_t, VkSystemAllocationScope) -> ^mut void #stdcall
+PFN_vkVoidFunction :: fn() -> void #stdcall
+PFN_vkCreateInstance :: fn(^mut VkInstanceCreateInfo, ^mut VkAllocationCallbacks, ^mut VkInstance) -> VkResult #stdcall
+PFN_vkDestroyInstance :: fn(VkInstance, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkEnumeratePhysicalDevices :: fn(VkInstance, ^mut uint32_t, ^mut VkPhysicalDevice) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceFeatures :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceFeatures) -> void #stdcall
+PFN_vkGetPhysicalDeviceFormatProperties :: fn(VkPhysicalDevice, VkFormat, ^mut VkFormatProperties) -> void #stdcall
+PFN_vkGetPhysicalDeviceImageFormatProperties :: fn(VkPhysicalDevice, VkFormat, VkImageType, VkImageTiling, VkImageUsageFlags, VkImageCreateFlags, ^mut VkImageFormatProperties) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceProperties) -> void #stdcall
+PFN_vkGetPhysicalDeviceQueueFamilyProperties :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkQueueFamilyProperties) -> void #stdcall
+PFN_vkGetPhysicalDeviceMemoryProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceMemoryProperties) -> void #stdcall
+PFN_vkGetInstanceProcAddr :: fn(VkInstance, ^char8) -> PFN_vkVoidFunction #stdcall
+PFN_vkGetDeviceProcAddr :: fn(VkDevice, ^char8) -> PFN_vkVoidFunction #stdcall
+PFN_vkCreateDevice :: fn(VkPhysicalDevice, ^mut VkDeviceCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDevice) -> VkResult #stdcall
+PFN_vkDestroyDevice :: fn(VkDevice, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkEnumerateInstanceExtensionProperties :: fn(^char8, ^mut uint32_t, ^mut VkExtensionProperties) -> VkResult #stdcall
+PFN_vkEnumerateDeviceExtensionProperties :: fn(VkPhysicalDevice, ^char8, ^mut uint32_t, ^mut VkExtensionProperties) -> VkResult #stdcall
+PFN_vkEnumerateInstanceLayerProperties :: fn(^mut uint32_t, ^mut VkLayerProperties) -> VkResult #stdcall
+PFN_vkEnumerateDeviceLayerProperties :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkLayerProperties) -> VkResult #stdcall
+PFN_vkGetDeviceQueue :: fn(VkDevice, uint32_t, uint32_t, ^mut VkQueue) -> void #stdcall
+PFN_vkQueueSubmit :: fn(VkQueue, uint32_t, ^mut VkSubmitInfo, VkFence) -> VkResult #stdcall
+PFN_vkQueueWaitIdle :: fn(VkQueue) -> VkResult #stdcall
+PFN_vkDeviceWaitIdle :: fn(VkDevice) -> VkResult #stdcall
+PFN_vkAllocateMemory :: fn(VkDevice, ^mut VkMemoryAllocateInfo, ^mut VkAllocationCallbacks, ^mut VkDeviceMemory) -> VkResult #stdcall
+PFN_vkFreeMemory :: fn(VkDevice, VkDeviceMemory, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkMapMemory :: fn(VkDevice, VkDeviceMemory, VkDeviceSize, VkDeviceSize, VkMemoryMapFlags, ^mut ^mut void) -> VkResult #stdcall
+PFN_vkUnmapMemory :: fn(VkDevice, VkDeviceMemory) -> void #stdcall
+PFN_vkFlushMappedMemoryRanges :: fn(VkDevice, uint32_t, ^mut VkMappedMemoryRange) -> VkResult #stdcall
+PFN_vkInvalidateMappedMemoryRanges :: fn(VkDevice, uint32_t, ^mut VkMappedMemoryRange) -> VkResult #stdcall
+PFN_vkGetDeviceMemoryCommitment :: fn(VkDevice, VkDeviceMemory, ^mut VkDeviceSize) -> void #stdcall
+PFN_vkBindBufferMemory :: fn(VkDevice, VkBuffer, VkDeviceMemory, VkDeviceSize) -> VkResult #stdcall
+PFN_vkBindImageMemory :: fn(VkDevice, VkImage, VkDeviceMemory, VkDeviceSize) -> VkResult #stdcall
+PFN_vkGetBufferMemoryRequirements :: fn(VkDevice, VkBuffer, ^mut VkMemoryRequirements) -> void #stdcall
+PFN_vkGetImageMemoryRequirements :: fn(VkDevice, VkImage, ^mut VkMemoryRequirements) -> void #stdcall
+PFN_vkGetImageSparseMemoryRequirements :: fn(VkDevice, VkImage, ^mut uint32_t, ^mut VkSparseImageMemoryRequirements) -> void #stdcall
+PFN_vkGetPhysicalDeviceSparseImageFormatProperties :: fn(VkPhysicalDevice, VkFormat, VkImageType, VkSampleCountFlagBits, VkImageUsageFlags, VkImageTiling, ^mut uint32_t, ^mut VkSparseImageFormatProperties) -> void #stdcall
+PFN_vkQueueBindSparse :: fn(VkQueue, uint32_t, ^mut VkBindSparseInfo, VkFence) -> VkResult #stdcall
+PFN_vkCreateFence :: fn(VkDevice, ^mut VkFenceCreateInfo, ^mut VkAllocationCallbacks, ^mut VkFence) -> VkResult #stdcall
+PFN_vkDestroyFence :: fn(VkDevice, VkFence, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkResetFences :: fn(VkDevice, uint32_t, ^mut VkFence) -> VkResult #stdcall
+PFN_vkGetFenceStatus :: fn(VkDevice, VkFence) -> VkResult #stdcall
+PFN_vkWaitForFences :: fn(VkDevice, uint32_t, ^mut VkFence, VkBool32, uint64_t) -> VkResult #stdcall
+PFN_vkCreateSemaphore :: fn(VkDevice, ^mut VkSemaphoreCreateInfo, ^mut VkAllocationCallbacks, ^mut VkSemaphore) -> VkResult #stdcall
+PFN_vkDestroySemaphore :: fn(VkDevice, VkSemaphore, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateEvent :: fn(VkDevice, ^mut VkEventCreateInfo, ^mut VkAllocationCallbacks, ^mut VkEvent) -> VkResult #stdcall
+PFN_vkDestroyEvent :: fn(VkDevice, VkEvent, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkGetEventStatus :: fn(VkDevice, VkEvent) -> VkResult #stdcall
+PFN_vkSetEvent :: fn(VkDevice, VkEvent) -> VkResult #stdcall
+PFN_vkResetEvent :: fn(VkDevice, VkEvent) -> VkResult #stdcall
+PFN_vkCreateQueryPool :: fn(VkDevice, ^mut VkQueryPoolCreateInfo, ^mut VkAllocationCallbacks, ^mut VkQueryPool) -> VkResult #stdcall
+PFN_vkDestroyQueryPool :: fn(VkDevice, VkQueryPool, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkGetQueryPoolResults :: fn(VkDevice, VkQueryPool, uint32_t, uint32_t, size_t, ^mut void, VkDeviceSize, VkQueryResultFlags) -> VkResult #stdcall
+PFN_vkCreateBuffer :: fn(VkDevice, ^mut VkBufferCreateInfo, ^mut VkAllocationCallbacks, ^mut VkBuffer) -> VkResult #stdcall
+PFN_vkDestroyBuffer :: fn(VkDevice, VkBuffer, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateBufferView :: fn(VkDevice, ^mut VkBufferViewCreateInfo, ^mut VkAllocationCallbacks, ^mut VkBufferView) -> VkResult #stdcall
+PFN_vkDestroyBufferView :: fn(VkDevice, VkBufferView, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateImage :: fn(VkDevice, ^mut VkImageCreateInfo, ^mut VkAllocationCallbacks, ^mut VkImage) -> VkResult #stdcall
+PFN_vkDestroyImage :: fn(VkDevice, VkImage, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkGetImageSubresourceLayout :: fn(VkDevice, VkImage, ^mut VkImageSubresource, ^mut VkSubresourceLayout) -> void #stdcall
+PFN_vkCreateImageView :: fn(VkDevice, ^mut VkImageViewCreateInfo, ^mut VkAllocationCallbacks, ^mut VkImageView) -> VkResult #stdcall
+PFN_vkDestroyImageView :: fn(VkDevice, VkImageView, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateShaderModule :: fn(VkDevice, ^mut VkShaderModuleCreateInfo, ^mut VkAllocationCallbacks, ^mut VkShaderModule) -> VkResult #stdcall
+PFN_vkDestroyShaderModule :: fn(VkDevice, VkShaderModule, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreatePipelineCache :: fn(VkDevice, ^mut VkPipelineCacheCreateInfo, ^mut VkAllocationCallbacks, ^mut VkPipelineCache) -> VkResult #stdcall
+PFN_vkDestroyPipelineCache :: fn(VkDevice, VkPipelineCache, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkGetPipelineCacheData :: fn(VkDevice, VkPipelineCache, ^mut size_t, ^mut void) -> VkResult #stdcall
+PFN_vkMergePipelineCaches :: fn(VkDevice, VkPipelineCache, uint32_t, ^mut VkPipelineCache) -> VkResult #stdcall
+PFN_vkCreateGraphicsPipelines :: fn(VkDevice, VkPipelineCache, uint32_t, ^mut VkGraphicsPipelineCreateInfo, ^mut VkAllocationCallbacks, ^mut VkPipeline) -> VkResult #stdcall
+PFN_vkCreateComputePipelines :: fn(VkDevice, VkPipelineCache, uint32_t, ^mut VkComputePipelineCreateInfo, ^mut VkAllocationCallbacks, ^mut VkPipeline) -> VkResult #stdcall
+PFN_vkDestroyPipeline :: fn(VkDevice, VkPipeline, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreatePipelineLayout :: fn(VkDevice, ^mut VkPipelineLayoutCreateInfo, ^mut VkAllocationCallbacks, ^mut VkPipelineLayout) -> VkResult #stdcall
+PFN_vkDestroyPipelineLayout :: fn(VkDevice, VkPipelineLayout, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateSampler :: fn(VkDevice, ^mut VkSamplerCreateInfo, ^mut VkAllocationCallbacks, ^mut VkSampler) -> VkResult #stdcall
+PFN_vkDestroySampler :: fn(VkDevice, VkSampler, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateDescriptorSetLayout :: fn(VkDevice, ^mut VkDescriptorSetLayoutCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDescriptorSetLayout) -> VkResult #stdcall
+PFN_vkDestroyDescriptorSetLayout :: fn(VkDevice, VkDescriptorSetLayout, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateDescriptorPool :: fn(VkDevice, ^mut VkDescriptorPoolCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDescriptorPool) -> VkResult #stdcall
+PFN_vkDestroyDescriptorPool :: fn(VkDevice, VkDescriptorPool, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkResetDescriptorPool :: fn(VkDevice, VkDescriptorPool, VkDescriptorPoolResetFlags) -> VkResult #stdcall
+PFN_vkAllocateDescriptorSets :: fn(VkDevice, ^mut VkDescriptorSetAllocateInfo, ^mut VkDescriptorSet) -> VkResult #stdcall
+PFN_vkFreeDescriptorSets :: fn(VkDevice, VkDescriptorPool, uint32_t, ^mut VkDescriptorSet) -> VkResult #stdcall
+PFN_vkUpdateDescriptorSets :: fn(VkDevice, uint32_t, ^mut VkWriteDescriptorSet, uint32_t, ^mut VkCopyDescriptorSet) -> void #stdcall
+PFN_vkCreateFramebuffer :: fn(VkDevice, ^mut VkFramebufferCreateInfo, ^mut VkAllocationCallbacks, ^mut VkFramebuffer) -> VkResult #stdcall
+PFN_vkDestroyFramebuffer :: fn(VkDevice, VkFramebuffer, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateRenderPass :: fn(VkDevice, ^mut VkRenderPassCreateInfo, ^mut VkAllocationCallbacks, ^mut VkRenderPass) -> VkResult #stdcall
+PFN_vkDestroyRenderPass :: fn(VkDevice, VkRenderPass, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkGetRenderAreaGranularity :: fn(VkDevice, VkRenderPass, ^mut VkExtent2D) -> void #stdcall
+PFN_vkCreateCommandPool :: fn(VkDevice, ^mut VkCommandPoolCreateInfo, ^mut VkAllocationCallbacks, ^mut VkCommandPool) -> VkResult #stdcall
+PFN_vkDestroyCommandPool :: fn(VkDevice, VkCommandPool, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkResetCommandPool :: fn(VkDevice, VkCommandPool, VkCommandPoolResetFlags) -> VkResult #stdcall
+PFN_vkAllocateCommandBuffers :: fn(VkDevice, ^mut VkCommandBufferAllocateInfo, ^mut VkCommandBuffer) -> VkResult #stdcall
+PFN_vkFreeCommandBuffers :: fn(VkDevice, VkCommandPool, uint32_t, ^mut VkCommandBuffer) -> void #stdcall
+PFN_vkBeginCommandBuffer :: fn(VkCommandBuffer, ^mut VkCommandBufferBeginInfo) -> VkResult #stdcall
+PFN_vkEndCommandBuffer :: fn(VkCommandBuffer) -> VkResult #stdcall
+PFN_vkResetCommandBuffer :: fn(VkCommandBuffer, VkCommandBufferResetFlags) -> VkResult #stdcall
+PFN_vkCmdBindPipeline :: fn(VkCommandBuffer, VkPipelineBindPoint, VkPipeline) -> void #stdcall
+PFN_vkCmdSetViewport :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkViewport) -> void #stdcall
+PFN_vkCmdSetScissor :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkRect2D) -> void #stdcall
+PFN_vkCmdSetLineWidth :: fn(VkCommandBuffer, f32) -> void #stdcall
+PFN_vkCmdSetDepthBias :: fn(VkCommandBuffer, f32, f32, f32) -> void #stdcall
+PFN_vkCmdSetBlendConstants :: fn(VkCommandBuffer, ^f32) -> void #stdcall
+PFN_vkCmdSetDepthBounds :: fn(VkCommandBuffer, f32, f32) -> void #stdcall
+PFN_vkCmdSetStencilCompareMask :: fn(VkCommandBuffer, VkStencilFaceFlags, uint32_t) -> void #stdcall
+PFN_vkCmdSetStencilWriteMask :: fn(VkCommandBuffer, VkStencilFaceFlags, uint32_t) -> void #stdcall
+PFN_vkCmdSetStencilReference :: fn(VkCommandBuffer, VkStencilFaceFlags, uint32_t) -> void #stdcall
+PFN_vkCmdBindDescriptorSets :: fn(VkCommandBuffer, VkPipelineBindPoint, VkPipelineLayout, uint32_t, uint32_t, ^mut VkDescriptorSet, uint32_t, ^mut uint32_t) -> void #stdcall
+PFN_vkCmdBindIndexBuffer :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkIndexType) -> void #stdcall
+PFN_vkCmdBindVertexBuffers :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize) -> void #stdcall
+PFN_vkCmdDraw :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawIndexed :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t, int32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawIndirect :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawIndexedIndirect :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDispatch :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDispatchIndirect :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize) -> void #stdcall
+PFN_vkCmdCopyBuffer :: fn(VkCommandBuffer, VkBuffer, VkBuffer, uint32_t, ^mut VkBufferCopy) -> void #stdcall
+PFN_vkCmdCopyImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, VkImage, VkImageLayout, uint32_t, ^mut VkImageCopy) -> void #stdcall
+PFN_vkCmdBlitImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, VkImage, VkImageLayout, uint32_t, ^mut VkImageBlit, VkFilter) -> void #stdcall
+PFN_vkCmdCopyBufferToImage :: fn(VkCommandBuffer, VkBuffer, VkImage, VkImageLayout, uint32_t, ^mut VkBufferImageCopy) -> void #stdcall
+PFN_vkCmdCopyImageToBuffer :: fn(VkCommandBuffer, VkImage, VkImageLayout, VkBuffer, uint32_t, ^mut VkBufferImageCopy) -> void #stdcall
+PFN_vkCmdUpdateBuffer :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkDeviceSize, ^mut void) -> void #stdcall
+PFN_vkCmdFillBuffer :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkDeviceSize, uint32_t) -> void #stdcall
+PFN_vkCmdClearColorImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, ^mut VkClearColorValue, uint32_t, ^mut VkImageSubresourceRange) -> void #stdcall
+PFN_vkCmdClearDepthStencilImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, ^mut VkClearDepthStencilValue, uint32_t, ^mut VkImageSubresourceRange) -> void #stdcall
+PFN_vkCmdClearAttachments :: fn(VkCommandBuffer, uint32_t, ^mut VkClearAttachment, uint32_t, ^mut VkClearRect) -> void #stdcall
+PFN_vkCmdResolveImage :: fn(VkCommandBuffer, VkImage, VkImageLayout, VkImage, VkImageLayout, uint32_t, ^mut VkImageResolve) -> void #stdcall
+PFN_vkCmdSetEvent :: fn(VkCommandBuffer, VkEvent, VkPipelineStageFlags) -> void #stdcall
+PFN_vkCmdResetEvent :: fn(VkCommandBuffer, VkEvent, VkPipelineStageFlags) -> void #stdcall
+PFN_vkCmdWaitEvents :: fn(VkCommandBuffer, uint32_t, ^mut VkEvent, VkPipelineStageFlags, VkPipelineStageFlags, uint32_t, ^mut VkMemoryBarrier, uint32_t, ^mut VkBufferMemoryBarrier, uint32_t, ^mut VkImageMemoryBarrier) -> void #stdcall
+PFN_vkCmdPipelineBarrier :: fn(VkCommandBuffer, VkPipelineStageFlags, VkPipelineStageFlags, VkDependencyFlags, uint32_t, ^mut VkMemoryBarrier, uint32_t, ^mut VkBufferMemoryBarrier, uint32_t, ^mut VkImageMemoryBarrier) -> void #stdcall
+PFN_vkCmdBeginQuery :: fn(VkCommandBuffer, VkQueryPool, uint32_t, VkQueryControlFlags) -> void #stdcall
+PFN_vkCmdEndQuery :: fn(VkCommandBuffer, VkQueryPool, uint32_t) -> void #stdcall
+PFN_vkCmdResetQueryPool :: fn(VkCommandBuffer, VkQueryPool, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdWriteTimestamp :: fn(VkCommandBuffer, VkPipelineStageFlagBits, VkQueryPool, uint32_t) -> void #stdcall
+PFN_vkCmdCopyQueryPoolResults :: fn(VkCommandBuffer, VkQueryPool, uint32_t, uint32_t, VkBuffer, VkDeviceSize, VkDeviceSize, VkQueryResultFlags) -> void #stdcall
+PFN_vkCmdPushConstants :: fn(VkCommandBuffer, VkPipelineLayout, VkShaderStageFlags, uint32_t, uint32_t, ^mut void) -> void #stdcall
+PFN_vkCmdBeginRenderPass :: fn(VkCommandBuffer, ^mut VkRenderPassBeginInfo, VkSubpassContents) -> void #stdcall
+PFN_vkCmdNextSubpass :: fn(VkCommandBuffer, VkSubpassContents) -> void #stdcall
+PFN_vkCmdEndRenderPass :: fn(VkCommandBuffer) -> void #stdcall
+PFN_vkCmdExecuteCommands :: fn(VkCommandBuffer, uint32_t, ^mut VkCommandBuffer) -> void #stdcall
 VkSamplerYcbcrConversion_T :: struct #copy {}
 VkSamplerYcbcrConversion :: ^mut VkSamplerYcbcrConversion_T
 VkDescriptorUpdateTemplate_T :: struct #copy {}
@@ -476,72 +476,72 @@ VkExternalSemaphoreHandleTypeFlags :: VkExternalSemaphoreHandleTypeFlagBits
 VkExternalSemaphoreFeatureFlags :: VkExternalSemaphoreFeatureFlagBits
 VkPhysicalDeviceVariablePointerFeatures :: VkPhysicalDeviceVariablePointersFeatures
 VkPhysicalDeviceShaderDrawParameterFeatures :: VkPhysicalDeviceShaderDrawParametersFeatures
-PFN_vkEnumerateInstanceVersion :: fn(^mut uint32_t) -> VkResult
-PFN_vkBindBufferMemory2 :: fn(VkDevice, uint32_t, ^mut VkBindBufferMemoryInfo) -> VkResult
-PFN_vkBindImageMemory2 :: fn(VkDevice, uint32_t, ^mut VkBindImageMemoryInfo) -> VkResult
-PFN_vkGetDeviceGroupPeerMemoryFeatures :: fn(VkDevice, uint32_t, uint32_t, uint32_t, ^mut VkPeerMemoryFeatureFlags) -> void
-PFN_vkCmdSetDeviceMask :: fn(VkCommandBuffer, uint32_t) -> void
-PFN_vkCmdDispatchBase :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t) -> void
-PFN_vkEnumeratePhysicalDeviceGroups :: fn(VkInstance, ^mut uint32_t, ^mut VkPhysicalDeviceGroupProperties) -> VkResult
-PFN_vkGetImageMemoryRequirements2 :: fn(VkDevice, ^mut VkImageMemoryRequirementsInfo2, ^mut VkMemoryRequirements2) -> void
-PFN_vkGetBufferMemoryRequirements2 :: fn(VkDevice, ^mut VkBufferMemoryRequirementsInfo2, ^mut VkMemoryRequirements2) -> void
-PFN_vkGetImageSparseMemoryRequirements2 :: fn(VkDevice, ^mut VkImageSparseMemoryRequirementsInfo2, ^mut uint32_t, ^mut VkSparseImageMemoryRequirements2) -> void
-PFN_vkGetPhysicalDeviceFeatures2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceFeatures2) -> void
-PFN_vkGetPhysicalDeviceProperties2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceProperties2) -> void
-PFN_vkGetPhysicalDeviceFormatProperties2 :: fn(VkPhysicalDevice, VkFormat, ^mut VkFormatProperties2) -> void
-PFN_vkGetPhysicalDeviceImageFormatProperties2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceImageFormatInfo2, ^mut VkImageFormatProperties2) -> VkResult
-PFN_vkGetPhysicalDeviceQueueFamilyProperties2 :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkQueueFamilyProperties2) -> void
-PFN_vkGetPhysicalDeviceMemoryProperties2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceMemoryProperties2) -> void
-PFN_vkGetPhysicalDeviceSparseImageFormatProperties2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceSparseImageFormatInfo2, ^mut uint32_t, ^mut VkSparseImageFormatProperties2) -> void
-PFN_vkTrimCommandPool :: fn(VkDevice, VkCommandPool, VkCommandPoolTrimFlags) -> void
-PFN_vkGetDeviceQueue2 :: fn(VkDevice, ^mut VkDeviceQueueInfo2, ^mut VkQueue) -> void
-PFN_vkCreateSamplerYcbcrConversion :: fn(VkDevice, ^mut VkSamplerYcbcrConversionCreateInfo, ^mut VkAllocationCallbacks, ^mut VkSamplerYcbcrConversion) -> VkResult
-PFN_vkDestroySamplerYcbcrConversion :: fn(VkDevice, VkSamplerYcbcrConversion, ^mut VkAllocationCallbacks) -> void
-PFN_vkCreateDescriptorUpdateTemplate :: fn(VkDevice, ^mut VkDescriptorUpdateTemplateCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDescriptorUpdateTemplate) -> VkResult
-PFN_vkDestroyDescriptorUpdateTemplate :: fn(VkDevice, VkDescriptorUpdateTemplate, ^mut VkAllocationCallbacks) -> void
-PFN_vkUpdateDescriptorSetWithTemplate :: fn(VkDevice, VkDescriptorSet, VkDescriptorUpdateTemplate, ^mut void) -> void
-PFN_vkGetPhysicalDeviceExternalBufferProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalBufferInfo, ^mut VkExternalBufferProperties) -> void
-PFN_vkGetPhysicalDeviceExternalFenceProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalFenceInfo, ^mut VkExternalFenceProperties) -> void
-PFN_vkGetPhysicalDeviceExternalSemaphoreProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalSemaphoreInfo, ^mut VkExternalSemaphoreProperties) -> void
-PFN_vkGetDescriptorSetLayoutSupport :: fn(VkDevice, ^mut VkDescriptorSetLayoutCreateInfo, ^mut VkDescriptorSetLayoutSupport) -> void
+PFN_vkEnumerateInstanceVersion :: fn(^mut uint32_t) -> VkResult #stdcall
+PFN_vkBindBufferMemory2 :: fn(VkDevice, uint32_t, ^mut VkBindBufferMemoryInfo) -> VkResult #stdcall
+PFN_vkBindImageMemory2 :: fn(VkDevice, uint32_t, ^mut VkBindImageMemoryInfo) -> VkResult #stdcall
+PFN_vkGetDeviceGroupPeerMemoryFeatures :: fn(VkDevice, uint32_t, uint32_t, uint32_t, ^mut VkPeerMemoryFeatureFlags) -> void #stdcall
+PFN_vkCmdSetDeviceMask :: fn(VkCommandBuffer, uint32_t) -> void #stdcall
+PFN_vkCmdDispatchBase :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t) -> void #stdcall
+PFN_vkEnumeratePhysicalDeviceGroups :: fn(VkInstance, ^mut uint32_t, ^mut VkPhysicalDeviceGroupProperties) -> VkResult #stdcall
+PFN_vkGetImageMemoryRequirements2 :: fn(VkDevice, ^mut VkImageMemoryRequirementsInfo2, ^mut VkMemoryRequirements2) -> void #stdcall
+PFN_vkGetBufferMemoryRequirements2 :: fn(VkDevice, ^mut VkBufferMemoryRequirementsInfo2, ^mut VkMemoryRequirements2) -> void #stdcall
+PFN_vkGetImageSparseMemoryRequirements2 :: fn(VkDevice, ^mut VkImageSparseMemoryRequirementsInfo2, ^mut uint32_t, ^mut VkSparseImageMemoryRequirements2) -> void #stdcall
+PFN_vkGetPhysicalDeviceFeatures2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceFeatures2) -> void #stdcall
+PFN_vkGetPhysicalDeviceProperties2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceProperties2) -> void #stdcall
+PFN_vkGetPhysicalDeviceFormatProperties2 :: fn(VkPhysicalDevice, VkFormat, ^mut VkFormatProperties2) -> void #stdcall
+PFN_vkGetPhysicalDeviceImageFormatProperties2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceImageFormatInfo2, ^mut VkImageFormatProperties2) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceQueueFamilyProperties2 :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkQueueFamilyProperties2) -> void #stdcall
+PFN_vkGetPhysicalDeviceMemoryProperties2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceMemoryProperties2) -> void #stdcall
+PFN_vkGetPhysicalDeviceSparseImageFormatProperties2 :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceSparseImageFormatInfo2, ^mut uint32_t, ^mut VkSparseImageFormatProperties2) -> void #stdcall
+PFN_vkTrimCommandPool :: fn(VkDevice, VkCommandPool, VkCommandPoolTrimFlags) -> void #stdcall
+PFN_vkGetDeviceQueue2 :: fn(VkDevice, ^mut VkDeviceQueueInfo2, ^mut VkQueue) -> void #stdcall
+PFN_vkCreateSamplerYcbcrConversion :: fn(VkDevice, ^mut VkSamplerYcbcrConversionCreateInfo, ^mut VkAllocationCallbacks, ^mut VkSamplerYcbcrConversion) -> VkResult #stdcall
+PFN_vkDestroySamplerYcbcrConversion :: fn(VkDevice, VkSamplerYcbcrConversion, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkCreateDescriptorUpdateTemplate :: fn(VkDevice, ^mut VkDescriptorUpdateTemplateCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDescriptorUpdateTemplate) -> VkResult #stdcall
+PFN_vkDestroyDescriptorUpdateTemplate :: fn(VkDevice, VkDescriptorUpdateTemplate, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkUpdateDescriptorSetWithTemplate :: fn(VkDevice, VkDescriptorSet, VkDescriptorUpdateTemplate, ^mut void) -> void #stdcall
+PFN_vkGetPhysicalDeviceExternalBufferProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalBufferInfo, ^mut VkExternalBufferProperties) -> void #stdcall
+PFN_vkGetPhysicalDeviceExternalFenceProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalFenceInfo, ^mut VkExternalFenceProperties) -> void #stdcall
+PFN_vkGetPhysicalDeviceExternalSemaphoreProperties :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalSemaphoreInfo, ^mut VkExternalSemaphoreProperties) -> void #stdcall
+PFN_vkGetDescriptorSetLayoutSupport :: fn(VkDevice, ^mut VkDescriptorSetLayoutCreateInfo, ^mut VkDescriptorSetLayoutSupport) -> void #stdcall
 VkResolveModeFlags :: VkResolveModeFlagBits
 VkDescriptorBindingFlags :: VkDescriptorBindingFlagBits
 VkSemaphoreWaitFlags :: VkSemaphoreWaitFlagBits
-PFN_vkCmdDrawIndirectCount :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkCmdDrawIndexedIndirectCount :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkCreateRenderPass2 :: fn(VkDevice, ^mut VkRenderPassCreateInfo2, ^mut VkAllocationCallbacks, ^mut VkRenderPass) -> VkResult
-PFN_vkCmdBeginRenderPass2 :: fn(VkCommandBuffer, ^mut VkRenderPassBeginInfo, ^mut VkSubpassBeginInfo) -> void
-PFN_vkCmdNextSubpass2 :: fn(VkCommandBuffer, ^mut VkSubpassBeginInfo, ^mut VkSubpassEndInfo) -> void
-PFN_vkCmdEndRenderPass2 :: fn(VkCommandBuffer, ^mut VkSubpassEndInfo) -> void
-PFN_vkResetQueryPool :: fn(VkDevice, VkQueryPool, uint32_t, uint32_t) -> void
-PFN_vkGetSemaphoreCounterValue :: fn(VkDevice, VkSemaphore, ^mut uint64_t) -> VkResult
-PFN_vkWaitSemaphores :: fn(VkDevice, ^mut VkSemaphoreWaitInfo, uint64_t) -> VkResult
-PFN_vkSignalSemaphore :: fn(VkDevice, ^mut VkSemaphoreSignalInfo) -> VkResult
-PFN_vkGetBufferDeviceAddress :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> VkDeviceAddress
-PFN_vkGetBufferOpaqueCaptureAddress :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> uint64_t
-PFN_vkGetDeviceMemoryOpaqueCaptureAddress :: fn(VkDevice, ^mut VkDeviceMemoryOpaqueCaptureAddressInfo) -> uint64_t
+PFN_vkCmdDrawIndirectCount :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawIndexedIndirectCount :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCreateRenderPass2 :: fn(VkDevice, ^mut VkRenderPassCreateInfo2, ^mut VkAllocationCallbacks, ^mut VkRenderPass) -> VkResult #stdcall
+PFN_vkCmdBeginRenderPass2 :: fn(VkCommandBuffer, ^mut VkRenderPassBeginInfo, ^mut VkSubpassBeginInfo) -> void #stdcall
+PFN_vkCmdNextSubpass2 :: fn(VkCommandBuffer, ^mut VkSubpassBeginInfo, ^mut VkSubpassEndInfo) -> void #stdcall
+PFN_vkCmdEndRenderPass2 :: fn(VkCommandBuffer, ^mut VkSubpassEndInfo) -> void #stdcall
+PFN_vkResetQueryPool :: fn(VkDevice, VkQueryPool, uint32_t, uint32_t) -> void #stdcall
+PFN_vkGetSemaphoreCounterValue :: fn(VkDevice, VkSemaphore, ^mut uint64_t) -> VkResult #stdcall
+PFN_vkWaitSemaphores :: fn(VkDevice, ^mut VkSemaphoreWaitInfo, uint64_t) -> VkResult #stdcall
+PFN_vkSignalSemaphore :: fn(VkDevice, ^mut VkSemaphoreSignalInfo) -> VkResult #stdcall
+PFN_vkGetBufferDeviceAddress :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> VkDeviceAddress #stdcall
+PFN_vkGetBufferOpaqueCaptureAddress :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> uint64_t #stdcall
+PFN_vkGetDeviceMemoryOpaqueCaptureAddress :: fn(VkDevice, ^mut VkDeviceMemoryOpaqueCaptureAddressInfo) -> uint64_t #stdcall
 VkSurfaceKHR_T :: struct #copy {}
 VkSurfaceKHR :: ^mut VkSurfaceKHR_T
 VkCompositeAlphaFlagsKHR :: VkCompositeAlphaFlagBitsKHR
 VkSurfaceTransformFlagsKHR :: VkSurfaceTransformFlagBitsKHR
-PFN_vkDestroySurfaceKHR :: fn(VkInstance, VkSurfaceKHR, ^mut VkAllocationCallbacks) -> void
-PFN_vkGetPhysicalDeviceSurfaceSupportKHR :: fn(VkPhysicalDevice, uint32_t, VkSurfaceKHR, ^mut VkBool32) -> VkResult
-PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut VkSurfaceCapabilitiesKHR) -> VkResult
-PFN_vkGetPhysicalDeviceSurfaceFormatsKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut uint32_t, ^mut VkSurfaceFormatKHR) -> VkResult
-PFN_vkGetPhysicalDeviceSurfacePresentModesKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut uint32_t, ^mut VkPresentModeKHR) -> VkResult
+PFN_vkDestroySurfaceKHR :: fn(VkInstance, VkSurfaceKHR, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkGetPhysicalDeviceSurfaceSupportKHR :: fn(VkPhysicalDevice, uint32_t, VkSurfaceKHR, ^mut VkBool32) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut VkSurfaceCapabilitiesKHR) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceSurfaceFormatsKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut uint32_t, ^mut VkSurfaceFormatKHR) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceSurfacePresentModesKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut uint32_t, ^mut VkPresentModeKHR) -> VkResult #stdcall
 VkSwapchainKHR_T :: struct #copy {}
 VkSwapchainKHR :: ^mut VkSwapchainKHR_T
 VkSwapchainCreateFlagsKHR :: VkSwapchainCreateFlagBitsKHR
 VkDeviceGroupPresentModeFlagsKHR :: VkDeviceGroupPresentModeFlagBitsKHR
-PFN_vkCreateSwapchainKHR :: fn(VkDevice, ^mut VkSwapchainCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkSwapchainKHR) -> VkResult
-PFN_vkDestroySwapchainKHR :: fn(VkDevice, VkSwapchainKHR, ^mut VkAllocationCallbacks) -> void
-PFN_vkGetSwapchainImagesKHR :: fn(VkDevice, VkSwapchainKHR, ^mut uint32_t, ^mut VkImage) -> VkResult
-PFN_vkAcquireNextImageKHR :: fn(VkDevice, VkSwapchainKHR, uint64_t, VkSemaphore, VkFence, ^mut uint32_t) -> VkResult
-PFN_vkQueuePresentKHR :: fn(VkQueue, ^mut VkPresentInfoKHR) -> VkResult
-PFN_vkGetDeviceGroupPresentCapabilitiesKHR :: fn(VkDevice, ^mut VkDeviceGroupPresentCapabilitiesKHR) -> VkResult
-PFN_vkGetDeviceGroupSurfacePresentModesKHR :: fn(VkDevice, VkSurfaceKHR, ^mut VkDeviceGroupPresentModeFlagsKHR) -> VkResult
-PFN_vkGetPhysicalDevicePresentRectanglesKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut uint32_t, ^mut VkRect2D) -> VkResult
-PFN_vkAcquireNextImage2KHR :: fn(VkDevice, ^mut VkAcquireNextImageInfoKHR, ^mut uint32_t) -> VkResult
+PFN_vkCreateSwapchainKHR :: fn(VkDevice, ^mut VkSwapchainCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkSwapchainKHR) -> VkResult #stdcall
+PFN_vkDestroySwapchainKHR :: fn(VkDevice, VkSwapchainKHR, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkGetSwapchainImagesKHR :: fn(VkDevice, VkSwapchainKHR, ^mut uint32_t, ^mut VkImage) -> VkResult #stdcall
+PFN_vkAcquireNextImageKHR :: fn(VkDevice, VkSwapchainKHR, uint64_t, VkSemaphore, VkFence, ^mut uint32_t) -> VkResult #stdcall
+PFN_vkQueuePresentKHR :: fn(VkQueue, ^mut VkPresentInfoKHR) -> VkResult #stdcall
+PFN_vkGetDeviceGroupPresentCapabilitiesKHR :: fn(VkDevice, ^mut VkDeviceGroupPresentCapabilitiesKHR) -> VkResult #stdcall
+PFN_vkGetDeviceGroupSurfacePresentModesKHR :: fn(VkDevice, VkSurfaceKHR, ^mut VkDeviceGroupPresentModeFlagsKHR) -> VkResult #stdcall
+PFN_vkGetPhysicalDevicePresentRectanglesKHR :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut uint32_t, ^mut VkRect2D) -> VkResult #stdcall
+PFN_vkAcquireNextImage2KHR :: fn(VkDevice, ^mut VkAcquireNextImageInfoKHR, ^mut uint32_t) -> VkResult #stdcall
 VkDisplayKHR_T :: struct #copy {}
 VkDisplayKHR :: ^mut VkDisplayKHR_T
 VkDisplayModeKHR_T :: struct #copy {}
@@ -549,14 +549,14 @@ VkDisplayModeKHR :: ^mut VkDisplayModeKHR_T
 VkDisplayModeCreateFlagsKHR :: VkDisplayModeCreateFlagBitsKHR
 VkDisplayPlaneAlphaFlagsKHR :: VkDisplayPlaneAlphaFlagBitsKHR
 VkDisplaySurfaceCreateFlagsKHR :: VkDisplaySurfaceCreateFlagBitsKHR
-PFN_vkGetPhysicalDeviceDisplayPropertiesKHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayPropertiesKHR) -> VkResult
-PFN_vkGetPhysicalDeviceDisplayPlanePropertiesKHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayPlanePropertiesKHR) -> VkResult
-PFN_vkGetDisplayPlaneSupportedDisplaysKHR :: fn(VkPhysicalDevice, uint32_t, ^mut uint32_t, ^mut VkDisplayKHR) -> VkResult
-PFN_vkGetDisplayModePropertiesKHR :: fn(VkPhysicalDevice, VkDisplayKHR, ^mut uint32_t, ^mut VkDisplayModePropertiesKHR) -> VkResult
-PFN_vkCreateDisplayModeKHR :: fn(VkPhysicalDevice, VkDisplayKHR, ^mut VkDisplayModeCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkDisplayModeKHR) -> VkResult
-PFN_vkGetDisplayPlaneCapabilitiesKHR :: fn(VkPhysicalDevice, VkDisplayModeKHR, uint32_t, ^mut VkDisplayPlaneCapabilitiesKHR) -> VkResult
-PFN_vkCreateDisplayPlaneSurfaceKHR :: fn(VkInstance, ^mut VkDisplaySurfaceCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkSurfaceKHR) -> VkResult
-PFN_vkCreateSharedSwapchainsKHR :: fn(VkDevice, uint32_t, ^mut VkSwapchainCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkSwapchainKHR) -> VkResult
+PFN_vkGetPhysicalDeviceDisplayPropertiesKHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayPropertiesKHR) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceDisplayPlanePropertiesKHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayPlanePropertiesKHR) -> VkResult #stdcall
+PFN_vkGetDisplayPlaneSupportedDisplaysKHR :: fn(VkPhysicalDevice, uint32_t, ^mut uint32_t, ^mut VkDisplayKHR) -> VkResult #stdcall
+PFN_vkGetDisplayModePropertiesKHR :: fn(VkPhysicalDevice, VkDisplayKHR, ^mut uint32_t, ^mut VkDisplayModePropertiesKHR) -> VkResult #stdcall
+PFN_vkCreateDisplayModeKHR :: fn(VkPhysicalDevice, VkDisplayKHR, ^mut VkDisplayModeCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkDisplayModeKHR) -> VkResult #stdcall
+PFN_vkGetDisplayPlaneCapabilitiesKHR :: fn(VkPhysicalDevice, VkDisplayModeKHR, uint32_t, ^mut VkDisplayPlaneCapabilitiesKHR) -> VkResult #stdcall
+PFN_vkCreateDisplayPlaneSurfaceKHR :: fn(VkInstance, ^mut VkDisplaySurfaceCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkSurfaceKHR) -> VkResult #stdcall
+PFN_vkCreateSharedSwapchainsKHR :: fn(VkDevice, uint32_t, ^mut VkSwapchainCreateInfoKHR, ^mut VkAllocationCallbacks, ^mut VkSwapchainKHR) -> VkResult #stdcall
 VkRenderPassMultiviewCreateInfoKHR :: VkRenderPassMultiviewCreateInfo
 VkPhysicalDeviceMultiviewFeaturesKHR :: VkPhysicalDeviceMultiviewFeatures
 VkPhysicalDeviceMultiviewPropertiesKHR :: VkPhysicalDeviceMultiviewProperties
@@ -569,13 +569,13 @@ VkQueueFamilyProperties2KHR :: VkQueueFamilyProperties2
 VkPhysicalDeviceMemoryProperties2KHR :: VkPhysicalDeviceMemoryProperties2
 VkSparseImageFormatProperties2KHR :: VkSparseImageFormatProperties2
 VkPhysicalDeviceSparseImageFormatInfo2KHR :: VkPhysicalDeviceSparseImageFormatInfo2
-PFN_vkGetPhysicalDeviceFeatures2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceFeatures2) -> void
-PFN_vkGetPhysicalDeviceProperties2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceProperties2) -> void
-PFN_vkGetPhysicalDeviceFormatProperties2KHR :: fn(VkPhysicalDevice, VkFormat, ^mut VkFormatProperties2) -> void
-PFN_vkGetPhysicalDeviceImageFormatProperties2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceImageFormatInfo2, ^mut VkImageFormatProperties2) -> VkResult
-PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkQueueFamilyProperties2) -> void
-PFN_vkGetPhysicalDeviceMemoryProperties2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceMemoryProperties2) -> void
-PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceSparseImageFormatInfo2, ^mut uint32_t, ^mut VkSparseImageFormatProperties2) -> void
+PFN_vkGetPhysicalDeviceFeatures2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceFeatures2) -> void #stdcall
+PFN_vkGetPhysicalDeviceProperties2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceProperties2) -> void #stdcall
+PFN_vkGetPhysicalDeviceFormatProperties2KHR :: fn(VkPhysicalDevice, VkFormat, ^mut VkFormatProperties2) -> void #stdcall
+PFN_vkGetPhysicalDeviceImageFormatProperties2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceImageFormatInfo2, ^mut VkImageFormatProperties2) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkQueueFamilyProperties2) -> void #stdcall
+PFN_vkGetPhysicalDeviceMemoryProperties2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceMemoryProperties2) -> void #stdcall
+PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceSparseImageFormatInfo2, ^mut uint32_t, ^mut VkSparseImageFormatProperties2) -> void #stdcall
 VkPeerMemoryFeatureFlagsKHR :: VkPeerMemoryFeatureFlags
 VkPeerMemoryFeatureFlagBitsKHR :: VkPeerMemoryFeatureFlagBits
 VkMemoryAllocateFlagsKHR :: VkMemoryAllocateFlags
@@ -587,14 +587,14 @@ VkDeviceGroupSubmitInfoKHR :: VkDeviceGroupSubmitInfo
 VkDeviceGroupBindSparseInfoKHR :: VkDeviceGroupBindSparseInfo
 VkBindBufferMemoryDeviceGroupInfoKHR :: VkBindBufferMemoryDeviceGroupInfo
 VkBindImageMemoryDeviceGroupInfoKHR :: VkBindImageMemoryDeviceGroupInfo
-PFN_vkGetDeviceGroupPeerMemoryFeaturesKHR :: fn(VkDevice, uint32_t, uint32_t, uint32_t, ^mut VkPeerMemoryFeatureFlags) -> void
-PFN_vkCmdSetDeviceMaskKHR :: fn(VkCommandBuffer, uint32_t) -> void
-PFN_vkCmdDispatchBaseKHR :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t) -> void
+PFN_vkGetDeviceGroupPeerMemoryFeaturesKHR :: fn(VkDevice, uint32_t, uint32_t, uint32_t, ^mut VkPeerMemoryFeatureFlags) -> void #stdcall
+PFN_vkCmdSetDeviceMaskKHR :: fn(VkCommandBuffer, uint32_t) -> void #stdcall
+PFN_vkCmdDispatchBaseKHR :: fn(VkCommandBuffer, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t) -> void #stdcall
 VkCommandPoolTrimFlagsKHR :: VkCommandPoolTrimFlags
-PFN_vkTrimCommandPoolKHR :: fn(VkDevice, VkCommandPool, VkCommandPoolTrimFlags) -> void
+PFN_vkTrimCommandPoolKHR :: fn(VkDevice, VkCommandPool, VkCommandPoolTrimFlags) -> void #stdcall
 VkPhysicalDeviceGroupPropertiesKHR :: VkPhysicalDeviceGroupProperties
 VkDeviceGroupDeviceCreateInfoKHR :: VkDeviceGroupDeviceCreateInfo
-PFN_vkEnumeratePhysicalDeviceGroupsKHR :: fn(VkInstance, ^mut uint32_t, ^mut VkPhysicalDeviceGroupProperties) -> VkResult
+PFN_vkEnumeratePhysicalDeviceGroupsKHR :: fn(VkInstance, ^mut uint32_t, ^mut VkPhysicalDeviceGroupProperties) -> VkResult #stdcall
 VkExternalMemoryHandleTypeFlagsKHR :: VkExternalMemoryHandleTypeFlags
 VkExternalMemoryHandleTypeFlagBitsKHR :: VkExternalMemoryHandleTypeFlagBits
 VkExternalMemoryFeatureFlagsKHR :: VkExternalMemoryFeatureFlags
@@ -605,26 +605,26 @@ VkExternalImageFormatPropertiesKHR :: VkExternalImageFormatProperties
 VkPhysicalDeviceExternalBufferInfoKHR :: VkPhysicalDeviceExternalBufferInfo
 VkExternalBufferPropertiesKHR :: VkExternalBufferProperties
 VkPhysicalDeviceIDPropertiesKHR :: VkPhysicalDeviceIDProperties
-PFN_vkGetPhysicalDeviceExternalBufferPropertiesKHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalBufferInfo, ^mut VkExternalBufferProperties) -> void
+PFN_vkGetPhysicalDeviceExternalBufferPropertiesKHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalBufferInfo, ^mut VkExternalBufferProperties) -> void #stdcall
 VkExternalMemoryImageCreateInfoKHR :: VkExternalMemoryImageCreateInfo
 VkExternalMemoryBufferCreateInfoKHR :: VkExternalMemoryBufferCreateInfo
 VkExportMemoryAllocateInfoKHR :: VkExportMemoryAllocateInfo
-PFN_vkGetMemoryFdKHR :: fn(VkDevice, ^mut VkMemoryGetFdInfoKHR, ^mut i32) -> VkResult
-PFN_vkGetMemoryFdPropertiesKHR :: fn(VkDevice, VkExternalMemoryHandleTypeFlagBits, i32, ^mut VkMemoryFdPropertiesKHR) -> VkResult
+PFN_vkGetMemoryFdKHR :: fn(VkDevice, ^mut VkMemoryGetFdInfoKHR, ^mut i32) -> VkResult #stdcall
+PFN_vkGetMemoryFdPropertiesKHR :: fn(VkDevice, VkExternalMemoryHandleTypeFlagBits, i32, ^mut VkMemoryFdPropertiesKHR) -> VkResult #stdcall
 VkExternalSemaphoreHandleTypeFlagsKHR :: VkExternalSemaphoreHandleTypeFlags
 VkExternalSemaphoreHandleTypeFlagBitsKHR :: VkExternalSemaphoreHandleTypeFlagBits
 VkExternalSemaphoreFeatureFlagsKHR :: VkExternalSemaphoreFeatureFlags
 VkExternalSemaphoreFeatureFlagBitsKHR :: VkExternalSemaphoreFeatureFlagBits
 VkPhysicalDeviceExternalSemaphoreInfoKHR :: VkPhysicalDeviceExternalSemaphoreInfo
 VkExternalSemaphorePropertiesKHR :: VkExternalSemaphoreProperties
-PFN_vkGetPhysicalDeviceExternalSemaphorePropertiesKHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalSemaphoreInfo, ^mut VkExternalSemaphoreProperties) -> void
+PFN_vkGetPhysicalDeviceExternalSemaphorePropertiesKHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalSemaphoreInfo, ^mut VkExternalSemaphoreProperties) -> void #stdcall
 VkSemaphoreImportFlagsKHR :: VkSemaphoreImportFlags
 VkSemaphoreImportFlagBitsKHR :: VkSemaphoreImportFlagBits
 VkExportSemaphoreCreateInfoKHR :: VkExportSemaphoreCreateInfo
-PFN_vkImportSemaphoreFdKHR :: fn(VkDevice, ^mut VkImportSemaphoreFdInfoKHR) -> VkResult
-PFN_vkGetSemaphoreFdKHR :: fn(VkDevice, ^mut VkSemaphoreGetFdInfoKHR, ^mut i32) -> VkResult
-PFN_vkCmdPushDescriptorSetKHR :: fn(VkCommandBuffer, VkPipelineBindPoint, VkPipelineLayout, uint32_t, uint32_t, ^mut VkWriteDescriptorSet) -> void
-PFN_vkCmdPushDescriptorSetWithTemplateKHR :: fn(VkCommandBuffer, VkDescriptorUpdateTemplate, VkPipelineLayout, uint32_t, ^mut void) -> void
+PFN_vkImportSemaphoreFdKHR :: fn(VkDevice, ^mut VkImportSemaphoreFdInfoKHR) -> VkResult #stdcall
+PFN_vkGetSemaphoreFdKHR :: fn(VkDevice, ^mut VkSemaphoreGetFdInfoKHR, ^mut i32) -> VkResult #stdcall
+PFN_vkCmdPushDescriptorSetKHR :: fn(VkCommandBuffer, VkPipelineBindPoint, VkPipelineLayout, uint32_t, uint32_t, ^mut VkWriteDescriptorSet) -> void #stdcall
+PFN_vkCmdPushDescriptorSetWithTemplateKHR :: fn(VkCommandBuffer, VkDescriptorUpdateTemplate, VkPipelineLayout, uint32_t, ^mut void) -> void #stdcall
 VkPhysicalDeviceShaderFloat16Int8FeaturesKHR :: VkPhysicalDeviceShaderFloat16Int8Features
 VkPhysicalDeviceFloat16Int8FeaturesKHR :: VkPhysicalDeviceShaderFloat16Int8Features
 VkPhysicalDevice16BitStorageFeaturesKHR :: VkPhysicalDevice16BitStorageFeatures
@@ -633,9 +633,9 @@ VkDescriptorUpdateTemplateTypeKHR :: VkDescriptorUpdateTemplateType
 VkDescriptorUpdateTemplateCreateFlagsKHR :: VkDescriptorUpdateTemplateCreateFlags
 VkDescriptorUpdateTemplateEntryKHR :: VkDescriptorUpdateTemplateEntry
 VkDescriptorUpdateTemplateCreateInfoKHR :: VkDescriptorUpdateTemplateCreateInfo
-PFN_vkCreateDescriptorUpdateTemplateKHR :: fn(VkDevice, ^mut VkDescriptorUpdateTemplateCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDescriptorUpdateTemplate) -> VkResult
-PFN_vkDestroyDescriptorUpdateTemplateKHR :: fn(VkDevice, VkDescriptorUpdateTemplate, ^mut VkAllocationCallbacks) -> void
-PFN_vkUpdateDescriptorSetWithTemplateKHR :: fn(VkDevice, VkDescriptorSet, VkDescriptorUpdateTemplate, ^mut void) -> void
+PFN_vkCreateDescriptorUpdateTemplateKHR :: fn(VkDevice, ^mut VkDescriptorUpdateTemplateCreateInfo, ^mut VkAllocationCallbacks, ^mut VkDescriptorUpdateTemplate) -> VkResult #stdcall
+PFN_vkDestroyDescriptorUpdateTemplateKHR :: fn(VkDevice, VkDescriptorUpdateTemplate, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkUpdateDescriptorSetWithTemplateKHR :: fn(VkDevice, VkDescriptorSet, VkDescriptorUpdateTemplate, ^mut void) -> void #stdcall
 VkPhysicalDeviceImagelessFramebufferFeaturesKHR :: VkPhysicalDeviceImagelessFramebufferFeatures
 VkFramebufferAttachmentsCreateInfoKHR :: VkFramebufferAttachmentsCreateInfo
 VkFramebufferAttachmentImageInfoKHR :: VkFramebufferAttachmentImageInfo
@@ -647,29 +647,29 @@ VkSubpassDescription2KHR :: VkSubpassDescription2
 VkSubpassDependency2KHR :: VkSubpassDependency2
 VkSubpassBeginInfoKHR :: VkSubpassBeginInfo
 VkSubpassEndInfoKHR :: VkSubpassEndInfo
-PFN_vkCreateRenderPass2KHR :: fn(VkDevice, ^mut VkRenderPassCreateInfo2, ^mut VkAllocationCallbacks, ^mut VkRenderPass) -> VkResult
-PFN_vkCmdBeginRenderPass2KHR :: fn(VkCommandBuffer, ^mut VkRenderPassBeginInfo, ^mut VkSubpassBeginInfo) -> void
-PFN_vkCmdNextSubpass2KHR :: fn(VkCommandBuffer, ^mut VkSubpassBeginInfo, ^mut VkSubpassEndInfo) -> void
-PFN_vkCmdEndRenderPass2KHR :: fn(VkCommandBuffer, ^mut VkSubpassEndInfo) -> void
-PFN_vkGetSwapchainStatusKHR :: fn(VkDevice, VkSwapchainKHR) -> VkResult
+PFN_vkCreateRenderPass2KHR :: fn(VkDevice, ^mut VkRenderPassCreateInfo2, ^mut VkAllocationCallbacks, ^mut VkRenderPass) -> VkResult #stdcall
+PFN_vkCmdBeginRenderPass2KHR :: fn(VkCommandBuffer, ^mut VkRenderPassBeginInfo, ^mut VkSubpassBeginInfo) -> void #stdcall
+PFN_vkCmdNextSubpass2KHR :: fn(VkCommandBuffer, ^mut VkSubpassBeginInfo, ^mut VkSubpassEndInfo) -> void #stdcall
+PFN_vkCmdEndRenderPass2KHR :: fn(VkCommandBuffer, ^mut VkSubpassEndInfo) -> void #stdcall
+PFN_vkGetSwapchainStatusKHR :: fn(VkDevice, VkSwapchainKHR) -> VkResult #stdcall
 VkExternalFenceHandleTypeFlagsKHR :: VkExternalFenceHandleTypeFlags
 VkExternalFenceHandleTypeFlagBitsKHR :: VkExternalFenceHandleTypeFlagBits
 VkExternalFenceFeatureFlagsKHR :: VkExternalFenceFeatureFlags
 VkExternalFenceFeatureFlagBitsKHR :: VkExternalFenceFeatureFlagBits
 VkPhysicalDeviceExternalFenceInfoKHR :: VkPhysicalDeviceExternalFenceInfo
 VkExternalFencePropertiesKHR :: VkExternalFenceProperties
-PFN_vkGetPhysicalDeviceExternalFencePropertiesKHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalFenceInfo, ^mut VkExternalFenceProperties) -> void
+PFN_vkGetPhysicalDeviceExternalFencePropertiesKHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceExternalFenceInfo, ^mut VkExternalFenceProperties) -> void #stdcall
 VkFenceImportFlagsKHR :: VkFenceImportFlags
 VkFenceImportFlagBitsKHR :: VkFenceImportFlagBits
 VkExportFenceCreateInfoKHR :: VkExportFenceCreateInfo
-PFN_vkImportFenceFdKHR :: fn(VkDevice, ^mut VkImportFenceFdInfoKHR) -> VkResult
-PFN_vkGetFenceFdKHR :: fn(VkDevice, ^mut VkFenceGetFdInfoKHR, ^mut i32) -> VkResult
+PFN_vkImportFenceFdKHR :: fn(VkDevice, ^mut VkImportFenceFdInfoKHR) -> VkResult #stdcall
+PFN_vkGetFenceFdKHR :: fn(VkDevice, ^mut VkFenceGetFdInfoKHR, ^mut i32) -> VkResult #stdcall
 VkPerformanceCounterDescriptionFlagsKHR :: VkPerformanceCounterDescriptionFlagBitsKHR
 VkAcquireProfilingLockFlagsKHR :: VkAcquireProfilingLockFlagBitsKHR
-PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR :: fn(VkPhysicalDevice, uint32_t, ^mut uint32_t, ^mut VkPerformanceCounterKHR, ^mut VkPerformanceCounterDescriptionKHR) -> VkResult
-PFN_vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR :: fn(VkPhysicalDevice, ^mut VkQueryPoolPerformanceCreateInfoKHR, ^mut uint32_t) -> void
-PFN_vkAcquireProfilingLockKHR :: fn(VkDevice, ^mut VkAcquireProfilingLockInfoKHR) -> VkResult
-PFN_vkReleaseProfilingLockKHR :: fn(VkDevice) -> void
+PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR :: fn(VkPhysicalDevice, uint32_t, ^mut uint32_t, ^mut VkPerformanceCounterKHR, ^mut VkPerformanceCounterDescriptionKHR) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR :: fn(VkPhysicalDevice, ^mut VkQueryPoolPerformanceCreateInfoKHR, ^mut uint32_t) -> void #stdcall
+PFN_vkAcquireProfilingLockKHR :: fn(VkDevice, ^mut VkAcquireProfilingLockInfoKHR) -> VkResult #stdcall
+PFN_vkReleaseProfilingLockKHR :: fn(VkDevice) -> void #stdcall
 VkPointClippingBehaviorKHR :: VkPointClippingBehavior
 VkTessellationDomainOriginKHR :: VkTessellationDomainOrigin
 VkPhysicalDevicePointClippingPropertiesKHR :: VkPhysicalDevicePointClippingProperties
@@ -677,14 +677,14 @@ VkRenderPassInputAttachmentAspectCreateInfoKHR :: VkRenderPassInputAttachmentAsp
 VkInputAttachmentAspectReferenceKHR :: VkInputAttachmentAspectReference
 VkImageViewUsageCreateInfoKHR :: VkImageViewUsageCreateInfo
 VkPipelineTessellationDomainOriginStateCreateInfoKHR :: VkPipelineTessellationDomainOriginStateCreateInfo
-PFN_vkGetPhysicalDeviceSurfaceCapabilities2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceSurfaceInfo2KHR, ^mut VkSurfaceCapabilities2KHR) -> VkResult
-PFN_vkGetPhysicalDeviceSurfaceFormats2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceSurfaceInfo2KHR, ^mut uint32_t, ^mut VkSurfaceFormat2KHR) -> VkResult
+PFN_vkGetPhysicalDeviceSurfaceCapabilities2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceSurfaceInfo2KHR, ^mut VkSurfaceCapabilities2KHR) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceSurfaceFormats2KHR :: fn(VkPhysicalDevice, ^mut VkPhysicalDeviceSurfaceInfo2KHR, ^mut uint32_t, ^mut VkSurfaceFormat2KHR) -> VkResult #stdcall
 VkPhysicalDeviceVariablePointerFeaturesKHR :: VkPhysicalDeviceVariablePointersFeatures
 VkPhysicalDeviceVariablePointersFeaturesKHR :: VkPhysicalDeviceVariablePointersFeatures
-PFN_vkGetPhysicalDeviceDisplayProperties2KHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayProperties2KHR) -> VkResult
-PFN_vkGetPhysicalDeviceDisplayPlaneProperties2KHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayPlaneProperties2KHR) -> VkResult
-PFN_vkGetDisplayModeProperties2KHR :: fn(VkPhysicalDevice, VkDisplayKHR, ^mut uint32_t, ^mut VkDisplayModeProperties2KHR) -> VkResult
-PFN_vkGetDisplayPlaneCapabilities2KHR :: fn(VkPhysicalDevice, ^mut VkDisplayPlaneInfo2KHR, ^mut VkDisplayPlaneCapabilities2KHR) -> VkResult
+PFN_vkGetPhysicalDeviceDisplayProperties2KHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayProperties2KHR) -> VkResult #stdcall
+PFN_vkGetPhysicalDeviceDisplayPlaneProperties2KHR :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkDisplayPlaneProperties2KHR) -> VkResult #stdcall
+PFN_vkGetDisplayModeProperties2KHR :: fn(VkPhysicalDevice, VkDisplayKHR, ^mut uint32_t, ^mut VkDisplayModeProperties2KHR) -> VkResult #stdcall
+PFN_vkGetDisplayPlaneCapabilities2KHR :: fn(VkPhysicalDevice, ^mut VkDisplayPlaneInfo2KHR, ^mut VkDisplayPlaneCapabilities2KHR) -> VkResult #stdcall
 VkMemoryDedicatedRequirementsKHR :: VkMemoryDedicatedRequirements
 VkMemoryDedicatedAllocateInfoKHR :: VkMemoryDedicatedAllocateInfo
 VkBufferMemoryRequirementsInfo2KHR :: VkBufferMemoryRequirementsInfo2
@@ -692,9 +692,9 @@ VkImageMemoryRequirementsInfo2KHR :: VkImageMemoryRequirementsInfo2
 VkImageSparseMemoryRequirementsInfo2KHR :: VkImageSparseMemoryRequirementsInfo2
 VkMemoryRequirements2KHR :: VkMemoryRequirements2
 VkSparseImageMemoryRequirements2KHR :: VkSparseImageMemoryRequirements2
-PFN_vkGetImageMemoryRequirements2KHR :: fn(VkDevice, ^mut VkImageMemoryRequirementsInfo2, ^mut VkMemoryRequirements2) -> void
-PFN_vkGetBufferMemoryRequirements2KHR :: fn(VkDevice, ^mut VkBufferMemoryRequirementsInfo2, ^mut VkMemoryRequirements2) -> void
-PFN_vkGetImageSparseMemoryRequirements2KHR :: fn(VkDevice, ^mut VkImageSparseMemoryRequirementsInfo2, ^mut uint32_t, ^mut VkSparseImageMemoryRequirements2) -> void
+PFN_vkGetImageMemoryRequirements2KHR :: fn(VkDevice, ^mut VkImageMemoryRequirementsInfo2, ^mut VkMemoryRequirements2) -> void #stdcall
+PFN_vkGetBufferMemoryRequirements2KHR :: fn(VkDevice, ^mut VkBufferMemoryRequirementsInfo2, ^mut VkMemoryRequirements2) -> void #stdcall
+PFN_vkGetImageSparseMemoryRequirements2KHR :: fn(VkDevice, ^mut VkImageSparseMemoryRequirementsInfo2, ^mut uint32_t, ^mut VkSparseImageMemoryRequirements2) -> void #stdcall
 VkImageFormatListCreateInfoKHR :: VkImageFormatListCreateInfo
 VkSamplerYcbcrConversionKHR :: VkSamplerYcbcrConversion
 VkSamplerYcbcrModelConversionKHR :: VkSamplerYcbcrModelConversion
@@ -706,17 +706,17 @@ VkBindImagePlaneMemoryInfoKHR :: VkBindImagePlaneMemoryInfo
 VkImagePlaneMemoryRequirementsInfoKHR :: VkImagePlaneMemoryRequirementsInfo
 VkPhysicalDeviceSamplerYcbcrConversionFeaturesKHR :: VkPhysicalDeviceSamplerYcbcrConversionFeatures
 VkSamplerYcbcrConversionImageFormatPropertiesKHR :: VkSamplerYcbcrConversionImageFormatProperties
-PFN_vkCreateSamplerYcbcrConversionKHR :: fn(VkDevice, ^mut VkSamplerYcbcrConversionCreateInfo, ^mut VkAllocationCallbacks, ^mut VkSamplerYcbcrConversion) -> VkResult
-PFN_vkDestroySamplerYcbcrConversionKHR :: fn(VkDevice, VkSamplerYcbcrConversion, ^mut VkAllocationCallbacks) -> void
+PFN_vkCreateSamplerYcbcrConversionKHR :: fn(VkDevice, ^mut VkSamplerYcbcrConversionCreateInfo, ^mut VkAllocationCallbacks, ^mut VkSamplerYcbcrConversion) -> VkResult #stdcall
+PFN_vkDestroySamplerYcbcrConversionKHR :: fn(VkDevice, VkSamplerYcbcrConversion, ^mut VkAllocationCallbacks) -> void #stdcall
 VkBindBufferMemoryInfoKHR :: VkBindBufferMemoryInfo
 VkBindImageMemoryInfoKHR :: VkBindImageMemoryInfo
-PFN_vkBindBufferMemory2KHR :: fn(VkDevice, uint32_t, ^mut VkBindBufferMemoryInfo) -> VkResult
-PFN_vkBindImageMemory2KHR :: fn(VkDevice, uint32_t, ^mut VkBindImageMemoryInfo) -> VkResult
+PFN_vkBindBufferMemory2KHR :: fn(VkDevice, uint32_t, ^mut VkBindBufferMemoryInfo) -> VkResult #stdcall
+PFN_vkBindImageMemory2KHR :: fn(VkDevice, uint32_t, ^mut VkBindImageMemoryInfo) -> VkResult #stdcall
 VkPhysicalDeviceMaintenance3PropertiesKHR :: VkPhysicalDeviceMaintenance3Properties
 VkDescriptorSetLayoutSupportKHR :: VkDescriptorSetLayoutSupport
-PFN_vkGetDescriptorSetLayoutSupportKHR :: fn(VkDevice, ^mut VkDescriptorSetLayoutCreateInfo, ^mut VkDescriptorSetLayoutSupport) -> void
-PFN_vkCmdDrawIndirectCountKHR :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkCmdDrawIndexedIndirectCountKHR :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
+PFN_vkGetDescriptorSetLayoutSupportKHR :: fn(VkDevice, ^mut VkDescriptorSetLayoutCreateInfo, ^mut VkDescriptorSetLayoutSupport) -> void #stdcall
+PFN_vkCmdDrawIndirectCountKHR :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawIndexedIndirectCountKHR :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
 VkPhysicalDeviceShaderSubgroupExtendedTypesFeaturesKHR :: VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures
 VkPhysicalDevice8BitStorageFeaturesKHR :: VkPhysicalDevice8BitStorageFeatures
 VkPhysicalDeviceShaderAtomicInt64FeaturesKHR :: VkPhysicalDeviceShaderAtomicInt64Features
@@ -738,9 +738,9 @@ VkSemaphoreTypeCreateInfoKHR :: VkSemaphoreTypeCreateInfo
 VkTimelineSemaphoreSubmitInfoKHR :: VkTimelineSemaphoreSubmitInfo
 VkSemaphoreWaitInfoKHR :: VkSemaphoreWaitInfo
 VkSemaphoreSignalInfoKHR :: VkSemaphoreSignalInfo
-PFN_vkGetSemaphoreCounterValueKHR :: fn(VkDevice, VkSemaphore, ^mut uint64_t) -> VkResult
-PFN_vkWaitSemaphoresKHR :: fn(VkDevice, ^mut VkSemaphoreWaitInfo, uint64_t) -> VkResult
-PFN_vkSignalSemaphoreKHR :: fn(VkDevice, ^mut VkSemaphoreSignalInfo) -> VkResult
+PFN_vkGetSemaphoreCounterValueKHR :: fn(VkDevice, VkSemaphore, ^mut uint64_t) -> VkResult #stdcall
+PFN_vkWaitSemaphoresKHR :: fn(VkDevice, ^mut VkSemaphoreWaitInfo, uint64_t) -> VkResult #stdcall
+PFN_vkSignalSemaphoreKHR :: fn(VkDevice, ^mut VkSemaphoreSignalInfo) -> VkResult #stdcall
 VkPhysicalDeviceVulkanMemoryModelFeaturesKHR :: VkPhysicalDeviceVulkanMemoryModelFeatures
 VkPhysicalDeviceSeparateDepthStencilLayoutsFeaturesKHR :: VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures
 VkAttachmentReferenceStencilLayoutKHR :: VkAttachmentReferenceStencilLayout
@@ -751,58 +751,58 @@ VkBufferDeviceAddressInfoKHR :: VkBufferDeviceAddressInfo
 VkBufferOpaqueCaptureAddressCreateInfoKHR :: VkBufferOpaqueCaptureAddressCreateInfo
 VkMemoryOpaqueCaptureAddressAllocateInfoKHR :: VkMemoryOpaqueCaptureAddressAllocateInfo
 VkDeviceMemoryOpaqueCaptureAddressInfoKHR :: VkDeviceMemoryOpaqueCaptureAddressInfo
-PFN_vkGetBufferDeviceAddressKHR :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> VkDeviceAddress
-PFN_vkGetBufferOpaqueCaptureAddressKHR :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> uint64_t
-PFN_vkGetDeviceMemoryOpaqueCaptureAddressKHR :: fn(VkDevice, ^mut VkDeviceMemoryOpaqueCaptureAddressInfo) -> uint64_t
-PFN_vkGetPipelineExecutablePropertiesKHR :: fn(VkDevice, ^mut VkPipelineInfoKHR, ^mut uint32_t, ^mut VkPipelineExecutablePropertiesKHR) -> VkResult
-PFN_vkGetPipelineExecutableStatisticsKHR :: fn(VkDevice, ^mut VkPipelineExecutableInfoKHR, ^mut uint32_t, ^mut VkPipelineExecutableStatisticKHR) -> VkResult
-PFN_vkGetPipelineExecutableInternalRepresentationsKHR :: fn(VkDevice, ^mut VkPipelineExecutableInfoKHR, ^mut uint32_t, ^mut VkPipelineExecutableInternalRepresentationKHR) -> VkResult
+PFN_vkGetBufferDeviceAddressKHR :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> VkDeviceAddress #stdcall
+PFN_vkGetBufferOpaqueCaptureAddressKHR :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> uint64_t #stdcall
+PFN_vkGetDeviceMemoryOpaqueCaptureAddressKHR :: fn(VkDevice, ^mut VkDeviceMemoryOpaqueCaptureAddressInfo) -> uint64_t #stdcall
+PFN_vkGetPipelineExecutablePropertiesKHR :: fn(VkDevice, ^mut VkPipelineInfoKHR, ^mut uint32_t, ^mut VkPipelineExecutablePropertiesKHR) -> VkResult #stdcall
+PFN_vkGetPipelineExecutableStatisticsKHR :: fn(VkDevice, ^mut VkPipelineExecutableInfoKHR, ^mut uint32_t, ^mut VkPipelineExecutableStatisticKHR) -> VkResult #stdcall
+PFN_vkGetPipelineExecutableInternalRepresentationsKHR :: fn(VkDevice, ^mut VkPipelineExecutableInfoKHR, ^mut uint32_t, ^mut VkPipelineExecutableInternalRepresentationKHR) -> VkResult #stdcall
 VkDebugReportCallbackEXT_T :: struct #copy {}
 VkDebugReportCallbackEXT :: ^mut VkDebugReportCallbackEXT_T
 VkDebugReportFlagsEXT :: VkDebugReportFlagBitsEXT
-PFN_vkDebugReportCallbackEXT :: fn(VkDebugReportFlagsEXT, VkDebugReportObjectTypeEXT, uint64_t, size_t, int32_t, ^char8, ^char8, ^mut void) -> VkBool32
-PFN_vkCreateDebugReportCallbackEXT :: fn(VkInstance, ^mut VkDebugReportCallbackCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkDebugReportCallbackEXT) -> VkResult
-PFN_vkDestroyDebugReportCallbackEXT :: fn(VkInstance, VkDebugReportCallbackEXT, ^mut VkAllocationCallbacks) -> void
-PFN_vkDebugReportMessageEXT :: fn(VkInstance, VkDebugReportFlagsEXT, VkDebugReportObjectTypeEXT, uint64_t, size_t, int32_t, ^char8, ^char8) -> void
-PFN_vkDebugMarkerSetObjectTagEXT :: fn(VkDevice, ^mut VkDebugMarkerObjectTagInfoEXT) -> VkResult
-PFN_vkDebugMarkerSetObjectNameEXT :: fn(VkDevice, ^mut VkDebugMarkerObjectNameInfoEXT) -> VkResult
-PFN_vkCmdDebugMarkerBeginEXT :: fn(VkCommandBuffer, ^mut VkDebugMarkerMarkerInfoEXT) -> void
-PFN_vkCmdDebugMarkerEndEXT :: fn(VkCommandBuffer) -> void
-PFN_vkCmdDebugMarkerInsertEXT :: fn(VkCommandBuffer, ^mut VkDebugMarkerMarkerInfoEXT) -> void
+PFN_vkDebugReportCallbackEXT :: fn(VkDebugReportFlagsEXT, VkDebugReportObjectTypeEXT, uint64_t, size_t, int32_t, ^char8, ^char8, ^mut void) -> VkBool32 #stdcall
+PFN_vkCreateDebugReportCallbackEXT :: fn(VkInstance, ^mut VkDebugReportCallbackCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkDebugReportCallbackEXT) -> VkResult #stdcall
+PFN_vkDestroyDebugReportCallbackEXT :: fn(VkInstance, VkDebugReportCallbackEXT, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkDebugReportMessageEXT :: fn(VkInstance, VkDebugReportFlagsEXT, VkDebugReportObjectTypeEXT, uint64_t, size_t, int32_t, ^char8, ^char8) -> void #stdcall
+PFN_vkDebugMarkerSetObjectTagEXT :: fn(VkDevice, ^mut VkDebugMarkerObjectTagInfoEXT) -> VkResult #stdcall
+PFN_vkDebugMarkerSetObjectNameEXT :: fn(VkDevice, ^mut VkDebugMarkerObjectNameInfoEXT) -> VkResult #stdcall
+PFN_vkCmdDebugMarkerBeginEXT :: fn(VkCommandBuffer, ^mut VkDebugMarkerMarkerInfoEXT) -> void #stdcall
+PFN_vkCmdDebugMarkerEndEXT :: fn(VkCommandBuffer) -> void #stdcall
+PFN_vkCmdDebugMarkerInsertEXT :: fn(VkCommandBuffer, ^mut VkDebugMarkerMarkerInfoEXT) -> void #stdcall
 VkPipelineRasterizationStateStreamCreateFlagsEXT :: VkPipelineRasterizationStateStreamCreateFlagBitsEXT
-PFN_vkCmdBindTransformFeedbackBuffersEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize, ^mut VkDeviceSize) -> void
-PFN_vkCmdBeginTransformFeedbackEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize) -> void
-PFN_vkCmdEndTransformFeedbackEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize) -> void
-PFN_vkCmdBeginQueryIndexedEXT :: fn(VkCommandBuffer, VkQueryPool, uint32_t, VkQueryControlFlags, uint32_t) -> void
-PFN_vkCmdEndQueryIndexedEXT :: fn(VkCommandBuffer, VkQueryPool, uint32_t, uint32_t) -> void
-PFN_vkCmdDrawIndirectByteCountEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkGetImageViewHandleNVX :: fn(VkDevice, ^mut VkImageViewHandleInfoNVX) -> uint32_t
-PFN_vkGetImageViewAddressNVX :: fn(VkDevice, VkImageView, ^mut VkImageViewAddressPropertiesNVX) -> VkResult
-PFN_vkCmdDrawIndirectCountAMD :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkCmdDrawIndexedIndirectCountAMD :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkGetShaderInfoAMD :: fn(VkDevice, VkPipeline, VkShaderStageFlagBits, VkShaderInfoTypeAMD, ^mut size_t, ^mut void) -> VkResult
+PFN_vkCmdBindTransformFeedbackBuffersEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize, ^mut VkDeviceSize) -> void #stdcall
+PFN_vkCmdBeginTransformFeedbackEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize) -> void #stdcall
+PFN_vkCmdEndTransformFeedbackEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize) -> void #stdcall
+PFN_vkCmdBeginQueryIndexedEXT :: fn(VkCommandBuffer, VkQueryPool, uint32_t, VkQueryControlFlags, uint32_t) -> void #stdcall
+PFN_vkCmdEndQueryIndexedEXT :: fn(VkCommandBuffer, VkQueryPool, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawIndirectByteCountEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkGetImageViewHandleNVX :: fn(VkDevice, ^mut VkImageViewHandleInfoNVX) -> uint32_t #stdcall
+PFN_vkGetImageViewAddressNVX :: fn(VkDevice, VkImageView, ^mut VkImageViewAddressPropertiesNVX) -> VkResult #stdcall
+PFN_vkCmdDrawIndirectCountAMD :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawIndexedIndirectCountAMD :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkGetShaderInfoAMD :: fn(VkDevice, VkPipeline, VkShaderStageFlagBits, VkShaderInfoTypeAMD, ^mut size_t, ^mut void) -> VkResult #stdcall
 VkExternalMemoryHandleTypeFlagsNV :: VkExternalMemoryHandleTypeFlagBitsNV
 VkExternalMemoryFeatureFlagsNV :: VkExternalMemoryFeatureFlagBitsNV
-PFN_vkGetPhysicalDeviceExternalImageFormatPropertiesNV :: fn(VkPhysicalDevice, VkFormat, VkImageType, VkImageTiling, VkImageUsageFlags, VkImageCreateFlags, VkExternalMemoryHandleTypeFlagsNV, ^mut VkExternalImageFormatPropertiesNV) -> VkResult
+PFN_vkGetPhysicalDeviceExternalImageFormatPropertiesNV :: fn(VkPhysicalDevice, VkFormat, VkImageType, VkImageTiling, VkImageUsageFlags, VkImageCreateFlags, VkExternalMemoryHandleTypeFlagsNV, ^mut VkExternalImageFormatPropertiesNV) -> VkResult #stdcall
 VkConditionalRenderingFlagsEXT :: VkConditionalRenderingFlagBitsEXT
-PFN_vkCmdBeginConditionalRenderingEXT :: fn(VkCommandBuffer, ^mut VkConditionalRenderingBeginInfoEXT) -> void
-PFN_vkCmdEndConditionalRenderingEXT :: fn(VkCommandBuffer) -> void
-PFN_vkCmdSetViewportWScalingNV :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkViewportWScalingNV) -> void
-PFN_vkReleaseDisplayEXT :: fn(VkPhysicalDevice, VkDisplayKHR) -> VkResult
+PFN_vkCmdBeginConditionalRenderingEXT :: fn(VkCommandBuffer, ^mut VkConditionalRenderingBeginInfoEXT) -> void #stdcall
+PFN_vkCmdEndConditionalRenderingEXT :: fn(VkCommandBuffer) -> void #stdcall
+PFN_vkCmdSetViewportWScalingNV :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkViewportWScalingNV) -> void #stdcall
+PFN_vkReleaseDisplayEXT :: fn(VkPhysicalDevice, VkDisplayKHR) -> VkResult #stdcall
 VkSurfaceCounterFlagsEXT :: VkSurfaceCounterFlagBitsEXT
-PFN_vkGetPhysicalDeviceSurfaceCapabilities2EXT :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut VkSurfaceCapabilities2EXT) -> VkResult
-PFN_vkDisplayPowerControlEXT :: fn(VkDevice, VkDisplayKHR, ^mut VkDisplayPowerInfoEXT) -> VkResult
-PFN_vkRegisterDeviceEventEXT :: fn(VkDevice, ^mut VkDeviceEventInfoEXT, ^mut VkAllocationCallbacks, ^mut VkFence) -> VkResult
-PFN_vkRegisterDisplayEventEXT :: fn(VkDevice, VkDisplayKHR, ^mut VkDisplayEventInfoEXT, ^mut VkAllocationCallbacks, ^mut VkFence) -> VkResult
-PFN_vkGetSwapchainCounterEXT :: fn(VkDevice, VkSwapchainKHR, VkSurfaceCounterFlagBitsEXT, ^mut uint64_t) -> VkResult
-PFN_vkGetRefreshCycleDurationGOOGLE :: fn(VkDevice, VkSwapchainKHR, ^mut VkRefreshCycleDurationGOOGLE) -> VkResult
-PFN_vkGetPastPresentationTimingGOOGLE :: fn(VkDevice, VkSwapchainKHR, ^mut uint32_t, ^mut VkPastPresentationTimingGOOGLE) -> VkResult
+PFN_vkGetPhysicalDeviceSurfaceCapabilities2EXT :: fn(VkPhysicalDevice, VkSurfaceKHR, ^mut VkSurfaceCapabilities2EXT) -> VkResult #stdcall
+PFN_vkDisplayPowerControlEXT :: fn(VkDevice, VkDisplayKHR, ^mut VkDisplayPowerInfoEXT) -> VkResult #stdcall
+PFN_vkRegisterDeviceEventEXT :: fn(VkDevice, ^mut VkDeviceEventInfoEXT, ^mut VkAllocationCallbacks, ^mut VkFence) -> VkResult #stdcall
+PFN_vkRegisterDisplayEventEXT :: fn(VkDevice, VkDisplayKHR, ^mut VkDisplayEventInfoEXT, ^mut VkAllocationCallbacks, ^mut VkFence) -> VkResult #stdcall
+PFN_vkGetSwapchainCounterEXT :: fn(VkDevice, VkSwapchainKHR, VkSurfaceCounterFlagBitsEXT, ^mut uint64_t) -> VkResult #stdcall
+PFN_vkGetRefreshCycleDurationGOOGLE :: fn(VkDevice, VkSwapchainKHR, ^mut VkRefreshCycleDurationGOOGLE) -> VkResult #stdcall
+PFN_vkGetPastPresentationTimingGOOGLE :: fn(VkDevice, VkSwapchainKHR, ^mut uint32_t, ^mut VkPastPresentationTimingGOOGLE) -> VkResult #stdcall
 VkPipelineViewportSwizzleStateCreateFlagsNV :: VkPipelineViewportSwizzleStateCreateFlagBitsNV
 VkPipelineDiscardRectangleStateCreateFlagsEXT :: VkPipelineDiscardRectangleStateCreateFlagBitsEXT
-PFN_vkCmdSetDiscardRectangleEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkRect2D) -> void
+PFN_vkCmdSetDiscardRectangleEXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkRect2D) -> void #stdcall
 VkPipelineRasterizationConservativeStateCreateFlagsEXT :: VkPipelineRasterizationConservativeStateCreateFlagBitsEXT
 VkPipelineRasterizationDepthClipStateCreateFlagsEXT :: VkPipelineRasterizationDepthClipStateCreateFlagBitsEXT
-PFN_vkSetHdrMetadataEXT :: fn(VkDevice, uint32_t, ^mut VkSwapchainKHR, ^mut VkHdrMetadataEXT) -> void
+PFN_vkSetHdrMetadataEXT :: fn(VkDevice, uint32_t, ^mut VkSwapchainKHR, ^mut VkHdrMetadataEXT) -> void #stdcall
 VkDebugUtilsMessengerEXT_T :: struct #copy {}
 VkDebugUtilsMessengerEXT :: ^mut VkDebugUtilsMessengerEXT_T
 VkDebugUtilsMessengerCallbackDataFlagsEXT :: VkDebugUtilsMessengerCallbackDataFlagBitsEXT
@@ -810,32 +810,32 @@ VkDebugUtilsMessageTypeFlagsEXT :: VkDebugUtilsMessageTypeFlagBitsEXT
 VkDebugUtilsMessageSeverityFlagsEXT :: VkDebugUtilsMessageSeverityFlagBitsEXT
 VkDebugUtilsMessengerCreateFlagsEXT :: VkDebugUtilsMessengerCreateFlagBitsEXT
 PFN_vkDebugUtilsMessengerCallbackEXT :: fn(VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, ^mut VkDebugUtilsMessengerCallbackDataEXT, ^mut void) -> VkBool32 #stdcall
-PFN_vkSetDebugUtilsObjectNameEXT :: fn(VkDevice, ^mut VkDebugUtilsObjectNameInfoEXT) -> VkResult
-PFN_vkSetDebugUtilsObjectTagEXT :: fn(VkDevice, ^mut VkDebugUtilsObjectTagInfoEXT) -> VkResult
-PFN_vkQueueBeginDebugUtilsLabelEXT :: fn(VkQueue, ^mut VkDebugUtilsLabelEXT) -> void
-PFN_vkQueueEndDebugUtilsLabelEXT :: fn(VkQueue) -> void
-PFN_vkQueueInsertDebugUtilsLabelEXT :: fn(VkQueue, ^mut VkDebugUtilsLabelEXT) -> void
-PFN_vkCmdBeginDebugUtilsLabelEXT :: fn(VkCommandBuffer, ^mut VkDebugUtilsLabelEXT) -> void
-PFN_vkCmdEndDebugUtilsLabelEXT :: fn(VkCommandBuffer) -> void
-PFN_vkCmdInsertDebugUtilsLabelEXT :: fn(VkCommandBuffer, ^mut VkDebugUtilsLabelEXT) -> void
-PFN_vkCreateDebugUtilsMessengerEXT :: fn(VkInstance, ^mut VkDebugUtilsMessengerCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkDebugUtilsMessengerEXT) -> VkResult
-PFN_vkDestroyDebugUtilsMessengerEXT :: fn(VkInstance, VkDebugUtilsMessengerEXT, ^mut VkAllocationCallbacks) -> void
-PFN_vkSubmitDebugUtilsMessageEXT :: fn(VkInstance, VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, ^mut VkDebugUtilsMessengerCallbackDataEXT) -> void
+PFN_vkSetDebugUtilsObjectNameEXT :: fn(VkDevice, ^mut VkDebugUtilsObjectNameInfoEXT) -> VkResult #stdcall
+PFN_vkSetDebugUtilsObjectTagEXT :: fn(VkDevice, ^mut VkDebugUtilsObjectTagInfoEXT) -> VkResult #stdcall
+PFN_vkQueueBeginDebugUtilsLabelEXT :: fn(VkQueue, ^mut VkDebugUtilsLabelEXT) -> void #stdcall
+PFN_vkQueueEndDebugUtilsLabelEXT :: fn(VkQueue) -> void #stdcall
+PFN_vkQueueInsertDebugUtilsLabelEXT :: fn(VkQueue, ^mut VkDebugUtilsLabelEXT) -> void #stdcall
+PFN_vkCmdBeginDebugUtilsLabelEXT :: fn(VkCommandBuffer, ^mut VkDebugUtilsLabelEXT) -> void #stdcall
+PFN_vkCmdEndDebugUtilsLabelEXT :: fn(VkCommandBuffer) -> void #stdcall
+PFN_vkCmdInsertDebugUtilsLabelEXT :: fn(VkCommandBuffer, ^mut VkDebugUtilsLabelEXT) -> void #stdcall
+PFN_vkCreateDebugUtilsMessengerEXT :: fn(VkInstance, ^mut VkDebugUtilsMessengerCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkDebugUtilsMessengerEXT) -> VkResult #stdcall
+PFN_vkDestroyDebugUtilsMessengerEXT :: fn(VkInstance, VkDebugUtilsMessengerEXT, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkSubmitDebugUtilsMessageEXT :: fn(VkInstance, VkDebugUtilsMessageSeverityFlagBitsEXT, VkDebugUtilsMessageTypeFlagsEXT, ^mut VkDebugUtilsMessengerCallbackDataEXT) -> void #stdcall
 VkSamplerReductionModeEXT :: VkSamplerReductionMode
 VkSamplerReductionModeCreateInfoEXT :: VkSamplerReductionModeCreateInfo
 VkPhysicalDeviceSamplerFilterMinmaxPropertiesEXT :: VkPhysicalDeviceSamplerFilterMinmaxProperties
-PFN_vkCmdSetSampleLocationsEXT :: fn(VkCommandBuffer, ^mut VkSampleLocationsInfoEXT) -> void
-PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT :: fn(VkPhysicalDevice, VkSampleCountFlagBits, ^mut VkMultisamplePropertiesEXT) -> void
+PFN_vkCmdSetSampleLocationsEXT :: fn(VkCommandBuffer, ^mut VkSampleLocationsInfoEXT) -> void #stdcall
+PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT :: fn(VkPhysicalDevice, VkSampleCountFlagBits, ^mut VkMultisamplePropertiesEXT) -> void #stdcall
 VkPipelineCoverageToColorStateCreateFlagsNV :: VkPipelineCoverageToColorStateCreateFlagBitsNV
 VkPipelineCoverageModulationStateCreateFlagsNV :: VkPipelineCoverageModulationStateCreateFlagBitsNV
-PFN_vkGetImageDrmFormatModifierPropertiesEXT :: fn(VkDevice, VkImage, ^mut VkImageDrmFormatModifierPropertiesEXT) -> VkResult
+PFN_vkGetImageDrmFormatModifierPropertiesEXT :: fn(VkDevice, VkImage, ^mut VkImageDrmFormatModifierPropertiesEXT) -> VkResult #stdcall
 VkValidationCacheEXT_T :: struct #copy {}
 VkValidationCacheEXT :: ^mut VkValidationCacheEXT_T
 VkValidationCacheCreateFlagsEXT :: VkValidationCacheCreateFlagBitsEXT
-PFN_vkCreateValidationCacheEXT :: fn(VkDevice, ^mut VkValidationCacheCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkValidationCacheEXT) -> VkResult
-PFN_vkDestroyValidationCacheEXT :: fn(VkDevice, VkValidationCacheEXT, ^mut VkAllocationCallbacks) -> void
-PFN_vkMergeValidationCachesEXT :: fn(VkDevice, VkValidationCacheEXT, uint32_t, ^mut VkValidationCacheEXT) -> VkResult
-PFN_vkGetValidationCacheDataEXT :: fn(VkDevice, VkValidationCacheEXT, ^mut size_t, ^mut void) -> VkResult
+PFN_vkCreateValidationCacheEXT :: fn(VkDevice, ^mut VkValidationCacheCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkValidationCacheEXT) -> VkResult #stdcall
+PFN_vkDestroyValidationCacheEXT :: fn(VkDevice, VkValidationCacheEXT, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkMergeValidationCachesEXT :: fn(VkDevice, VkValidationCacheEXT, uint32_t, ^mut VkValidationCacheEXT) -> VkResult #stdcall
+PFN_vkGetValidationCacheDataEXT :: fn(VkDevice, VkValidationCacheEXT, ^mut size_t, ^mut void) -> VkResult #stdcall
 VkDescriptorBindingFlagBitsEXT :: VkDescriptorBindingFlagBits
 VkDescriptorBindingFlagsEXT :: VkDescriptorBindingFlags
 VkDescriptorSetLayoutBindingFlagsCreateInfoEXT :: VkDescriptorSetLayoutBindingFlagsCreateInfo
@@ -843,9 +843,9 @@ VkPhysicalDeviceDescriptorIndexingFeaturesEXT :: VkPhysicalDeviceDescriptorIndex
 VkPhysicalDeviceDescriptorIndexingPropertiesEXT :: VkPhysicalDeviceDescriptorIndexingProperties
 VkDescriptorSetVariableDescriptorCountAllocateInfoEXT :: VkDescriptorSetVariableDescriptorCountAllocateInfo
 VkDescriptorSetVariableDescriptorCountLayoutSupportEXT :: VkDescriptorSetVariableDescriptorCountLayoutSupport
-PFN_vkCmdBindShadingRateImageNV :: fn(VkCommandBuffer, VkImageView, VkImageLayout) -> void
-PFN_vkCmdSetViewportShadingRatePaletteNV :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkShadingRatePaletteNV) -> void
-PFN_vkCmdSetCoarseSampleOrderNV :: fn(VkCommandBuffer, VkCoarseSampleOrderTypeNV, uint32_t, ^mut VkCoarseSampleOrderCustomNV) -> void
+PFN_vkCmdBindShadingRateImageNV :: fn(VkCommandBuffer, VkImageView, VkImageLayout) -> void #stdcall
+PFN_vkCmdSetViewportShadingRatePaletteNV :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkShadingRatePaletteNV) -> void #stdcall
+PFN_vkCmdSetCoarseSampleOrderNV :: fn(VkCommandBuffer, VkCoarseSampleOrderTypeNV, uint32_t, ^mut VkCoarseSampleOrderCustomNV) -> void #stdcall
 VkAccelerationStructureKHR_T :: struct #copy {}
 VkAccelerationStructureKHR :: ^mut VkAccelerationStructureKHR_T
 VkAccelerationStructureNV :: VkAccelerationStructureKHR
@@ -868,92 +868,92 @@ VkWriteDescriptorSetAccelerationStructureNV :: VkWriteDescriptorSetAccelerationS
 VkTransformMatrixNV :: VkTransformMatrixKHR
 VkAabbPositionsNV :: VkAabbPositionsKHR
 VkAccelerationStructureInstanceNV :: VkAccelerationStructureInstanceKHR
-PFN_vkCreateAccelerationStructureNV :: fn(VkDevice, ^mut VkAccelerationStructureCreateInfoNV, ^mut VkAllocationCallbacks, ^mut VkAccelerationStructureNV) -> VkResult
-PFN_vkDestroyAccelerationStructureKHR :: fn(VkDevice, VkAccelerationStructureKHR, ^mut VkAllocationCallbacks) -> void
-PFN_vkDestroyAccelerationStructureNV :: fn(VkDevice, VkAccelerationStructureKHR, ^mut VkAllocationCallbacks) -> void
-PFN_vkGetAccelerationStructureMemoryRequirementsNV :: fn(VkDevice, ^mut VkAccelerationStructureMemoryRequirementsInfoNV, ^mut VkMemoryRequirements2KHR) -> void
-PFN_vkBindAccelerationStructureMemoryKHR :: fn(VkDevice, uint32_t, ^mut VkBindAccelerationStructureMemoryInfoKHR) -> VkResult
-PFN_vkBindAccelerationStructureMemoryNV :: fn(VkDevice, uint32_t, ^mut VkBindAccelerationStructureMemoryInfoKHR) -> VkResult
-PFN_vkCmdBuildAccelerationStructureNV :: fn(VkCommandBuffer, ^mut VkAccelerationStructureInfoNV, VkBuffer, VkDeviceSize, VkBool32, VkAccelerationStructureKHR, VkAccelerationStructureKHR, VkBuffer, VkDeviceSize) -> void
-PFN_vkCmdCopyAccelerationStructureNV :: fn(VkCommandBuffer, VkAccelerationStructureKHR, VkAccelerationStructureKHR, VkCopyAccelerationStructureModeKHR) -> void
-PFN_vkCmdTraceRaysNV :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, VkDeviceSize, VkBuffer, VkDeviceSize, VkDeviceSize, VkBuffer, VkDeviceSize, VkDeviceSize, uint32_t, uint32_t, uint32_t) -> void
-PFN_vkCreateRayTracingPipelinesNV :: fn(VkDevice, VkPipelineCache, uint32_t, ^mut VkRayTracingPipelineCreateInfoNV, ^mut VkAllocationCallbacks, ^mut VkPipeline) -> VkResult
-PFN_vkGetRayTracingShaderGroupHandlesKHR :: fn(VkDevice, VkPipeline, uint32_t, uint32_t, size_t, ^mut void) -> VkResult
-PFN_vkGetRayTracingShaderGroupHandlesNV :: fn(VkDevice, VkPipeline, uint32_t, uint32_t, size_t, ^mut void) -> VkResult
-PFN_vkGetAccelerationStructureHandleNV :: fn(VkDevice, VkAccelerationStructureKHR, size_t, ^mut void) -> VkResult
-PFN_vkCmdWriteAccelerationStructuresPropertiesKHR :: fn(VkCommandBuffer, uint32_t, ^mut VkAccelerationStructureKHR, VkQueryType, VkQueryPool, uint32_t) -> void
-PFN_vkCmdWriteAccelerationStructuresPropertiesNV :: fn(VkCommandBuffer, uint32_t, ^mut VkAccelerationStructureKHR, VkQueryType, VkQueryPool, uint32_t) -> void
-PFN_vkCompileDeferredNV :: fn(VkDevice, VkPipeline, uint32_t) -> VkResult
-PFN_vkGetMemoryHostPointerPropertiesEXT :: fn(VkDevice, VkExternalMemoryHandleTypeFlagBits, ^mut void, ^mut VkMemoryHostPointerPropertiesEXT) -> VkResult
-PFN_vkCmdWriteBufferMarkerAMD :: fn(VkCommandBuffer, VkPipelineStageFlagBits, VkBuffer, VkDeviceSize, uint32_t) -> void
+PFN_vkCreateAccelerationStructureNV :: fn(VkDevice, ^mut VkAccelerationStructureCreateInfoNV, ^mut VkAllocationCallbacks, ^mut VkAccelerationStructureNV) -> VkResult #stdcall
+PFN_vkDestroyAccelerationStructureKHR :: fn(VkDevice, VkAccelerationStructureKHR, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkDestroyAccelerationStructureNV :: fn(VkDevice, VkAccelerationStructureKHR, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkGetAccelerationStructureMemoryRequirementsNV :: fn(VkDevice, ^mut VkAccelerationStructureMemoryRequirementsInfoNV, ^mut VkMemoryRequirements2KHR) -> void #stdcall
+PFN_vkBindAccelerationStructureMemoryKHR :: fn(VkDevice, uint32_t, ^mut VkBindAccelerationStructureMemoryInfoKHR) -> VkResult #stdcall
+PFN_vkBindAccelerationStructureMemoryNV :: fn(VkDevice, uint32_t, ^mut VkBindAccelerationStructureMemoryInfoKHR) -> VkResult #stdcall
+PFN_vkCmdBuildAccelerationStructureNV :: fn(VkCommandBuffer, ^mut VkAccelerationStructureInfoNV, VkBuffer, VkDeviceSize, VkBool32, VkAccelerationStructureKHR, VkAccelerationStructureKHR, VkBuffer, VkDeviceSize) -> void #stdcall
+PFN_vkCmdCopyAccelerationStructureNV :: fn(VkCommandBuffer, VkAccelerationStructureKHR, VkAccelerationStructureKHR, VkCopyAccelerationStructureModeKHR) -> void #stdcall
+PFN_vkCmdTraceRaysNV :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, VkDeviceSize, VkBuffer, VkDeviceSize, VkDeviceSize, VkBuffer, VkDeviceSize, VkDeviceSize, uint32_t, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCreateRayTracingPipelinesNV :: fn(VkDevice, VkPipelineCache, uint32_t, ^mut VkRayTracingPipelineCreateInfoNV, ^mut VkAllocationCallbacks, ^mut VkPipeline) -> VkResult #stdcall
+PFN_vkGetRayTracingShaderGroupHandlesKHR :: fn(VkDevice, VkPipeline, uint32_t, uint32_t, size_t, ^mut void) -> VkResult #stdcall
+PFN_vkGetRayTracingShaderGroupHandlesNV :: fn(VkDevice, VkPipeline, uint32_t, uint32_t, size_t, ^mut void) -> VkResult #stdcall
+PFN_vkGetAccelerationStructureHandleNV :: fn(VkDevice, VkAccelerationStructureKHR, size_t, ^mut void) -> VkResult #stdcall
+PFN_vkCmdWriteAccelerationStructuresPropertiesKHR :: fn(VkCommandBuffer, uint32_t, ^mut VkAccelerationStructureKHR, VkQueryType, VkQueryPool, uint32_t) -> void #stdcall
+PFN_vkCmdWriteAccelerationStructuresPropertiesNV :: fn(VkCommandBuffer, uint32_t, ^mut VkAccelerationStructureKHR, VkQueryType, VkQueryPool, uint32_t) -> void #stdcall
+PFN_vkCompileDeferredNV :: fn(VkDevice, VkPipeline, uint32_t) -> VkResult #stdcall
+PFN_vkGetMemoryHostPointerPropertiesEXT :: fn(VkDevice, VkExternalMemoryHandleTypeFlagBits, ^mut void, ^mut VkMemoryHostPointerPropertiesEXT) -> VkResult #stdcall
+PFN_vkCmdWriteBufferMarkerAMD :: fn(VkCommandBuffer, VkPipelineStageFlagBits, VkBuffer, VkDeviceSize, uint32_t) -> void #stdcall
 VkPipelineCompilerControlFlagsAMD :: VkPipelineCompilerControlFlagBitsAMD
-PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkTimeDomainEXT) -> VkResult
-PFN_vkGetCalibratedTimestampsEXT :: fn(VkDevice, uint32_t, ^mut VkCalibratedTimestampInfoEXT, ^mut uint64_t, ^mut uint64_t) -> VkResult
+PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkTimeDomainEXT) -> VkResult #stdcall
+PFN_vkGetCalibratedTimestampsEXT :: fn(VkDevice, uint32_t, ^mut VkCalibratedTimestampInfoEXT, ^mut uint64_t, ^mut uint64_t) -> VkResult #stdcall
 VkPipelineCreationFeedbackFlagsEXT :: VkPipelineCreationFeedbackFlagBitsEXT
-PFN_vkCmdDrawMeshTasksNV :: fn(VkCommandBuffer, uint32_t, uint32_t) -> void
-PFN_vkCmdDrawMeshTasksIndirectNV :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkCmdDrawMeshTasksIndirectCountNV :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void
-PFN_vkCmdSetExclusiveScissorNV :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkRect2D) -> void
-PFN_vkCmdSetCheckpointNV :: fn(VkCommandBuffer, ^mut void) -> void
-PFN_vkGetQueueCheckpointDataNV :: fn(VkQueue, ^mut uint32_t, ^mut VkCheckpointDataNV) -> void
+PFN_vkCmdDrawMeshTasksNV :: fn(VkCommandBuffer, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawMeshTasksIndirectNV :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdDrawMeshTasksIndirectCountNV :: fn(VkCommandBuffer, VkBuffer, VkDeviceSize, VkBuffer, VkDeviceSize, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdSetExclusiveScissorNV :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkRect2D) -> void #stdcall
+PFN_vkCmdSetCheckpointNV :: fn(VkCommandBuffer, ^mut void) -> void #stdcall
+PFN_vkGetQueueCheckpointDataNV :: fn(VkQueue, ^mut uint32_t, ^mut VkCheckpointDataNV) -> void #stdcall
 VkPerformanceConfigurationINTEL_T :: struct #copy {}
 VkPerformanceConfigurationINTEL :: ^mut VkPerformanceConfigurationINTEL_T
 VkQueryPoolCreateInfoINTEL :: VkQueryPoolPerformanceQueryCreateInfoINTEL
-PFN_vkInitializePerformanceApiINTEL :: fn(VkDevice, ^mut VkInitializePerformanceApiInfoINTEL) -> VkResult
-PFN_vkUninitializePerformanceApiINTEL :: fn(VkDevice) -> void
-PFN_vkCmdSetPerformanceMarkerINTEL :: fn(VkCommandBuffer, ^mut VkPerformanceMarkerInfoINTEL) -> VkResult
-PFN_vkCmdSetPerformanceStreamMarkerINTEL :: fn(VkCommandBuffer, ^mut VkPerformanceStreamMarkerInfoINTEL) -> VkResult
-PFN_vkCmdSetPerformanceOverrideINTEL :: fn(VkCommandBuffer, ^mut VkPerformanceOverrideInfoINTEL) -> VkResult
-PFN_vkAcquirePerformanceConfigurationINTEL :: fn(VkDevice, ^mut VkPerformanceConfigurationAcquireInfoINTEL, ^mut VkPerformanceConfigurationINTEL) -> VkResult
-PFN_vkReleasePerformanceConfigurationINTEL :: fn(VkDevice, VkPerformanceConfigurationINTEL) -> VkResult
-PFN_vkQueueSetPerformanceConfigurationINTEL :: fn(VkQueue, VkPerformanceConfigurationINTEL) -> VkResult
-PFN_vkGetPerformanceParameterINTEL :: fn(VkDevice, VkPerformanceParameterTypeINTEL, ^mut VkPerformanceValueINTEL) -> VkResult
-PFN_vkSetLocalDimmingAMD :: fn(VkDevice, VkSwapchainKHR, VkBool32) -> void
+PFN_vkInitializePerformanceApiINTEL :: fn(VkDevice, ^mut VkInitializePerformanceApiInfoINTEL) -> VkResult #stdcall
+PFN_vkUninitializePerformanceApiINTEL :: fn(VkDevice) -> void #stdcall
+PFN_vkCmdSetPerformanceMarkerINTEL :: fn(VkCommandBuffer, ^mut VkPerformanceMarkerInfoINTEL) -> VkResult #stdcall
+PFN_vkCmdSetPerformanceStreamMarkerINTEL :: fn(VkCommandBuffer, ^mut VkPerformanceStreamMarkerInfoINTEL) -> VkResult #stdcall
+PFN_vkCmdSetPerformanceOverrideINTEL :: fn(VkCommandBuffer, ^mut VkPerformanceOverrideInfoINTEL) -> VkResult #stdcall
+PFN_vkAcquirePerformanceConfigurationINTEL :: fn(VkDevice, ^mut VkPerformanceConfigurationAcquireInfoINTEL, ^mut VkPerformanceConfigurationINTEL) -> VkResult #stdcall
+PFN_vkReleasePerformanceConfigurationINTEL :: fn(VkDevice, VkPerformanceConfigurationINTEL) -> VkResult #stdcall
+PFN_vkQueueSetPerformanceConfigurationINTEL :: fn(VkQueue, VkPerformanceConfigurationINTEL) -> VkResult #stdcall
+PFN_vkGetPerformanceParameterINTEL :: fn(VkDevice, VkPerformanceParameterTypeINTEL, ^mut VkPerformanceValueINTEL) -> VkResult #stdcall
+PFN_vkSetLocalDimmingAMD :: fn(VkDevice, VkSwapchainKHR, VkBool32) -> void #stdcall
 VkPhysicalDeviceScalarBlockLayoutFeaturesEXT :: VkPhysicalDeviceScalarBlockLayoutFeatures
 VkShaderCorePropertiesFlagsAMD :: VkShaderCorePropertiesFlagBitsAMD
 VkPhysicalDeviceBufferAddressFeaturesEXT :: VkPhysicalDeviceBufferDeviceAddressFeaturesEXT
 VkBufferDeviceAddressInfoEXT :: VkBufferDeviceAddressInfo
-PFN_vkGetBufferDeviceAddressEXT :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> VkDeviceAddress
+PFN_vkGetBufferDeviceAddressEXT :: fn(VkDevice, ^mut VkBufferDeviceAddressInfo) -> VkDeviceAddress #stdcall
 VkToolPurposeFlagsEXT :: VkToolPurposeFlagBitsEXT
-PFN_vkGetPhysicalDeviceToolPropertiesEXT :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkPhysicalDeviceToolPropertiesEXT) -> VkResult
+PFN_vkGetPhysicalDeviceToolPropertiesEXT :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkPhysicalDeviceToolPropertiesEXT) -> VkResult #stdcall
 VkImageStencilUsageCreateInfoEXT :: VkImageStencilUsageCreateInfo
-PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkCooperativeMatrixPropertiesNV) -> VkResult
+PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkCooperativeMatrixPropertiesNV) -> VkResult #stdcall
 VkPipelineCoverageReductionStateCreateFlagsNV :: VkPipelineCoverageReductionStateCreateFlagBitsNV
-PFN_vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkFramebufferMixedSamplesCombinationNV) -> VkResult
+PFN_vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV :: fn(VkPhysicalDevice, ^mut uint32_t, ^mut VkFramebufferMixedSamplesCombinationNV) -> VkResult #stdcall
 VkHeadlessSurfaceCreateFlagsEXT :: VkHeadlessSurfaceCreateFlagBitsEXT
-PFN_vkCreateHeadlessSurfaceEXT :: fn(VkInstance, ^mut VkHeadlessSurfaceCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkSurfaceKHR) -> VkResult
-PFN_vkCmdSetLineStippleEXT :: fn(VkCommandBuffer, uint32_t, uint16_t) -> void
+PFN_vkCreateHeadlessSurfaceEXT :: fn(VkInstance, ^mut VkHeadlessSurfaceCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkSurfaceKHR) -> VkResult #stdcall
+PFN_vkCmdSetLineStippleEXT :: fn(VkCommandBuffer, uint32_t, uint16_t) -> void #stdcall
 VkPhysicalDeviceHostQueryResetFeaturesEXT :: VkPhysicalDeviceHostQueryResetFeatures
-PFN_vkResetQueryPoolEXT :: fn(VkDevice, VkQueryPool, uint32_t, uint32_t) -> void
-PFN_vkCmdSetCullModeEXT :: fn(VkCommandBuffer, VkCullModeFlags) -> void
-PFN_vkCmdSetFrontFaceEXT :: fn(VkCommandBuffer, VkFrontFace) -> void
-PFN_vkCmdSetPrimitiveTopologyEXT :: fn(VkCommandBuffer, VkPrimitiveTopology) -> void
-PFN_vkCmdSetViewportWithCountEXT :: fn(VkCommandBuffer, uint32_t, ^mut VkViewport) -> void
-PFN_vkCmdSetScissorWithCountEXT :: fn(VkCommandBuffer, uint32_t, ^mut VkRect2D) -> void
-PFN_vkCmdBindVertexBuffers2EXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize, ^mut VkDeviceSize, ^mut VkDeviceSize) -> void
-PFN_vkCmdSetDepthTestEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void
-PFN_vkCmdSetDepthWriteEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void
-PFN_vkCmdSetDepthCompareOpEXT :: fn(VkCommandBuffer, VkCompareOp) -> void
-PFN_vkCmdSetDepthBoundsTestEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void
-PFN_vkCmdSetStencilTestEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void
-PFN_vkCmdSetStencilOpEXT :: fn(VkCommandBuffer, VkStencilFaceFlags, VkStencilOp, VkStencilOp, VkStencilOp, VkCompareOp) -> void
+PFN_vkResetQueryPoolEXT :: fn(VkDevice, VkQueryPool, uint32_t, uint32_t) -> void #stdcall
+PFN_vkCmdSetCullModeEXT :: fn(VkCommandBuffer, VkCullModeFlags) -> void #stdcall
+PFN_vkCmdSetFrontFaceEXT :: fn(VkCommandBuffer, VkFrontFace) -> void #stdcall
+PFN_vkCmdSetPrimitiveTopologyEXT :: fn(VkCommandBuffer, VkPrimitiveTopology) -> void #stdcall
+PFN_vkCmdSetViewportWithCountEXT :: fn(VkCommandBuffer, uint32_t, ^mut VkViewport) -> void #stdcall
+PFN_vkCmdSetScissorWithCountEXT :: fn(VkCommandBuffer, uint32_t, ^mut VkRect2D) -> void #stdcall
+PFN_vkCmdBindVertexBuffers2EXT :: fn(VkCommandBuffer, uint32_t, uint32_t, ^mut VkBuffer, ^mut VkDeviceSize, ^mut VkDeviceSize, ^mut VkDeviceSize) -> void #stdcall
+PFN_vkCmdSetDepthTestEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void #stdcall
+PFN_vkCmdSetDepthWriteEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void #stdcall
+PFN_vkCmdSetDepthCompareOpEXT :: fn(VkCommandBuffer, VkCompareOp) -> void #stdcall
+PFN_vkCmdSetDepthBoundsTestEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void #stdcall
+PFN_vkCmdSetStencilTestEnableEXT :: fn(VkCommandBuffer, VkBool32) -> void #stdcall
+PFN_vkCmdSetStencilOpEXT :: fn(VkCommandBuffer, VkStencilFaceFlags, VkStencilOp, VkStencilOp, VkStencilOp, VkCompareOp) -> void #stdcall
 VkIndirectCommandsLayoutNV_T :: struct #copy {}
 VkIndirectCommandsLayoutNV :: ^mut VkIndirectCommandsLayoutNV_T
 VkIndirectStateFlagsNV :: VkIndirectStateFlagBitsNV
 VkIndirectCommandsLayoutUsageFlagsNV :: VkIndirectCommandsLayoutUsageFlagBitsNV
-PFN_vkGetGeneratedCommandsMemoryRequirementsNV :: fn(VkDevice, ^mut VkGeneratedCommandsMemoryRequirementsInfoNV, ^mut VkMemoryRequirements2) -> void
-PFN_vkCmdPreprocessGeneratedCommandsNV :: fn(VkCommandBuffer, ^mut VkGeneratedCommandsInfoNV) -> void
-PFN_vkCmdExecuteGeneratedCommandsNV :: fn(VkCommandBuffer, VkBool32, ^mut VkGeneratedCommandsInfoNV) -> void
-PFN_vkCmdBindPipelineShaderGroupNV :: fn(VkCommandBuffer, VkPipelineBindPoint, VkPipeline, uint32_t) -> void
-PFN_vkCreateIndirectCommandsLayoutNV :: fn(VkDevice, ^mut VkIndirectCommandsLayoutCreateInfoNV, ^mut VkAllocationCallbacks, ^mut VkIndirectCommandsLayoutNV) -> VkResult
-PFN_vkDestroyIndirectCommandsLayoutNV :: fn(VkDevice, VkIndirectCommandsLayoutNV, ^mut VkAllocationCallbacks) -> void
+PFN_vkGetGeneratedCommandsMemoryRequirementsNV :: fn(VkDevice, ^mut VkGeneratedCommandsMemoryRequirementsInfoNV, ^mut VkMemoryRequirements2) -> void #stdcall
+PFN_vkCmdPreprocessGeneratedCommandsNV :: fn(VkCommandBuffer, ^mut VkGeneratedCommandsInfoNV) -> void #stdcall
+PFN_vkCmdExecuteGeneratedCommandsNV :: fn(VkCommandBuffer, VkBool32, ^mut VkGeneratedCommandsInfoNV) -> void #stdcall
+PFN_vkCmdBindPipelineShaderGroupNV :: fn(VkCommandBuffer, VkPipelineBindPoint, VkPipeline, uint32_t) -> void #stdcall
+PFN_vkCreateIndirectCommandsLayoutNV :: fn(VkDevice, ^mut VkIndirectCommandsLayoutCreateInfoNV, ^mut VkAllocationCallbacks, ^mut VkIndirectCommandsLayoutNV) -> VkResult #stdcall
+PFN_vkDestroyIndirectCommandsLayoutNV :: fn(VkDevice, VkIndirectCommandsLayoutNV, ^mut VkAllocationCallbacks) -> void #stdcall
 VkPrivateDataSlotEXT_T :: struct #copy {}
 VkPrivateDataSlotEXT :: ^mut VkPrivateDataSlotEXT_T
 VkPrivateDataSlotCreateFlagsEXT :: VkPrivateDataSlotCreateFlagBitsEXT
-PFN_vkCreatePrivateDataSlotEXT :: fn(VkDevice, ^mut VkPrivateDataSlotCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkPrivateDataSlotEXT) -> VkResult
-PFN_vkDestroyPrivateDataSlotEXT :: fn(VkDevice, VkPrivateDataSlotEXT, ^mut VkAllocationCallbacks) -> void
-PFN_vkSetPrivateDataEXT :: fn(VkDevice, VkObjectType, uint64_t, VkPrivateDataSlotEXT, uint64_t) -> VkResult
-PFN_vkGetPrivateDataEXT :: fn(VkDevice, VkObjectType, uint64_t, VkPrivateDataSlotEXT, ^mut uint64_t) -> void
+PFN_vkCreatePrivateDataSlotEXT :: fn(VkDevice, ^mut VkPrivateDataSlotCreateInfoEXT, ^mut VkAllocationCallbacks, ^mut VkPrivateDataSlotEXT) -> VkResult #stdcall
+PFN_vkDestroyPrivateDataSlotEXT :: fn(VkDevice, VkPrivateDataSlotEXT, ^mut VkAllocationCallbacks) -> void #stdcall
+PFN_vkSetPrivateDataEXT :: fn(VkDevice, VkObjectType, uint64_t, VkPrivateDataSlotEXT, uint64_t) -> VkResult #stdcall
+PFN_vkGetPrivateDataEXT :: fn(VkDevice, VkObjectType, uint64_t, VkPrivateDataSlotEXT, ^mut uint64_t) -> void #stdcall
 VkDeviceDiagnosticsConfigFlagsNV :: VkDeviceDiagnosticsConfigFlagBitsNV
 VK_VERSION_1_0 :: 1
 VK_API_VERSION_1_0 :: VK_MAKE_VERSION(1,0,0)
