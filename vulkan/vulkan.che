@@ -285,6 +285,7 @@ VkBufferViewCreateFlags :: VkBufferViewCreateFlagBits
 VkImageViewCreateFlags :: VkImageViewCreateFlagBits
 VkShaderModuleCreateFlags :: VkShaderModuleCreateFlagBits
 VkPipelineCacheCreateFlags :: VkPipelineCacheCreateFlagBits
+VkColorComponentFlags :: VkColorComponentFlagBits
 VkPipelineCreateFlags :: VkPipelineCreateFlagBits
 VkPipelineShaderStageCreateFlags :: VkPipelineShaderStageCreateFlagBits
 VkPipelineVertexInputStateCreateFlags :: VkPipelineVertexInputStateCreateFlagBits
@@ -853,7 +854,7 @@ VkGeometryTypeNV :: VkGeometryTypeKHR
 VkAccelerationStructureTypeNV :: VkAccelerationStructureTypeKHR
 VkCopyAccelerationStructureModeNV :: VkCopyAccelerationStructureModeKHR
 VkAccelerationStructureMemoryRequirementsTypeNV :: VkAccelerationStructureMemoryRequirementsTypeKHR
-VkGeometryFlags :: VkGeometryFlagBitsKHR
+VkGeometryFlagsKHR :: VkGeometryFlagBitsKHR
 VkGeometryFlagsNV :: VkGeometryFlagBitsKHR
 VkGeometryFlagBitsNV :: VkGeometryFlagBitsKHR
 VkGeometryInstanceFlags :: VkGeometryInstanceFlagBitsKHR
@@ -2931,7 +2932,7 @@ VkFormatFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     SampledImageFilterMinmaxBit                                            = 0x10000
     SampledImageFilterCubicBitImg                                          = 0x2000
     AccelerationStructureVertexBufferBitKhr                                = 0x20000000
-    ragmentDensityMapBitExt                                                = 0x1000000
+    FragmentDensityMapBitExt                                               = 0x1000000
     TransferSrcBitKhr                                                      = 0x4000
     TransferDstBitKhr                                                      = 0x8000
     SampledImageFilterMinmaxBitExt                                         = 0x10000
@@ -2992,7 +2993,7 @@ VkImageUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     TransientAttachmentBit    = 0x40
     InputAttachmentBit        = 0x80
     ShadingRateImageBitNv     = 0x100
-    ragmentDensityMapBitExt   = 0x200
+    FragmentDensityMapBitExt  = 0x200
     MaxEnum                   = 0x7fffffff
 }
 VkMemoryHeapFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
@@ -3086,7 +3087,7 @@ VkQueryPipelineStatisticFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags 
     GeometryShaderPrimitivesBit                = 0x10
     ClippingInvocationsBit                     = 0x20
     ClippingPrimitivesBit                      = 0x40
-    ragmentShaderInvocationsBit                = 0x80
+    FragmentShaderInvocationsBit               = 0x80
     TessellationControlShaderPatchesBit        = 0x100
     TessellationEvaluationShaderInvocationsBit = 0x200
     ComputeShaderInvocationsBit                = 0x400
@@ -3173,7 +3174,7 @@ VkPipelineCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     CaptureInternalRepresentationsBitKhr      = 0x80
     IndirectBindableBitNv                     = 0x40000
     LibraryBitKhr                             = 0x800
-    ailOnPipelineCompileRequiredBitExt        = 0x100
+    FailOnPipelineCompileRequiredBitExt       = 0x100
     EarlyReturnOnFailureBitExt                = 0x200
     DispatchBase                              = 0x10
     ViewIndexFromDeviceIndexBitKhr            = 0x8
@@ -3215,9 +3216,9 @@ VkShaderStageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
 VkCullModeFlags :: enum #copy #repr("C") #tag_type(i32) {
     None        = 0x0
     FrontBit     = 0x1
-    BackBit     = 0x2
+    BackBit      = 0x2
     FrontAndBack = 0x3
-    MaxEnum     = 0x7fffffff
+    MaxEnum      = 0x7fffffff
 }
 VkSamplerCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     None = 0x0
@@ -3268,7 +3269,7 @@ VkSubpassDescriptionFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     None = 0x0
     PerViewAttributesBitNvx    = 0x1
     PerViewPositionXOnlyBitNvx = 0x2
-    ragmentRegionBitQcom       = 0x4
+    FragmentRegionBitQcom      = 0x4
     ShaderResolveBitQcom       = 0x8
     MaxEnum                    = 0x7fffffff
 }
@@ -3304,9 +3305,9 @@ VkCommandBufferResetFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
 VkStencilFaceFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     None = 0x0
     FrontBit     = 0x1
-    BackBit     = 0x2
+    BackBit      = 0x2
     FrontAndBack = 0x3
-    MaxEnum     = 0x7fffffff
+    MaxEnum      = 0x7fffffff
 }
 VkPointClippingBehavior :: enum #copy #repr("C") #tag_type(i32) {
     AllClipPlanes         = 0x0
@@ -4774,7 +4775,7 @@ VkPipelineColorBlendAttachmentState :: struct #copy {
     srcAlphaBlendFactor : VkBlendFactor = default
     dstAlphaBlendFactor : VkBlendFactor = default
     alphaBlendOp : VkBlendOp = default
-    colorWriteMask : VkColorComponentFlagBits = default
+    colorWriteMask : VkColorComponentFlags = default
 }
 VkPipelineColorBlendStateCreateInfo :: struct #copy {
     sType : VkStructureType = default
@@ -6961,7 +6962,7 @@ VkGeometryNV :: struct #copy {
     pNext : ^mut void = default
     geometryType : VkGeometryTypeKHR = default
     geometry : VkGeometryDataNV = default
-    flags : VkGeometryFlagBitsKHR = default
+    flags : VkGeometryFlagsKHR = default
 }
 VkAccelerationStructureInfoNV :: struct #copy {
     sType : VkStructureType = default
