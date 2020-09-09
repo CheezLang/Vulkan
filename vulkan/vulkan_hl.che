@@ -4,6 +4,8 @@ use import glfw
 use import std.array
 use import std.map
 use import std.string
+use import std.rc
+use import std.math
 
 mem :: import std.mem.allocator
 io :: import std.io
@@ -577,6 +579,213 @@ impl DebugUtilsMessenger {
 }
 
 impl Drop for DebugUtilsMessenger {
+    drop :: (&Self) {
+        self.destroy()
+    }
+}
+
+Swapchain :: struct {
+    handle          : VkSwapchainKHR
+    device          : VkDevice
+    image_format    : VkFormat
+    extent          : VkExtent2D
+    images          : Array[VkImage]
+    image_views     : Array[VkImageView]
+    framebuffers    : Array[VkFramebuffer]
+}
+
+impl Swapchain {
+    new :: (device: &Device, physical_device: &PhysicalDevice, surface: &Surface, fallback_extent: VkExtent2D, queue_family_indices: []u32) -> Result[Rc[Swapchain], Error] {
+        SwapChainSupportDetails :: struct {
+            capabilities    : VkSurfaceCapabilitiesKHR = default
+            formats         := Array[VkSurfaceFormatKHR].new()
+            present_modes   := Array[VkPresentModeKHR].new()
+        }
+        get_physical_device_surface_formats :: (physical_device: VkPhysicalDevice, surface: VkSurfaceKHR) -> Array[VkSurfaceFormatKHR] {
+            count : u32 = default
+            vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device, surface, ^count, null)
+            mut result := Array[VkSurfaceFormatKHR].new(initial_capacity = cast count)
+            result.resize(cast count)
+            vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device, surface, ^count, result.get_raw_mut())
+            return result
+        }
+        get_physical_device_surface_present_modes :: (physical_device: VkPhysicalDevice, surface: VkSurfaceKHR) -> Array[VkPresentModeKHR] {
+            count : u32 = default
+            vkGetPhysicalDeviceSurfacePresentModesKHR(physical_device, surface, ^count, null)
+            mut result := Array[VkPresentModeKHR].new(initial_capacity = cast count)
+            result.length = cast count // can't use resize because VkPresentModeKHR is an enum. @TODO: fix
+            vkGetPhysicalDeviceSurfacePresentModesKHR(physical_device, surface, ^count, result.get_raw_mut())
+            return result
+        }
+        query_swapchain_support :: (physical_device: &PhysicalDevice, surface: &Surface) -> SwapChainSupportDetails {
+            mut details := SwapChainSupportDetails(
+                formats         = get_physical_device_surface_formats(physical_device.handle, surface.handle)
+                present_modes   = get_physical_device_surface_present_modes(physical_device.handle, surface.handle)
+            )
+
+            vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physical_device.handle, surface.handle, ^mut details.capabilities)
+
+            return details
+        }
+
+        choose_swap_extent :: (capabilities: &VkSurfaceCapabilitiesKHR, fallback_extent: VkExtent2D) -> VkExtent2D {
+            if capabilities.currentExtent.width != u32.max {
+                return capabilities.currentExtent
+            }
+
+            mut actual_extent := fallback_extent
+            actual_extent.width = clamp(actual_extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width)
+            actual_extent.height = clamp(actual_extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height)
+            return actual_extent
+        }
+
+        choose_swap_present_mode :: (available_modes: &mut Array[VkPresentModeKHR]) -> VkPresentModeKHR {
+            for(by_ref=false) mode in available_modes {
+                if mode == .MailboxKhr {
+                    return mode
+                }
+            }
+
+            return .FifoKhr
+        }
+
+        choose_swap_surface_format :: (available_formats: &mut Array[VkSurfaceFormatKHR]) -> VkSurfaceFormatKHR {
+            for format in available_formats {
+                if format.format == .B8g8r8a8Srgb and format.colorSpace == .SrgbNonlinearKhr {
+                    return *format
+                }
+            }
+
+            return *available_formats[0]
+        }
+
+        mut swapchain_support := query_swapchain_support(physical_device, surface)
+        surface_format := choose_swap_surface_format(&mut swapchain_support.formats)
+        present_mode := choose_swap_present_mode(&mut swapchain_support.present_modes)
+        extent := choose_swap_extent(&swapchain_support.capabilities, fallback_extent)
+        mut image_count := swapchain_support.capabilities.minImageCount + 1
+        if swapchain_support.capabilities.maxImageCount > 0 and image_count > swapchain_support.capabilities.maxImageCount {
+            image_count = swapchain_support.capabilities.maxImageCount
+        }
+
+        mut create_info := VkSwapchainCreateInfoKHR(
+            sType                   = .SwapchainCreateInfoKhr
+            flags                   = .None
+            surface                 = surface.handle
+            minImageCount           = image_count
+            imageFormat             = surface_format.format
+            imageColorSpace         = surface_format.colorSpace
+            imageExtent             = extent
+            imageArrayLayers        = 1
+            imageUsage              = .ColorAttachmentBit
+            preTransform            = swapchain_support.capabilities.currentTransform
+            compositeAlpha          = .OpaqueBitKhr
+            presentMode             = present_mode
+            clipped                 = VK_TRUE
+            oldSwapchain            = null
+        )
+
+        unique_indices := Map[u32, ()].new()
+        for(by_ref=false) index in queue_family_indices {
+            unique_indices.set(index, ())
+        }
+        if unique_indices.count() <= 1 {
+            create_info.imageSharingMode = .Exclusive
+            create_info.queueFamilyIndexCount = 0
+            create_info.pQueueFamilyIndices = null
+        } else {
+            create_info.imageSharingMode = .Concurrent
+            create_info.queueFamilyIndexCount = cast queue_family_indices.length
+            create_info.pQueueFamilyIndices = cast(^mut u32) queue_family_indices.data
+        }
+
+        mut handle : VkSwapchainKHR = default
+        vkCreateSwapchainKHR(device.handle, ^mut create_info, null, ^mut handle)
+
+        vkGetSwapchainImagesKHR(device.handle, handle, ^mut image_count, null)
+        images := Array[VkImage].new()
+        images.resize(cast image_count)
+        vkGetSwapchainImagesKHR(device.handle, handle, ^mut image_count, images.get_raw_mut())
+
+        return Ok(Rc[Swapchain].new(Swapchain(
+            handle          = handle
+            device          = device.handle
+            image_format    = surface_format.format
+            extent          = extent
+            images          = images
+            image_views     = Array[VkImageView].new(initial_capacity = cast image_count)
+            framebuffers    = Array[VkFramebuffer].new(initial_capacity = cast image_count)
+        )))
+    }
+
+    get_image_views :: (&Self) -> []VkImageView {
+        return self.image_views[..]
+    }
+
+    create_image_views :: (&mut Self) -> Result[(), Error] {
+        self.image_views.resize(self.images.count())
+
+        for(by_ref=false) image, i in self.images[..] {
+            create_info := VkImageViewCreateInfo(
+                sType            = .ImageViewCreateInfo
+                image            = image
+                viewType         = ._2d
+                format           = self.image_format
+                components       = VkComponentMapping(
+                    r = .Identity
+                    g = .Identity
+                    b = .Identity
+                    a = .Identity
+                )
+                subresourceRange = VkImageSubresourceRange(
+                    aspectMask     = .ColorBit
+                    baseMipLevel   = 0
+                    levelCount     = 1
+                    baseArrayLayer = 0
+                    layerCount     = 1
+                )
+            )
+
+            vk_try(vkCreateImageView(self.device, ^create_info, null, ^mut *self.image_views[i]))
+        }
+
+        return Ok()
+    }
+
+    get_framebuffers :: (&Self) -> []VkFramebuffer {
+        return self.framebuffers[..]
+    }
+
+    create_framebuffers :: (&mut Self, render_pass: VkRenderPass) -> Result[(), Error] {
+        self.framebuffers.resize(self.image_views.count())
+
+        for(by_ref=false) view, i in self.get_image_views() {
+            attachments := [view]
+            framebuffer_info := VkFramebufferCreateInfo(
+                sType           = .FramebufferCreateInfo
+                renderPass      = render_pass
+                attachmentCount = cast attachments.length
+                pAttachments    = attachments.data
+                width           = self.extent.width
+                height          = self.extent.height
+                layers          = 1
+            )
+
+            vk_try(vkCreateFramebuffer(self.device, ^framebuffer_info, null, ^mut *self.framebuffers[i]))
+        }
+
+        return Ok()
+    }
+
+    destroy :: (&Self) {
+        if self.handle != null {
+            vkDestroySwapchainKHR(self.device, self.handle, null)
+        }
+        @cast(&mut Self, self).handle = null
+    }
+}
+
+impl Drop for Swapchain {
     drop :: (&Self) {
         self.destroy()
     }
