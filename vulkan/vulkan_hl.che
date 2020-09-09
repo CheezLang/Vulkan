@@ -255,10 +255,6 @@ impl Instance {
         return Ok(Instance(handle))
     }
 
-    from_handle :: (handle: VkInstance) -> Instance {
-        return Instance(handle)
-    }
-
     destroy :: (&Self) {
         if self.handle != null {
             vkDestroyInstance(self.handle, null)
@@ -572,8 +568,8 @@ impl DebugUtilsMessenger {
 
     destroy :: (&Self) {
         if self.handle != null {
-            instance := Instance.from_handle(self.instance)
-            vkDestroyDebugUtilsMessengerEXT := instance.get_instance_proc("vkDestroyDebugUtilsMessengerEXT", PFN_vkDestroyDebugUtilsMessengerEXT).unwrap()
+            vkDestroyDebugUtilsMessengerEXT := cast(PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(self.instance, "vkDestroyDebugUtilsMessengerEXT"c)
+            @assert(vkDestroyDebugUtilsMessengerEXT != null)
             vkDestroyDebugUtilsMessengerEXT(self.instance, self.handle, null)
         }
         @cast(&mut Self, self).handle = null
