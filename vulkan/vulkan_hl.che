@@ -241,12 +241,12 @@ impl Instance {
 
         create_info := VkInstanceCreateInfo(
             sType                   = .InstanceCreateInfo
-            pNext                   = if validation != .None then cast(^void) ^debug_utils_messenger_create_info else null
+            pNext                   = if validation != .None then cast(^mut void) ^mut debug_utils_messenger_create_info else null
             pApplicationInfo        = ^app_info
             enabledLayerCount       = cast required_layers.count()
-            ppEnabledLayerNames     = required_layers.get_raw()
+            ppEnabledLayerNames     = required_layers.get_raw_mut()
             enabledExtensionCount   = cast required_extensions.count()
-            ppEnabledExtensionNames = required_extensions.get_raw()
+            ppEnabledExtensionNames = required_extensions.get_raw_mut()
         )
 
         mut handle : VkInstance = default
@@ -494,9 +494,9 @@ impl Device {
         create_info := VkDeviceCreateInfo(
             sType                   = .DeviceCreateInfo
             queueCreateInfoCount    = cast queue_create_infos.count()
-            pQueueCreateInfos       = queue_create_infos.get_raw()
+            pQueueCreateInfos       = queue_create_infos.get_raw_mut()
             enabledExtensionCount   = cast required_extensions.count()
-            ppEnabledExtensionNames = required_extensions.get_raw()
+            ppEnabledExtensionNames = required_extensions.get_raw_mut()
             pEnabledFeatures        = ^*features
         )
 

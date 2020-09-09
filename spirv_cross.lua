@@ -232,17 +232,17 @@ function on_struct(decl, name, type)
     return false, nil
 end
 
-function on_typedef(decl, name, type)
+function on_typedef(decl, name, text)
     if excludes[name] then
-        return true, nil
+        return ""
     end
 
     local special = special_typedefs[name]
     if special then
-        return false, name .. "_s :: struct #copy {}"
+        return name .. "_s :: struct #copy {}\n" .. name .. " :: " .. text
     end
 
-    return false, nil
+    return nil
 end
 
 function on_macro(decl, name)
