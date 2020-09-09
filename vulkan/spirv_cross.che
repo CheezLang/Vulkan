@@ -1500,11 +1500,11 @@ SpvOp :: enum #copy #repr("C") #tag_type(i32) {
     Max                                                                   = 0x7fffffff
 }
 spvc_result :: enum #copy #repr("C") #tag_type(i32) {
-    Success               = 0x0
-    ErrorInvalidSpirv     = -1
-    ErrorUnsupportedSpirv = -2
-    ErrorOutOfMemory      = -3
     ErrorInvalidArgument  = -4
+    ErrorOutOfMemory      = -3
+    ErrorUnsupportedSpirv = -2
+    ErrorInvalidSpirv     = -1
+    Success               = 0x0
     ErrorIntMax           = 0x7fffffff
 }
 spvc_capture_mode :: enum #copy #repr("C") #tag_type(i32) {
@@ -1574,13 +1574,13 @@ spvc_msl_index_type :: enum #copy #repr("C") #tag_type(i32) {
 }
 spvc_msl_shader_input_format :: enum #copy #repr("C") #tag_type(i32) {
     Other              = 0x0
+    VertexFormatOther  = 0x0
     Uint8              = 0x1
+    VertexFormatUint8  = 0x1
     Uint16             = 0x2
+    VertexFormatUint16 = 0x2
     Any16              = 0x3
     Any32              = 0x4
-    VertexFormatOther  = 0x0
-    VertexFormatUint8  = 0x1
-    VertexFormatUint16 = 0x2
     IntMax             = 0x7fffffff
 }
 spvc_msl_sampler_coord :: enum #copy #repr("C") #tag_type(i32) {
@@ -1673,6 +1673,9 @@ spvc_compiler_option :: enum #copy #repr("C") #tag_type(i32) {
     FlattenMultidimensionalArrays            = 0x1000002
     FixupDepthConvention                     = 0x1000003
     FlipVertexY                              = 0x1000004
+    EmitLineDirectives                       = 0x1000025
+    EnableStorageImageQualifierDeduction     = 0x1000034
+    ForceZeroInitializedVariables            = 0x1000036
     GlslSupportNonzeroBaseInstance           = 0x2000005
     GlslSeparateShaderObjects                = 0x2000006
     GlslEnable420packExtension               = 0x2000007
@@ -1681,10 +1684,15 @@ spvc_compiler_option :: enum #copy #repr("C") #tag_type(i32) {
     GlslVulkanSemantics                      = 0x200000a
     GlslEsDefaultFloatPrecisionHighp         = 0x200000b
     GlslEsDefaultIntPrecisionHighp           = 0x200000c
+    GlslEmitPushConstantAsUniformBuffer      = 0x2000021
+    GlslEmitUniformBufferAsPlainUniforms     = 0x2000023
     HlslShaderModel                          = 0x400000d
     HlslPointSizeCompat                      = 0x400000e
     HlslPointCoordCompat                     = 0x400000f
     HlslSupportNonzeroBaseVertexBaseInstance = 0x4000010
+    HlslForceStorageBufferAsUav              = 0x4000035
+    HlslNonwritableUavTextureAsSrv           = 0x4000037
+    HlslEnable16bitTypes                     = 0x400003c
     MslVersion                               = 0x8000011
     MslTexelBufferTextureWidth               = 0x8000012
     MslAuxBufferIndex                        = 0x8000013
@@ -1702,11 +1710,8 @@ spvc_compiler_option :: enum #copy #repr("C") #tag_type(i32) {
     MslTessDomainOriginLowerLeft             = 0x800001e
     MslPlatform                              = 0x800001f
     MslArgumentBuffers                       = 0x8000020
-    GlslEmitPushConstantAsUniformBuffer      = 0x2000021
     MslTextureBufferNative                   = 0x8000022
-    GlslEmitUniformBufferAsPlainUniforms     = 0x2000023
     MslBufferSizeBufferIndex                 = 0x8000024
-    EmitLineDirectives                       = 0x1000025
     MslMultiview                             = 0x8000026
     MslViewMaskBufferIndex                   = 0x8000027
     MslDeviceIndex                           = 0x8000028
@@ -1721,15 +1726,10 @@ spvc_compiler_option :: enum #copy #repr("C") #tag_type(i32) {
     MslEnableDecorationBinding               = 0x8000031
     MslForceActiveArgumentBufferResources    = 0x8000032
     MslForceNativeArrays                     = 0x8000033
-    EnableStorageImageQualifierDeduction     = 0x1000034
-    HlslForceStorageBufferAsUav              = 0x4000035
-    ForceZeroInitializedVariables            = 0x1000036
-    HlslNonwritableUavTextureAsSrv           = 0x4000037
     MslEnableFragOutputMask                  = 0x8000038
     MslEnableFragDepthBuiltin                = 0x8000039
     MslEnableFragStencilRefBuiltin           = 0x800003a
     MslEnableClipDistanceUserVarying         = 0x800003b
-    HlslEnable16bitTypes                     = 0x400003c
     MslMultiPatchWorkgroup                   = 0x800003d
     MslShaderInputBufferIndex                = 0x800003e
     MslShaderIndexBufferIndex                = 0x800003f

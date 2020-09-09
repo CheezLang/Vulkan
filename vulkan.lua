@@ -202,6 +202,8 @@ VkPipelineCoverageReductionStateCreateFlagBitsNV :: enum #copy #repr("C") #tag_t
 VkHeadlessSurfaceCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
     None = 0x0
 }
+
+VkCullModeFlags :: VkCullModeFlagBits
 ]]
 end
 
@@ -305,7 +307,10 @@ excludes = {
     __crt_locale_data_public  = true,
     __crt_locale_pointers     = true,
     _Mbstatet                 = true,
-    VkCullModeFlags           = true
+    VkCullModeFlags           = true,
+    VkGeometryInstanceFlagsKHR = true,
+    VkBuildAccelerationStructureFlagsKHR = true,
+    VkFlags                   = true
 }
 
 special_typedefs = {
@@ -781,18 +786,15 @@ function on_function(decl, name)
     return false, nil
 end
 
-function transform_enum_member_name(c, enum_name, member_name)
-    -- enum_name is in CamelCase
-    -- member_name is in WHATEVEL_CASE
-    
+function fix_member_name(container_name, member_name)
     local member_parts = {}
     local i = 1
 
-    local enum_parts = split_camel_case(enum_name)
+    local container_parts = split_camel_case(container_name)
     member_parts = split_snake_case(member_name)
 
-    while i <= #enum_parts and i <= #member_parts do
-        local enum = enum_parts[i]:lower()
+    while i <= #container_parts and i <= #member_parts do
+        local enum = container_parts[i]:lower()
         local member = member_parts[i]:lower()
         if not (enum == member) then
             break
@@ -810,11 +812,29 @@ function transform_enum_member_name(c, enum_name, member_name)
         result = result .. part
     end
 
+    if builtin_types[result] then
+        result = "_" .. result
+    end
+
     if tonumber(result:sub(1, 1)) ~= nil then
         result = "_" .. result
     end
 
     return result
+end
+
+function on_enum(enum)
+    if (enum.name:find("Bits")) then
+        enum.directives[#enum.directives] = "#tag_type(u32)"
+        enum.directives[#enum.directives + 1] = "#flags"
+        enum.members[#enum.members + 1] = { name = "None", value = 0 }
+    end
+
+    for k,v in pairs(enum.members) do
+        v.name = fix_member_name(enum.name, v.name)
+    end
+
+    return enum
 end
 
 function transform_union_member_name(c, union_name, member_name)

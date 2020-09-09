@@ -193,6 +193,8 @@ VkHeadlessSurfaceCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flag
     None = 0x0
 }
 
+VkCullModeFlags :: VkCullModeFlagBits
+
 uintptr_t :: u64
 size_t :: u64
 int8_t :: i8
@@ -857,10 +859,8 @@ VkAccelerationStructureMemoryRequirementsTypeNV :: VkAccelerationStructureMemory
 VkGeometryFlagsKHR :: VkGeometryFlagBitsKHR
 VkGeometryFlagsNV :: VkGeometryFlagBitsKHR
 VkGeometryFlagBitsNV :: VkGeometryFlagBitsKHR
-VkGeometryInstanceFlags :: VkGeometryInstanceFlagBitsKHR
 VkGeometryInstanceFlagsNV :: VkGeometryInstanceFlagsKHR
 VkGeometryInstanceFlagBitsNV :: VkGeometryInstanceFlagBitsKHR
-VkBuildAccelerationStructureFlags :: VkBuildAccelerationStructureFlagBitsKHR
 VkBuildAccelerationStructureFlagsNV :: VkBuildAccelerationStructureFlagsKHR
 VkBuildAccelerationStructureFlagBitsNV :: VkBuildAccelerationStructureFlagBitsKHR
 VkBindAccelerationStructureMemoryInfoNV :: VkBindAccelerationStructureMemoryInfoKHR
@@ -1548,50 +1548,50 @@ VK_EXT_image_robustness :: 1
 VK_EXT_IMAGE_ROBUSTNESS_SPEC_VERSION :: 1
 VK_EXT_IMAGE_ROBUSTNESS_EXTENSION_NAME :: "VK_EXT_image_robustness"c
 VkResult :: enum #copy #repr("C") #tag_type(i32) {
+    ErrorInvalidOpaqueCaptureAddress            = -1000257000
+    ErrorInvalidDeviceAddressExt                = -1000257000
+    ErrorInvalidOpaqueCaptureAddressKhr         = -1000257000
+    ErrorFullScreenExclusiveModeLostExt         = -1000255000
+    ErrorNotPermittedExt                        = -1000174001
+    ErrorFragmentation                          = -1000161000
+    ErrorFragmentationExt                       = -1000161000
+    ErrorInvalidDrmFormatModifierPlaneLayoutExt = -1000158000
+    ErrorIncompatibleVersionKhr                 = -1000150000
+    ErrorInvalidExternalHandle                  = -1000072003
+    ErrorInvalidExternalHandleKhr               = -1000072003
+    ErrorOutOfPoolMemory                        = -1000069000
+    ErrorOutOfPoolMemoryKhr                     = -1000069000
+    ErrorInvalidShaderNv                        = -1000012000
+    ErrorValidationFailedExt                    = -1000011001
+    ErrorIncompatibleDisplayKhr                 = -1000003001
+    ErrorOutOfDateKhr                           = -1000001004
+    ErrorNativeWindowInUseKhr                   = -1000000001
+    ErrorSurfaceLostKhr                         = -1000000000
+    ErrorUnknown                                = -13
+    ErrorFragmentedPool                         = -12
+    ErrorFormatNotSupported                     = -11
+    ErrorTooManyObjects                         = -10
+    ErrorIncompatibleDriver                     = -9
+    ErrorFeatureNotPresent                      = -8
+    ErrorExtensionNotPresent                    = -7
+    ErrorLayerNotPresent                        = -6
+    ErrorMemoryMapFailed                        = -5
+    ErrorDeviceLost                             = -4
+    ErrorInitializationFailed                   = -3
+    ErrorOutOfDeviceMemory                      = -2
+    ErrorOutOfHostMemory                        = -1
     Success                                     = 0x0
     NotReady                                    = 0x1
     Timeout                                     = 0x2
     EventSet                                    = 0x3
     EventReset                                  = 0x4
     Incomplete                                  = 0x5
-    ErrorOutOfHostMemory                        = -1
-    ErrorOutOfDeviceMemory                      = -2
-    ErrorInitializationFailed                   = -3
-    ErrorDeviceLost                             = -4
-    ErrorMemoryMapFailed                        = -5
-    ErrorLayerNotPresent                        = -6
-    ErrorExtensionNotPresent                    = -7
-    ErrorFeatureNotPresent                      = -8
-    ErrorIncompatibleDriver                     = -9
-    ErrorTooManyObjects                         = -10
-    ErrorFormatNotSupported                     = -11
-    ErrorFragmentedPool                         = -12
-    ErrorUnknown                                = -13
-    ErrorOutOfPoolMemory                        = -1000069000
-    ErrorInvalidExternalHandle                  = -1000072003
-    ErrorFragmentation                          = -1000161000
-    ErrorInvalidOpaqueCaptureAddress            = -1000257000
-    ErrorSurfaceLostKhr                         = -1000000000
-    ErrorNativeWindowInUseKhr                   = -1000000001
     SuboptimalKhr                               = 0x3b9acdeb
-    ErrorOutOfDateKhr                           = -1000001004
-    ErrorIncompatibleDisplayKhr                 = -1000003001
-    ErrorValidationFailedExt                    = -1000011001
-    ErrorInvalidShaderNv                        = -1000012000
-    ErrorIncompatibleVersionKhr                 = -1000150000
-    ErrorInvalidDrmFormatModifierPlaneLayoutExt = -1000158000
-    ErrorNotPermittedExt                        = -1000174001
-    ErrorFullScreenExclusiveModeLostExt         = -1000255000
     ThreadIdleKhr                               = 0x3b9ee0e0
     ThreadDoneKhr                               = 0x3b9ee0e1
     OperationDeferredKhr                        = 0x3b9ee0e2
     OperationNotDeferredKhr                     = 0x3b9ee0e3
     PipelineCompileRequiredExt                  = 0x3b9f5228
-    ErrorOutOfPoolMemoryKhr                     = -1000069000
-    ErrorInvalidExternalHandleKhr               = -1000072003
-    ErrorFragmentationExt                       = -1000161000
-    ErrorInvalidDeviceAddressExt                = -1000257000
-    ErrorInvalidOpaqueCaptureAddressKhr         = -1000257000
     ErrorPipelineCompileRequiredExt             = 0x3b9f5228
     MaxEnum                                     = 0x7fffffff
 }
@@ -1645,129 +1645,12 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     MemoryBarrier                                            = 0x2e
     LoaderInstanceCreateInfo                                 = 0x2f
     LoaderDeviceCreateInfo                                   = 0x30
-    PhysicalDeviceSubgroupProperties                         = 0x3b9c3930
-    BindBufferMemoryInfo                                     = 0x3b9d2f48
-    BindImageMemoryInfo                                      = 0x3b9d2f49
-    PhysicalDevice16bitStorageFeatures                       = 0x3b9c0e38
-    MemoryDedicatedRequirements                              = 0x3b9cba18
-    MemoryDedicatedAllocateInfo                              = 0x3b9cba19
-    MemoryAllocateFlagsInfo                                  = 0x3b9bb460
-    DeviceGroupRenderPassBeginInfo                           = 0x3b9bb463
-    DeviceGroupCommandBufferBeginInfo                        = 0x3b9bb464
-    DeviceGroupSubmitInfo                                    = 0x3b9bb465
-    DeviceGroupBindSparseInfo                                = 0x3b9bb466
-    BindBufferMemoryDeviceGroupInfo                          = 0x3b9bb46d
-    BindImageMemoryDeviceGroupInfo                           = 0x3b9bb46e
-    PhysicalDeviceGroupProperties                            = 0x3b9bdb70
-    DeviceGroupDeviceCreateInfo                              = 0x3b9bdb71
-    BufferMemoryRequirementsInfo2                            = 0x3b9d0450
-    ImageMemoryRequirementsInfo2                             = 0x3b9d0451
-    ImageSparseMemoryRequirementsInfo2                       = 0x3b9d0452
-    MemoryRequirements2                                      = 0x3b9d0453
-    SparseImageMemoryRequirements2                           = 0x3b9d0454
-    PhysicalDeviceFeatures2                                  = 0x3b9bb078
-    PhysicalDeviceProperties2                                = 0x3b9bb079
-    FormatProperties2                                        = 0x3b9bb07a
-    ImageFormatProperties2                                   = 0x3b9bb07b
-    PhysicalDeviceImageFormatInfo2                           = 0x3b9bb07c
-    QueueFamilyProperties2                                   = 0x3b9bb07d
-    PhysicalDeviceMemoryProperties2                          = 0x3b9bb07e
-    SparseImageFormatProperties2                             = 0x3b9bb07f
-    PhysicalDeviceSparseImageFormatInfo2                     = 0x3b9bb080
-    PhysicalDevicePointClippingProperties                    = 0x3b9c9308
-    RenderPassInputAttachmentAspectCreateInfo                = 0x3b9c9309
-    ImageViewUsageCreateInfo                                 = 0x3b9c930a
-    PipelineTessellationDomainOriginStateCreateInfo          = 0x3b9c930b
-    RenderPassMultiviewCreateInfo                            = 0x3b9b9908
-    PhysicalDeviceMultiviewFeatures                          = 0x3b9b9909
-    PhysicalDeviceMultiviewProperties                        = 0x3b9b990a
-    PhysicalDeviceVariablePointersFeatures                   = 0x3b9c9ec0
-    ProtectedSubmitInfo                                      = 0x3b9d0068
-    PhysicalDeviceProtectedMemoryFeatures                    = 0x3b9d0069
-    PhysicalDeviceProtectedMemoryProperties                  = 0x3b9d006a
-    DeviceQueueInfo2                                         = 0x3b9d006b
-    SamplerYcbcrConversionCreateInfo                         = 0x3b9d2b60
-    SamplerYcbcrConversionInfo                               = 0x3b9d2b61
-    BindImagePlaneMemoryInfo                                 = 0x3b9d2b62
-    ImagePlaneMemoryRequirementsInfo                         = 0x3b9d2b63
-    PhysicalDeviceSamplerYcbcrConversionFeatures             = 0x3b9d2b64
-    SamplerYcbcrConversionImageFormatProperties              = 0x3b9d2b65
-    DescriptorUpdateTemplateCreateInfo                       = 0x3b9c1608
-    PhysicalDeviceExternalImageFormatInfo                    = 0x3b9bdf58
-    ExternalImageFormatProperties                            = 0x3b9bdf59
-    PhysicalDeviceExternalBufferInfo                         = 0x3b9bdf5a
-    ExternalBufferProperties                                 = 0x3b9bdf5b
-    PhysicalDeviceIdProperties                               = 0x3b9bdf5c
-    ExternalMemoryBufferCreateInfo                           = 0x3b9be340
-    ExternalMemoryImageCreateInfo                            = 0x3b9be341
-    ExportMemoryAllocateInfo                                 = 0x3b9be342
-    PhysicalDeviceExternalFenceInfo                          = 0x3b9c7f80
-    ExternalFenceProperties                                  = 0x3b9c7f81
-    ExportFenceCreateInfo                                    = 0x3b9c8368
-    ExportSemaphoreCreateInfo                                = 0x3b9bf6c8
-    PhysicalDeviceExternalSemaphoreInfo                      = 0x3b9bf2e0
-    ExternalSemaphoreProperties                              = 0x3b9bf2e1
-    PhysicalDeviceMaintenance3Properties                     = 0x3b9d5a40
-    DescriptorSetLayoutSupport                               = 0x3b9d5a41
-    PhysicalDeviceShaderDrawParametersFeatures               = 0x3b9bc018
     PhysicalDeviceVulkan11Features                           = 0x31
     PhysicalDeviceVulkan11Properties                         = 0x32
     PhysicalDeviceVulkan12Features                           = 0x33
     PhysicalDeviceVulkan12Properties                         = 0x34
-    ImageFormatListCreateInfo                                = 0x3b9d0838
-    AttachmentDescription2                                   = 0x3b9c73c8
-    AttachmentReference2                                     = 0x3b9c73c9
-    SubpassDescription2                                      = 0x3b9c73ca
-    SubpassDependency2                                       = 0x3b9c73cb
-    RenderPassCreateInfo2                                    = 0x3b9c73cc
-    SubpassBeginInfo                                         = 0x3b9c73cd
-    SubpassEndInfo                                           = 0x3b9c73ce
-    PhysicalDevice8bitStorageFeatures                        = 0x3b9d7d68
-    PhysicalDeviceDriverProperties                           = 0x3b9dc7a0
-    PhysicalDeviceShaderAtomicInt64Features                  = 0x3b9d8920
-    PhysicalDeviceShaderFloat16Int8Features                  = 0x3b9c0a50
-    PhysicalDeviceFloatControlsProperties                    = 0x3b9dcb88
-    DescriptorSetLayoutBindingFlagsCreateInfo                = 0x3b9d3ee8
-    PhysicalDeviceDescriptorIndexingFeatures                 = 0x3b9d3ee9
-    PhysicalDeviceDescriptorIndexingProperties               = 0x3b9d3eea
-    DescriptorSetVariableDescriptorCountAllocateInfo         = 0x3b9d3eeb
-    DescriptorSetVariableDescriptorCountLayoutSupport        = 0x3b9d3eec
-    PhysicalDeviceDepthStencilResolveProperties              = 0x3b9dd358
-    SubpassDescriptionDepthStencilResolve                    = 0x3b9dd359
-    PhysicalDeviceScalarBlockLayoutFeatures                  = 0x3b9e2948
-    ImageStencilUsageCreateInfo                              = 0x3b9e8af0
-    PhysicalDeviceSamplerFilterMinmaxProperties              = 0x3b9cc5d0
-    SamplerReductionModeCreateInfo                           = 0x3b9cc5d1
-    PhysicalDeviceVulkanMemoryModelFeatures                  = 0x3b9e0238
-    PhysicalDeviceImagelessFramebufferFeatures               = 0x3b9c6fe0
-    FramebufferAttachmentsCreateInfo                         = 0x3b9c6fe1
-    FramebufferAttachmentImageInfo                           = 0x3b9c6fe2
-    RenderPassAttachmentBeginInfo                            = 0x3b9c6fe3
-    PhysicalDeviceUniformBufferStandardLayoutFeatures        = 0x3b9ea648
-    PhysicalDeviceShaderSubgroupExtendedTypesFeatures        = 0x3b9d7598
-    PhysicalDeviceSeparateDepthStencilLayoutsFeatures        = 0x3b9e7768
-    AttachmentReferenceStencilLayout                         = 0x3b9e7769
-    AttachmentDescriptionStencilLayout                       = 0x3b9e776a
-    PhysicalDeviceHostQueryResetFeatures                     = 0x3b9ec588
-    PhysicalDeviceTimelineSemaphoreFeatures                  = 0x3b9df298
-    PhysicalDeviceTimelineSemaphoreProperties                = 0x3b9df299
-    SemaphoreTypeCreateInfo                                  = 0x3b9df29a
-    TimelineSemaphoreSubmitInfo                              = 0x3b9df29b
-    SemaphoreWaitInfo                                        = 0x3b9df29c
-    SemaphoreSignalInfo                                      = 0x3b9df29d
-    PhysicalDeviceBufferDeviceAddressFeatures                = 0x3b9eb5e8
-    BufferDeviceAddressInfo                                  = 0x3b9e8321
-    BufferOpaqueCaptureAddressCreateInfo                     = 0x3b9eb5ea
-    MemoryOpaqueCaptureAddressAllocateInfo                   = 0x3b9eb5eb
-    DeviceMemoryOpaqueCaptureAddressInfo                     = 0x3b9eb5ec
     SwapchainCreateInfoKhr                                   = 0x3b9acde8
     PresentInfoKhr                                           = 0x3b9acde9
-    DeviceGroupPresentCapabilitiesKhr                        = 0x3b9bb467
-    ImageSwapchainCreateInfoKhr                              = 0x3b9bb468
-    BindImageMemorySwapchainInfoKhr                          = 0x3b9bb469
-    AcquireNextImageInfoKhr                                  = 0x3b9bb46a
-    DeviceGroupPresentInfoKhr                                = 0x3b9bb46b
-    DeviceGroupSwapchainCreateInfoKhr                        = 0x3b9bb46c
     DisplayModeCreateInfoKhr                                 = 0x3b9ad1d0
     DisplaySurfaceCreateInfoKhr                              = 0x3b9ad1d1
     DisplayPresentInfoKhr                                    = 0x3b9ad5b8
@@ -1776,6 +1659,7 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     WaylandSurfaceCreateInfoKhr                              = 0x3b9ae170
     AndroidSurfaceCreateInfoKhr                              = 0x3b9ae940
     Win32SurfaceCreateInfoKhr                                = 0x3b9aed28
+    DebugReportCreateInfoExt                                 = 0x3b9af4f8
     DebugReportCallbackCreateInfoExt                         = 0x3b9af4f8
     PipelineRasterizationStateRasterizationOrderAmd          = 0x3b9b1050
     DebugMarkerObjectNameInfoExt                             = 0x3b9b1ff0
@@ -1792,16 +1676,82 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     TextureLodGatherFormatPropertiesAmd                      = 0x3b9b6a28
     StreamDescriptorSurfaceCreateInfoGgp                     = 0x3b9b8968
     PhysicalDeviceCornerSampledImageFeaturesNv               = 0x3b9b8d50
+    RenderPassMultiviewCreateInfo                            = 0x3b9b9908
+    RenderPassMultiviewCreateInfoKhr                         = 0x3b9b9908
+    PhysicalDeviceMultiviewFeatures                          = 0x3b9b9909
+    PhysicalDeviceMultiviewFeaturesKhr                       = 0x3b9b9909
+    PhysicalDeviceMultiviewProperties                        = 0x3b9b990a
+    PhysicalDeviceMultiviewPropertiesKhr                     = 0x3b9b990a
     ExternalMemoryImageCreateInfoNv                          = 0x3b9ba4c0
     ExportMemoryAllocateInfoNv                               = 0x3b9ba4c1
     ImportMemoryWin32HandleInfoNv                            = 0x3b9ba8a8
     ExportMemoryWin32HandleInfoNv                            = 0x3b9ba8a9
     Win32KeyedMutexAcquireReleaseInfoNv                      = 0x3b9bac90
+    PhysicalDeviceFeatures2Khr                               = 0x3b9bb078
+    PhysicalDeviceFeatures2                                  = 0x3b9bb078
+    PhysicalDeviceProperties2Khr                             = 0x3b9bb079
+    PhysicalDeviceProperties2                                = 0x3b9bb079
+    FormatProperties2Khr                                     = 0x3b9bb07a
+    FormatProperties2                                        = 0x3b9bb07a
+    ImageFormatProperties2Khr                                = 0x3b9bb07b
+    ImageFormatProperties2                                   = 0x3b9bb07b
+    PhysicalDeviceImageFormatInfo2                           = 0x3b9bb07c
+    PhysicalDeviceImageFormatInfo2Khr                        = 0x3b9bb07c
+    QueueFamilyProperties2                                   = 0x3b9bb07d
+    QueueFamilyProperties2Khr                                = 0x3b9bb07d
+    PhysicalDeviceMemoryProperties2                          = 0x3b9bb07e
+    PhysicalDeviceMemoryProperties2Khr                       = 0x3b9bb07e
+    SparseImageFormatProperties2Khr                          = 0x3b9bb07f
+    SparseImageFormatProperties2                             = 0x3b9bb07f
+    PhysicalDeviceSparseImageFormatInfo2Khr                  = 0x3b9bb080
+    PhysicalDeviceSparseImageFormatInfo2                     = 0x3b9bb080
+    MemoryAllocateFlagsInfoKhr                               = 0x3b9bb460
+    MemoryAllocateFlagsInfo                                  = 0x3b9bb460
+    DeviceGroupRenderPassBeginInfo                           = 0x3b9bb463
+    DeviceGroupRenderPassBeginInfoKhr                        = 0x3b9bb463
+    DeviceGroupCommandBufferBeginInfo                        = 0x3b9bb464
+    DeviceGroupCommandBufferBeginInfoKhr                     = 0x3b9bb464
+    DeviceGroupSubmitInfo                                    = 0x3b9bb465
+    DeviceGroupSubmitInfoKhr                                 = 0x3b9bb465
+    DeviceGroupBindSparseInfo                                = 0x3b9bb466
+    DeviceGroupBindSparseInfoKhr                             = 0x3b9bb466
+    DeviceGroupPresentCapabilitiesKhr                        = 0x3b9bb467
+    ImageSwapchainCreateInfoKhr                              = 0x3b9bb468
+    BindImageMemorySwapchainInfoKhr                          = 0x3b9bb469
+    AcquireNextImageInfoKhr                                  = 0x3b9bb46a
+    DeviceGroupPresentInfoKhr                                = 0x3b9bb46b
+    DeviceGroupSwapchainCreateInfoKhr                        = 0x3b9bb46c
+    BindBufferMemoryDeviceGroupInfo                          = 0x3b9bb46d
+    BindBufferMemoryDeviceGroupInfoKhr                       = 0x3b9bb46d
+    BindImageMemoryDeviceGroupInfo                           = 0x3b9bb46e
+    BindImageMemoryDeviceGroupInfoKhr                        = 0x3b9bb46e
     ValidationFlagsExt                                       = 0x3b9bb848
     ViSurfaceCreateInfoNn                                    = 0x3b9bbc30
+    PhysicalDeviceShaderDrawParametersFeatures               = 0x3b9bc018
+    PhysicalDeviceShaderDrawParameterFeatures                = 0x3b9bc018
     PhysicalDeviceTextureCompressionAstcHdrFeaturesExt       = 0x3b9bcbd0
     ImageViewAstcDecodeModeExt                               = 0x3b9bcfb8
     PhysicalDeviceAstcDecodeFeaturesExt                      = 0x3b9bcfb9
+    PhysicalDeviceGroupPropertiesKhr                         = 0x3b9bdb70
+    PhysicalDeviceGroupProperties                            = 0x3b9bdb70
+    DeviceGroupDeviceCreateInfoKhr                           = 0x3b9bdb71
+    DeviceGroupDeviceCreateInfo                              = 0x3b9bdb71
+    PhysicalDeviceExternalImageFormatInfoKhr                 = 0x3b9bdf58
+    PhysicalDeviceExternalImageFormatInfo                    = 0x3b9bdf58
+    ExternalImageFormatPropertiesKhr                         = 0x3b9bdf59
+    ExternalImageFormatProperties                            = 0x3b9bdf59
+    PhysicalDeviceExternalBufferInfoKhr                      = 0x3b9bdf5a
+    PhysicalDeviceExternalBufferInfo                         = 0x3b9bdf5a
+    ExternalBufferPropertiesKhr                              = 0x3b9bdf5b
+    ExternalBufferProperties                                 = 0x3b9bdf5b
+    PhysicalDeviceIdPropertiesKhr                            = 0x3b9bdf5c
+    PhysicalDeviceIdProperties                               = 0x3b9bdf5c
+    ExternalMemoryBufferCreateInfoKhr                        = 0x3b9be340
+    ExternalMemoryBufferCreateInfo                           = 0x3b9be340
+    ExternalMemoryImageCreateInfoKhr                         = 0x3b9be341
+    ExternalMemoryImageCreateInfo                            = 0x3b9be341
+    ExportMemoryAllocateInfo                                 = 0x3b9be342
+    ExportMemoryAllocateInfoKhr                              = 0x3b9be342
     ImportMemoryWin32HandleInfoKhr                           = 0x3b9be728
     ExportMemoryWin32HandleInfoKhr                           = 0x3b9be729
     MemoryWin32HandlePropertiesKhr                           = 0x3b9be72a
@@ -1810,6 +1760,12 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     MemoryFdPropertiesKhr                                    = 0x3b9beb11
     MemoryGetFdInfoKhr                                       = 0x3b9beb12
     Win32KeyedMutexAcquireReleaseInfoKhr                     = 0x3b9beef8
+    PhysicalDeviceExternalSemaphoreInfo                      = 0x3b9bf2e0
+    PhysicalDeviceExternalSemaphoreInfoKhr                   = 0x3b9bf2e0
+    ExternalSemaphoreProperties                              = 0x3b9bf2e1
+    ExternalSemaphorePropertiesKhr                           = 0x3b9bf2e1
+    ExportSemaphoreCreateInfoKhr                             = 0x3b9bf6c8
+    ExportSemaphoreCreateInfo                                = 0x3b9bf6c8
     ImportSemaphoreWin32HandleInfoKhr                        = 0x3b9bfab0
     ExportSemaphoreWin32HandleInfoKhr                        = 0x3b9bfab1
     D3d12FenceSubmitInfoKhr                                  = 0x3b9bfab2
@@ -1820,7 +1776,14 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     CommandBufferInheritanceConditionalRenderingInfoExt      = 0x3b9c0668
     PhysicalDeviceConditionalRenderingFeaturesExt            = 0x3b9c0669
     ConditionalRenderingBeginInfoExt                         = 0x3b9c066a
+    PhysicalDeviceShaderFloat16Int8FeaturesKhr               = 0x3b9c0a50
+    PhysicalDeviceFloat16Int8FeaturesKhr                     = 0x3b9c0a50
+    PhysicalDeviceShaderFloat16Int8Features                  = 0x3b9c0a50
+    PhysicalDevice16bitStorageFeaturesKhr                    = 0x3b9c0e38
+    PhysicalDevice16bitStorageFeatures                       = 0x3b9c0e38
     PresentRegionsKhr                                        = 0x3b9c1220
+    DescriptorUpdateTemplateCreateInfoKhr                    = 0x3b9c1608
+    DescriptorUpdateTemplateCreateInfo                       = 0x3b9c1608
     PipelineViewportWScalingStateCreateInfoNv                = 0x3b9c1dd8
     SurfaceCapabilities2Ext                                  = 0x3b9c2990
     DisplayPowerInfoExt                                      = 0x3b9c2d78
@@ -1828,6 +1791,7 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     DisplayEventInfoExt                                      = 0x3b9c2d7a
     SwapchainCounterCreateInfoExt                            = 0x3b9c2d7b
     PresentTimesInfoGoogle                                   = 0x3b9c3160
+    PhysicalDeviceSubgroupProperties                         = 0x3b9c3930
     PhysicalDeviceMultiviewPerViewAttributesPropertiesNvx    = 0x3b9c44e8
     PipelineViewportSwizzleStateCreateInfoNv                 = 0x3b9c48d0
     PhysicalDeviceDiscardRectanglePropertiesExt              = 0x3b9c4cb8
@@ -1837,7 +1801,35 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     PhysicalDeviceDepthClipEnableFeaturesExt                 = 0x3b9c5870
     PipelineRasterizationDepthClipStateCreateInfoExt         = 0x3b9c5871
     HdrMetadataExt                                           = 0x3b9c6428
+    PhysicalDeviceImagelessFramebufferFeatures               = 0x3b9c6fe0
+    PhysicalDeviceImagelessFramebufferFeaturesKhr            = 0x3b9c6fe0
+    FramebufferAttachmentsCreateInfoKhr                      = 0x3b9c6fe1
+    FramebufferAttachmentsCreateInfo                         = 0x3b9c6fe1
+    FramebufferAttachmentImageInfoKhr                        = 0x3b9c6fe2
+    FramebufferAttachmentImageInfo                           = 0x3b9c6fe2
+    RenderPassAttachmentBeginInfoKhr                         = 0x3b9c6fe3
+    RenderPassAttachmentBeginInfo                            = 0x3b9c6fe3
+    AttachmentDescription2Khr                                = 0x3b9c73c8
+    AttachmentDescription2                                   = 0x3b9c73c8
+    AttachmentReference2Khr                                  = 0x3b9c73c9
+    AttachmentReference2                                     = 0x3b9c73c9
+    SubpassDescription2Khr                                   = 0x3b9c73ca
+    SubpassDescription2                                      = 0x3b9c73ca
+    SubpassDependency2                                       = 0x3b9c73cb
+    SubpassDependency2Khr                                    = 0x3b9c73cb
+    RenderPassCreateInfo2Khr                                 = 0x3b9c73cc
+    RenderPassCreateInfo2                                    = 0x3b9c73cc
+    SubpassBeginInfo                                         = 0x3b9c73cd
+    SubpassBeginInfoKhr                                      = 0x3b9c73cd
+    SubpassEndInfo                                           = 0x3b9c73ce
+    SubpassEndInfoKhr                                        = 0x3b9c73ce
     SharedPresentSurfaceCapabilitiesKhr                      = 0x3b9c7b98
+    PhysicalDeviceExternalFenceInfoKhr                       = 0x3b9c7f80
+    PhysicalDeviceExternalFenceInfo                          = 0x3b9c7f80
+    ExternalFencePropertiesKhr                               = 0x3b9c7f81
+    ExternalFenceProperties                                  = 0x3b9c7f81
+    ExportFenceCreateInfo                                    = 0x3b9c8368
+    ExportFenceCreateInfoKhr                                 = 0x3b9c8368
     ImportFenceWin32HandleInfoKhr                            = 0x3b9c8750
     ExportFenceWin32HandleInfoKhr                            = 0x3b9c8751
     FenceGetWin32HandleInfoKhr                               = 0x3b9c8752
@@ -1850,9 +1842,21 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     AcquireProfilingLockInfoKhr                              = 0x3b9c8f24
     PerformanceCounterKhr                                    = 0x3b9c8f25
     PerformanceCounterDescriptionKhr                         = 0x3b9c8f26
+    PhysicalDevicePointClippingProperties                    = 0x3b9c9308
+    PhysicalDevicePointClippingPropertiesKhr                 = 0x3b9c9308
+    RenderPassInputAttachmentAspectCreateInfo                = 0x3b9c9309
+    RenderPassInputAttachmentAspectCreateInfoKhr             = 0x3b9c9309
+    ImageViewUsageCreateInfo                                 = 0x3b9c930a
+    ImageViewUsageCreateInfoKhr                              = 0x3b9c930a
+    PipelineTessellationDomainOriginStateCreateInfo          = 0x3b9c930b
+    PipelineTessellationDomainOriginStateCreateInfoKhr       = 0x3b9c930b
     PhysicalDeviceSurfaceInfo2Khr                            = 0x3b9c9ad8
     SurfaceCapabilities2Khr                                  = 0x3b9c9ad9
     SurfaceFormat2Khr                                        = 0x3b9c9ada
+    PhysicalDeviceVariablePointerFeatures                    = 0x3b9c9ec0
+    PhysicalDeviceVariablePointersFeatures                   = 0x3b9c9ec0
+    PhysicalDeviceVariablePointersFeaturesKhr                = 0x3b9c9ec0
+    PhysicalDeviceVariablePointerFeaturesKhr                 = 0x3b9c9ec0
     DisplayProperties2Khr                                    = 0x3b9ca2a8
     DisplayPlaneProperties2Khr                               = 0x3b9ca2a9
     DisplayModeProperties2Khr                                = 0x3b9ca2aa
@@ -1860,6 +1864,10 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     DisplayPlaneCapabilities2Khr                             = 0x3b9ca2ac
     IosSurfaceCreateInfoMvk                                  = 0x3b9ca690
     MacosSurfaceCreateInfoMvk                                = 0x3b9caa78
+    MemoryDedicatedRequirements                              = 0x3b9cba18
+    MemoryDedicatedRequirementsKhr                           = 0x3b9cba18
+    MemoryDedicatedAllocateInfo                              = 0x3b9cba19
+    MemoryDedicatedAllocateInfoKhr                           = 0x3b9cba19
     DebugUtilsObjectNameInfoExt                              = 0x3b9cbe00
     DebugUtilsObjectTagInfoExt                               = 0x3b9cbe01
     DebugUtilsLabelExt                                       = 0x3b9cbe02
@@ -1871,6 +1879,10 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     ImportAndroidHardwareBufferInfoAndroid                   = 0x3b9cc1eb
     MemoryGetAndroidHardwareBufferInfoAndroid                = 0x3b9cc1ec
     ExternalFormatAndroid                                    = 0x3b9cc1ed
+    PhysicalDeviceSamplerFilterMinmaxProperties              = 0x3b9cc5d0
+    PhysicalDeviceSamplerFilterMinmaxPropertiesExt           = 0x3b9cc5d0
+    SamplerReductionModeCreateInfoExt                        = 0x3b9cc5d1
+    SamplerReductionModeCreateInfo                           = 0x3b9cc5d1
     PhysicalDeviceInlineUniformBlockFeaturesExt              = 0x3b9ce510
     PhysicalDeviceInlineUniformBlockPropertiesExt            = 0x3b9ce511
     WriteDescriptorSetInlineUniformBlockExt                  = 0x3b9ce512
@@ -1880,12 +1892,26 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     PipelineSampleLocationsStateCreateInfoExt                = 0x3b9cf89a
     PhysicalDeviceSampleLocationsPropertiesExt               = 0x3b9cf89b
     MultisamplePropertiesExt                                 = 0x3b9cf89c
+    ProtectedSubmitInfo                                      = 0x3b9d0068
+    PhysicalDeviceProtectedMemoryFeatures                    = 0x3b9d0069
+    PhysicalDeviceProtectedMemoryProperties                  = 0x3b9d006a
+    DeviceQueueInfo2                                         = 0x3b9d006b
+    BufferMemoryRequirementsInfo2                            = 0x3b9d0450
+    BufferMemoryRequirementsInfo2Khr                         = 0x3b9d0450
+    ImageMemoryRequirementsInfo2                             = 0x3b9d0451
+    ImageMemoryRequirementsInfo2Khr                          = 0x3b9d0451
+    ImageSparseMemoryRequirementsInfo2                       = 0x3b9d0452
+    ImageSparseMemoryRequirementsInfo2Khr                    = 0x3b9d0452
+    MemoryRequirements2                                      = 0x3b9d0453
+    MemoryRequirements2Khr                                   = 0x3b9d0453
+    SparseImageMemoryRequirements2                           = 0x3b9d0454
+    SparseImageMemoryRequirements2Khr                        = 0x3b9d0454
+    ImageFormatListCreateInfoKhr                             = 0x3b9d0838
+    ImageFormatListCreateInfo                                = 0x3b9d0838
     PhysicalDeviceBlendOperationAdvancedFeaturesExt          = 0x3b9d0c20
     PhysicalDeviceBlendOperationAdvancedPropertiesExt        = 0x3b9d0c21
     PipelineColorBlendAdvancedStateCreateInfoExt             = 0x3b9d0c22
     PipelineCoverageToColorStateCreateInfoNv                 = 0x3b9d1008
-    BindAccelerationStructureMemoryInfoKhr                   = 0x3b9d4e8e
-    WriteDescriptorSetAccelerationStructureKhr               = 0x3b9d4e8f
     AccelerationStructureBuildGeometryInfoKhr                = 0x3b9d13f0
     AccelerationStructureCreateGeometryTypeInfoKhr           = 0x3b9d13f1
     AccelerationStructureDeviceAddressInfoKhr                = 0x3b9d13f2
@@ -1907,6 +1933,22 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     PipelineCoverageModulationStateCreateInfoNv              = 0x3b9d1bc0
     PhysicalDeviceShaderSmBuiltinsFeaturesNv                 = 0x3b9d2390
     PhysicalDeviceShaderSmBuiltinsPropertiesNv               = 0x3b9d2391
+    SamplerYcbcrConversionCreateInfoKhr                      = 0x3b9d2b60
+    SamplerYcbcrConversionCreateInfo                         = 0x3b9d2b60
+    SamplerYcbcrConversionInfoKhr                            = 0x3b9d2b61
+    SamplerYcbcrConversionInfo                               = 0x3b9d2b61
+    BindImagePlaneMemoryInfoKhr                              = 0x3b9d2b62
+    BindImagePlaneMemoryInfo                                 = 0x3b9d2b62
+    ImagePlaneMemoryRequirementsInfoKhr                      = 0x3b9d2b63
+    ImagePlaneMemoryRequirementsInfo                         = 0x3b9d2b63
+    PhysicalDeviceSamplerYcbcrConversionFeaturesKhr          = 0x3b9d2b64
+    PhysicalDeviceSamplerYcbcrConversionFeatures             = 0x3b9d2b64
+    SamplerYcbcrConversionImageFormatProperties              = 0x3b9d2b65
+    SamplerYcbcrConversionImageFormatPropertiesKhr           = 0x3b9d2b65
+    BindBufferMemoryInfo                                     = 0x3b9d2f48
+    BindBufferMemoryInfoKhr                                  = 0x3b9d2f48
+    BindImageMemoryInfo                                      = 0x3b9d2f49
+    BindImageMemoryInfoKhr                                   = 0x3b9d2f49
     DrmFormatModifierPropertiesListExt                       = 0x3b9d3330
     DrmFormatModifierPropertiesExt                           = 0x3b9d3331
     PhysicalDeviceImageDrmFormatModifierInfoExt              = 0x3b9d3332
@@ -1915,6 +1957,16 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     ImageDrmFormatModifierPropertiesExt                      = 0x3b9d3335
     ValidationCacheCreateInfoExt                             = 0x3b9d3b00
     ShaderModuleValidationCacheCreateInfoExt                 = 0x3b9d3b01
+    DescriptorSetLayoutBindingFlagsCreateInfo                = 0x3b9d3ee8
+    DescriptorSetLayoutBindingFlagsCreateInfoExt             = 0x3b9d3ee8
+    PhysicalDeviceDescriptorIndexingFeatures                 = 0x3b9d3ee9
+    PhysicalDeviceDescriptorIndexingFeaturesExt              = 0x3b9d3ee9
+    PhysicalDeviceDescriptorIndexingProperties               = 0x3b9d3eea
+    PhysicalDeviceDescriptorIndexingPropertiesExt            = 0x3b9d3eea
+    DescriptorSetVariableDescriptorCountAllocateInfo         = 0x3b9d3eeb
+    DescriptorSetVariableDescriptorCountAllocateInfoExt      = 0x3b9d3eeb
+    DescriptorSetVariableDescriptorCountLayoutSupport        = 0x3b9d3eec
+    DescriptorSetVariableDescriptorCountLayoutSupportExt     = 0x3b9d3eec
     PipelineViewportShadingRateImageStateCreateInfoNv        = 0x3b9d4aa0
     PhysicalDeviceShadingRateImageFeaturesNv                 = 0x3b9d4aa1
     PhysicalDeviceShadingRateImagePropertiesNv               = 0x3b9d4aa2
@@ -1924,18 +1976,32 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     GeometryNv                                               = 0x3b9d4e8b
     GeometryTrianglesNv                                      = 0x3b9d4e8c
     GeometryAabbNv                                           = 0x3b9d4e8d
+    BindAccelerationStructureMemoryInfoKhr                   = 0x3b9d4e8e
+    BindAccelerationStructureMemoryInfoNv                    = 0x3b9d4e8e
+    WriteDescriptorSetAccelerationStructureKhr               = 0x3b9d4e8f
+    WriteDescriptorSetAccelerationStructureNv                = 0x3b9d4e8f
     AccelerationStructureMemoryRequirementsInfoNv            = 0x3b9d4e90
     PhysicalDeviceRayTracingPropertiesNv                     = 0x3b9d4e91
     RayTracingShaderGroupCreateInfoNv                        = 0x3b9d4e93
     AccelerationStructureInfoNv                              = 0x3b9d4e94
     PhysicalDeviceRepresentativeFragmentTestFeaturesNv       = 0x3b9d5270
     PipelineRepresentativeFragmentTestStateCreateInfoNv      = 0x3b9d5271
+    PhysicalDeviceMaintenance3Properties                     = 0x3b9d5a40
+    PhysicalDeviceMaintenance3PropertiesKhr                  = 0x3b9d5a40
+    DescriptorSetLayoutSupport                               = 0x3b9d5a41
+    DescriptorSetLayoutSupportKhr                            = 0x3b9d5a41
     PhysicalDeviceImageViewImageFormatInfoExt                = 0x3b9d6210
     FilterCubicImageViewImageFormatPropertiesExt             = 0x3b9d6211
     DeviceQueueGlobalPriorityCreateInfoExt                   = 0x3b9d71b0
+    PhysicalDeviceShaderSubgroupExtendedTypesFeaturesKhr     = 0x3b9d7598
+    PhysicalDeviceShaderSubgroupExtendedTypesFeatures        = 0x3b9d7598
+    PhysicalDevice8bitStorageFeatures                        = 0x3b9d7d68
+    PhysicalDevice8bitStorageFeaturesKhr                     = 0x3b9d7d68
     ImportMemoryHostPointerInfoExt                           = 0x3b9d8150
     MemoryHostPointerPropertiesExt                           = 0x3b9d8151
     PhysicalDeviceExternalMemoryHostPropertiesExt            = 0x3b9d8152
+    PhysicalDeviceShaderAtomicInt64Features                  = 0x3b9d8920
+    PhysicalDeviceShaderAtomicInt64FeaturesKhr               = 0x3b9d8920
     PhysicalDeviceShaderClockFeaturesKhr                     = 0x3b9d8d08
     PipelineCompilerControlCreateInfoAmd                     = 0x3b9d94d8
     CalibratedTimestampInfoExt                               = 0x3b9d98c0
@@ -1946,6 +2012,14 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     PhysicalDeviceVertexAttributeDivisorFeaturesExt          = 0x3b9db032
     PresentFrameTokenGgp                                     = 0x3b9db418
     PipelineCreationFeedbackCreateInfoExt                    = 0x3b9db800
+    PhysicalDeviceDriverProperties                           = 0x3b9dc7a0
+    PhysicalDeviceDriverPropertiesKhr                        = 0x3b9dc7a0
+    PhysicalDeviceFloatControlsProperties                    = 0x3b9dcb88
+    PhysicalDeviceFloatControlsPropertiesKhr                 = 0x3b9dcb88
+    PhysicalDeviceDepthStencilResolveProperties              = 0x3b9dd358
+    PhysicalDeviceDepthStencilResolvePropertiesKhr           = 0x3b9dd358
+    SubpassDescriptionDepthStencilResolveKhr                 = 0x3b9dd359
+    SubpassDescriptionDepthStencilResolve                    = 0x3b9dd359
     PhysicalDeviceComputeShaderDerivativesFeaturesNv         = 0x3b9ddb28
     PhysicalDeviceMeshShaderFeaturesNv                       = 0x3b9ddf10
     PhysicalDeviceMeshShaderPropertiesNv                     = 0x3b9ddf11
@@ -1955,13 +2029,28 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     PhysicalDeviceExclusiveScissorFeaturesNv                 = 0x3b9deaca
     CheckpointDataNv                                         = 0x3b9deeb0
     QueueFamilyCheckpointPropertiesNv                        = 0x3b9deeb1
+    PhysicalDeviceTimelineSemaphoreFeaturesKhr               = 0x3b9df298
+    PhysicalDeviceTimelineSemaphoreFeatures                  = 0x3b9df298
+    PhysicalDeviceTimelineSemaphorePropertiesKhr             = 0x3b9df299
+    PhysicalDeviceTimelineSemaphoreProperties                = 0x3b9df299
+    SemaphoreTypeCreateInfoKhr                               = 0x3b9df29a
+    SemaphoreTypeCreateInfo                                  = 0x3b9df29a
+    TimelineSemaphoreSubmitInfo                              = 0x3b9df29b
+    TimelineSemaphoreSubmitInfoKhr                           = 0x3b9df29b
+    SemaphoreWaitInfoKhr                                     = 0x3b9df29c
+    SemaphoreWaitInfo                                        = 0x3b9df29c
+    SemaphoreSignalInfo                                      = 0x3b9df29d
+    SemaphoreSignalInfoKhr                                   = 0x3b9df29d
     PhysicalDeviceShaderIntegerFunctions2FeaturesIntel       = 0x3b9dfa68
     QueryPoolPerformanceQueryCreateInfoIntel                 = 0x3b9dfe50
+    QueryPoolCreateInfoIntel                                 = 0x3b9dfe50
     InitializePerformanceApiInfoIntel                        = 0x3b9dfe51
     PerformanceMarkerInfoIntel                               = 0x3b9dfe52
     PerformanceStreamMarkerInfoIntel                         = 0x3b9dfe53
     PerformanceOverrideInfoIntel                             = 0x3b9dfe54
     PerformanceConfigurationAcquireInfoIntel                 = 0x3b9dfe55
+    PhysicalDeviceVulkanMemoryModelFeatures                  = 0x3b9e0238
+    PhysicalDeviceVulkanMemoryModelFeaturesKhr               = 0x3b9e0238
     PhysicalDevicePciBusInfoPropertiesExt                    = 0x3b9e0620
     DisplayNativeHdrSurfaceCapabilitiesAmd                   = 0x3b9e0a08
     SwapchainDisplayNativeHdrCreateInfoAmd                   = 0x3b9e0a09
@@ -1970,6 +2059,8 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     PhysicalDeviceFragmentDensityMapFeaturesExt              = 0x3b9e1d90
     PhysicalDeviceFragmentDensityMapPropertiesExt            = 0x3b9e1d91
     RenderPassFragmentDensityMapCreateInfoExt                = 0x3b9e1d92
+    PhysicalDeviceScalarBlockLayoutFeatures                  = 0x3b9e2948
+    PhysicalDeviceScalarBlockLayoutFeaturesExt               = 0x3b9e2948
     PhysicalDeviceSubgroupSizeControlPropertiesExt           = 0x3b9e38e8
     PipelineShaderStageRequiredSubgroupSizeCreateInfoExt     = 0x3b9e38e9
     PhysicalDeviceSubgroupSizeControlFeaturesExt             = 0x3b9e38ea
@@ -1980,9 +2071,21 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     MemoryPriorityAllocateInfoExt                            = 0x3b9e6bb1
     SurfaceProtectedCapabilitiesKhr                          = 0x3b9e6f98
     PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNv = 0x3b9e7380
+    PhysicalDeviceSeparateDepthStencilLayoutsFeaturesKhr     = 0x3b9e7768
+    PhysicalDeviceSeparateDepthStencilLayoutsFeatures        = 0x3b9e7768
+    AttachmentReferenceStencilLayoutKhr                      = 0x3b9e7769
+    AttachmentReferenceStencilLayout                         = 0x3b9e7769
+    AttachmentDescriptionStencilLayoutKhr                    = 0x3b9e776a
+    AttachmentDescriptionStencilLayout                       = 0x3b9e776a
+    PhysicalDeviceBufferAddressFeaturesExt                   = 0x3b9e8320
     PhysicalDeviceBufferDeviceAddressFeaturesExt             = 0x3b9e8320
+    BufferDeviceAddressInfoExt                               = 0x3b9e8321
+    BufferDeviceAddressInfo                                  = 0x3b9e8321
+    BufferDeviceAddressInfoKhr                               = 0x3b9e8321
     BufferDeviceAddressCreateInfoExt                         = 0x3b9e8322
     PhysicalDeviceToolPropertiesExt                          = 0x3b9e8708
+    ImageStencilUsageCreateInfo                              = 0x3b9e8af0
+    ImageStencilUsageCreateInfoExt                           = 0x3b9e8af0
     ValidationFeaturesExt                                    = 0x3b9e8ed8
     PhysicalDeviceCooperativeMatrixFeaturesNv                = 0x3b9e96a8
     CooperativeMatrixPropertiesNv                            = 0x3b9e96a9
@@ -1992,14 +2095,26 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     FramebufferMixedSamplesCombinationNv                     = 0x3b9e9a92
     PhysicalDeviceFragmentShaderInterlockFeaturesExt         = 0x3b9e9e78
     PhysicalDeviceYcbcrImageArraysFeaturesExt                = 0x3b9ea260
+    PhysicalDeviceUniformBufferStandardLayoutFeaturesKhr     = 0x3b9ea648
+    PhysicalDeviceUniformBufferStandardLayoutFeatures        = 0x3b9ea648
     SurfaceFullScreenExclusiveInfoExt                        = 0x3b9eae18
-    SurfaceCapabilitiesFullScreenExclusiveExt                = 0x3b9eae1a
     SurfaceFullScreenExclusiveWin32InfoExt                   = 0x3b9eae19
+    SurfaceCapabilitiesFullScreenExclusiveExt                = 0x3b9eae1a
     HeadlessSurfaceCreateInfoExt                             = 0x3b9eb200
+    PhysicalDeviceBufferDeviceAddressFeatures                = 0x3b9eb5e8
+    PhysicalDeviceBufferDeviceAddressFeaturesKhr             = 0x3b9eb5e8
+    BufferOpaqueCaptureAddressCreateInfoKhr                  = 0x3b9eb5ea
+    BufferOpaqueCaptureAddressCreateInfo                     = 0x3b9eb5ea
+    MemoryOpaqueCaptureAddressAllocateInfoKhr                = 0x3b9eb5eb
+    MemoryOpaqueCaptureAddressAllocateInfo                   = 0x3b9eb5eb
+    DeviceMemoryOpaqueCaptureAddressInfo                     = 0x3b9eb5ec
+    DeviceMemoryOpaqueCaptureAddressInfoKhr                  = 0x3b9eb5ec
     PhysicalDeviceLineRasterizationFeaturesExt               = 0x3b9ebdb8
     PipelineRasterizationLineStateCreateInfoExt              = 0x3b9ebdb9
     PhysicalDeviceLineRasterizationPropertiesExt             = 0x3b9ebdba
     PhysicalDeviceShaderAtomicFloatFeaturesExt               = 0x3b9ec1a0
+    PhysicalDeviceHostQueryResetFeaturesExt                  = 0x3b9ec588
+    PhysicalDeviceHostQueryResetFeatures                     = 0x3b9ec588
     PhysicalDeviceIndexTypeUint8FeaturesExt                  = 0x3b9ed528
     PhysicalDeviceExtendedDynamicStateFeaturesExt            = 0x3b9edcf8
     DeferredOperationInfoKhr                                 = 0x3b9ee0e0
@@ -2038,121 +2153,6 @@ VkStructureType :: enum #copy #repr("C") #tag_type(i32) {
     PhysicalDeviceFragmentDensityMap2PropertiesExt           = 0x3b9fdae1
     PhysicalDeviceImageRobustnessFeaturesExt                 = 0x3b9fe698
     DirectfbSurfaceCreateInfoExt                             = 0x3ba01190
-    PhysicalDeviceVariablePointerFeatures                    = 0x3b9c9ec0
-    PhysicalDeviceShaderDrawParameterFeatures                = 0x3b9bc018
-    DebugReportCreateInfoExt                                 = 0x3b9af4f8
-    RenderPassMultiviewCreateInfoKhr                         = 0x3b9b9908
-    PhysicalDeviceMultiviewFeaturesKhr                       = 0x3b9b9909
-    PhysicalDeviceMultiviewPropertiesKhr                     = 0x3b9b990a
-    PhysicalDeviceFeatures2Khr                               = 0x3b9bb078
-    PhysicalDeviceProperties2Khr                             = 0x3b9bb079
-    FormatProperties2Khr                                     = 0x3b9bb07a
-    ImageFormatProperties2Khr                                = 0x3b9bb07b
-    PhysicalDeviceImageFormatInfo2Khr                        = 0x3b9bb07c
-    QueueFamilyProperties2Khr                                = 0x3b9bb07d
-    PhysicalDeviceMemoryProperties2Khr                       = 0x3b9bb07e
-    SparseImageFormatProperties2Khr                          = 0x3b9bb07f
-    PhysicalDeviceSparseImageFormatInfo2Khr                  = 0x3b9bb080
-    MemoryAllocateFlagsInfoKhr                               = 0x3b9bb460
-    DeviceGroupRenderPassBeginInfoKhr                        = 0x3b9bb463
-    DeviceGroupCommandBufferBeginInfoKhr                     = 0x3b9bb464
-    DeviceGroupSubmitInfoKhr                                 = 0x3b9bb465
-    DeviceGroupBindSparseInfoKhr                             = 0x3b9bb466
-    BindBufferMemoryDeviceGroupInfoKhr                       = 0x3b9bb46d
-    BindImageMemoryDeviceGroupInfoKhr                        = 0x3b9bb46e
-    PhysicalDeviceGroupPropertiesKhr                         = 0x3b9bdb70
-    DeviceGroupDeviceCreateInfoKhr                           = 0x3b9bdb71
-    PhysicalDeviceExternalImageFormatInfoKhr                 = 0x3b9bdf58
-    ExternalImageFormatPropertiesKhr                         = 0x3b9bdf59
-    PhysicalDeviceExternalBufferInfoKhr                      = 0x3b9bdf5a
-    ExternalBufferPropertiesKhr                              = 0x3b9bdf5b
-    PhysicalDeviceIdPropertiesKhr                            = 0x3b9bdf5c
-    ExternalMemoryBufferCreateInfoKhr                        = 0x3b9be340
-    ExternalMemoryImageCreateInfoKhr                         = 0x3b9be341
-    ExportMemoryAllocateInfoKhr                              = 0x3b9be342
-    PhysicalDeviceExternalSemaphoreInfoKhr                   = 0x3b9bf2e0
-    ExternalSemaphorePropertiesKhr                           = 0x3b9bf2e1
-    ExportSemaphoreCreateInfoKhr                             = 0x3b9bf6c8
-    PhysicalDeviceShaderFloat16Int8FeaturesKhr               = 0x3b9c0a50
-    PhysicalDeviceFloat16Int8FeaturesKhr                     = 0x3b9c0a50
-    PhysicalDevice16bitStorageFeaturesKhr                    = 0x3b9c0e38
-    DescriptorUpdateTemplateCreateInfoKhr                    = 0x3b9c1608
-    PhysicalDeviceImagelessFramebufferFeaturesKhr            = 0x3b9c6fe0
-    FramebufferAttachmentsCreateInfoKhr                      = 0x3b9c6fe1
-    FramebufferAttachmentImageInfoKhr                        = 0x3b9c6fe2
-    RenderPassAttachmentBeginInfoKhr                         = 0x3b9c6fe3
-    AttachmentDescription2Khr                                = 0x3b9c73c8
-    AttachmentReference2Khr                                  = 0x3b9c73c9
-    SubpassDescription2Khr                                   = 0x3b9c73ca
-    SubpassDependency2Khr                                    = 0x3b9c73cb
-    RenderPassCreateInfo2Khr                                 = 0x3b9c73cc
-    SubpassBeginInfoKhr                                      = 0x3b9c73cd
-    SubpassEndInfoKhr                                        = 0x3b9c73ce
-    PhysicalDeviceExternalFenceInfoKhr                       = 0x3b9c7f80
-    ExternalFencePropertiesKhr                               = 0x3b9c7f81
-    ExportFenceCreateInfoKhr                                 = 0x3b9c8368
-    PhysicalDevicePointClippingPropertiesKhr                 = 0x3b9c9308
-    RenderPassInputAttachmentAspectCreateInfoKhr             = 0x3b9c9309
-    ImageViewUsageCreateInfoKhr                              = 0x3b9c930a
-    PipelineTessellationDomainOriginStateCreateInfoKhr       = 0x3b9c930b
-    PhysicalDeviceVariablePointersFeaturesKhr                = 0x3b9c9ec0
-    PhysicalDeviceVariablePointerFeaturesKhr                 = 0x3b9c9ec0
-    MemoryDedicatedRequirementsKhr                           = 0x3b9cba18
-    MemoryDedicatedAllocateInfoKhr                           = 0x3b9cba19
-    PhysicalDeviceSamplerFilterMinmaxPropertiesExt           = 0x3b9cc5d0
-    SamplerReductionModeCreateInfoExt                        = 0x3b9cc5d1
-    BufferMemoryRequirementsInfo2Khr                         = 0x3b9d0450
-    ImageMemoryRequirementsInfo2Khr                          = 0x3b9d0451
-    ImageSparseMemoryRequirementsInfo2Khr                    = 0x3b9d0452
-    MemoryRequirements2Khr                                   = 0x3b9d0453
-    SparseImageMemoryRequirements2Khr                        = 0x3b9d0454
-    ImageFormatListCreateInfoKhr                             = 0x3b9d0838
-    SamplerYcbcrConversionCreateInfoKhr                      = 0x3b9d2b60
-    SamplerYcbcrConversionInfoKhr                            = 0x3b9d2b61
-    BindImagePlaneMemoryInfoKhr                              = 0x3b9d2b62
-    ImagePlaneMemoryRequirementsInfoKhr                      = 0x3b9d2b63
-    PhysicalDeviceSamplerYcbcrConversionFeaturesKhr          = 0x3b9d2b64
-    SamplerYcbcrConversionImageFormatPropertiesKhr           = 0x3b9d2b65
-    BindBufferMemoryInfoKhr                                  = 0x3b9d2f48
-    BindImageMemoryInfoKhr                                   = 0x3b9d2f49
-    DescriptorSetLayoutBindingFlagsCreateInfoExt             = 0x3b9d3ee8
-    PhysicalDeviceDescriptorIndexingFeaturesExt              = 0x3b9d3ee9
-    PhysicalDeviceDescriptorIndexingPropertiesExt            = 0x3b9d3eea
-    DescriptorSetVariableDescriptorCountAllocateInfoExt      = 0x3b9d3eeb
-    DescriptorSetVariableDescriptorCountLayoutSupportExt     = 0x3b9d3eec
-    BindAccelerationStructureMemoryInfoNv                    = 0x3b9d4e8e
-    WriteDescriptorSetAccelerationStructureNv                = 0x3b9d4e8f
-    PhysicalDeviceMaintenance3PropertiesKhr                  = 0x3b9d5a40
-    DescriptorSetLayoutSupportKhr                            = 0x3b9d5a41
-    PhysicalDeviceShaderSubgroupExtendedTypesFeaturesKhr     = 0x3b9d7598
-    PhysicalDevice8bitStorageFeaturesKhr                     = 0x3b9d7d68
-    PhysicalDeviceShaderAtomicInt64FeaturesKhr               = 0x3b9d8920
-    PhysicalDeviceDriverPropertiesKhr                        = 0x3b9dc7a0
-    PhysicalDeviceFloatControlsPropertiesKhr                 = 0x3b9dcb88
-    PhysicalDeviceDepthStencilResolvePropertiesKhr           = 0x3b9dd358
-    SubpassDescriptionDepthStencilResolveKhr                 = 0x3b9dd359
-    PhysicalDeviceTimelineSemaphoreFeaturesKhr               = 0x3b9df298
-    PhysicalDeviceTimelineSemaphorePropertiesKhr             = 0x3b9df299
-    SemaphoreTypeCreateInfoKhr                               = 0x3b9df29a
-    TimelineSemaphoreSubmitInfoKhr                           = 0x3b9df29b
-    SemaphoreWaitInfoKhr                                     = 0x3b9df29c
-    SemaphoreSignalInfoKhr                                   = 0x3b9df29d
-    QueryPoolCreateInfoIntel                                 = 0x3b9dfe50
-    PhysicalDeviceVulkanMemoryModelFeaturesKhr               = 0x3b9e0238
-    PhysicalDeviceScalarBlockLayoutFeaturesExt               = 0x3b9e2948
-    PhysicalDeviceSeparateDepthStencilLayoutsFeaturesKhr     = 0x3b9e7768
-    AttachmentReferenceStencilLayoutKhr                      = 0x3b9e7769
-    AttachmentDescriptionStencilLayoutKhr                    = 0x3b9e776a
-    PhysicalDeviceBufferAddressFeaturesExt                   = 0x3b9e8320
-    BufferDeviceAddressInfoExt                               = 0x3b9e8321
-    ImageStencilUsageCreateInfoExt                           = 0x3b9e8af0
-    PhysicalDeviceUniformBufferStandardLayoutFeaturesKhr     = 0x3b9ea648
-    PhysicalDeviceBufferDeviceAddressFeaturesKhr             = 0x3b9eb5e8
-    BufferDeviceAddressInfoKhr                               = 0x3b9e8321
-    BufferOpaqueCaptureAddressCreateInfoKhr                  = 0x3b9eb5ea
-    MemoryOpaqueCaptureAddressAllocateInfoKhr                = 0x3b9eb5eb
-    DeviceMemoryOpaqueCaptureAddressInfoKhr                  = 0x3b9eb5ec
-    PhysicalDeviceHostQueryResetFeaturesExt                  = 0x3b9ec588
     MaxEnum                                                  = 0x7fffffff
 }
 VkImageLayout :: enum #copy #repr("C") #tag_type(i32) {
@@ -2165,21 +2165,21 @@ VkImageLayout :: enum #copy #repr("C") #tag_type(i32) {
     TransferSrcOptimal                       = 0x6
     TransferDstOptimal                       = 0x7
     Preinitialized                           = 0x8
-    DepthReadOnlyStencilAttachmentOptimal    = 0x3b9c9308
-    DepthAttachmentStencilReadOnlyOptimal    = 0x3b9c9309
-    DepthAttachmentOptimal                   = 0x3b9e7768
-    DepthReadOnlyOptimal                     = 0x3b9e7769
-    StencilAttachmentOptimal                 = 0x3b9e776a
-    StencilReadOnlyOptimal                   = 0x3b9e776b
     PresentSrcKhr                            = 0x3b9acdea
     SharedPresentKhr                         = 0x3b9c7b98
+    DepthReadOnlyStencilAttachmentOptimal    = 0x3b9c9308
+    DepthReadOnlyStencilAttachmentOptimalKhr = 0x3b9c9308
+    DepthAttachmentStencilReadOnlyOptimal    = 0x3b9c9309
+    DepthAttachmentStencilReadOnlyOptimalKhr = 0x3b9c9309
     ShadingRateOptimalNv                     = 0x3b9d4aa3
     FragmentDensityMapOptimalExt             = 0x3b9e1d90
-    DepthReadOnlyStencilAttachmentOptimalKhr = 0x3b9c9308
-    DepthAttachmentStencilReadOnlyOptimalKhr = 0x3b9c9309
+    DepthAttachmentOptimal                   = 0x3b9e7768
     DepthAttachmentOptimalKhr                = 0x3b9e7768
+    DepthReadOnlyOptimal                     = 0x3b9e7769
     DepthReadOnlyOptimalKhr                  = 0x3b9e7769
+    StencilAttachmentOptimal                 = 0x3b9e776a
     StencilAttachmentOptimalKhr              = 0x3b9e776a
+    StencilReadOnlyOptimal                   = 0x3b9e776b
     StencilReadOnlyOptimalKhr                = 0x3b9e776b
     MaxEnum                                  = 0x7fffffff
 }
@@ -2210,23 +2210,23 @@ VkObjectType :: enum #copy #repr("C") #tag_type(i32) {
     DescriptorSet                 = 0x17
     Framebuffer                   = 0x18
     CommandPool                   = 0x19
-    SamplerYcbcrConversion        = 0x3b9d2b60
-    DescriptorUpdateTemplate      = 0x3b9c1608
     SurfaceKhr                    = 0x3b9aca00
     SwapchainKhr                  = 0x3b9acde8
     DisplayKhr                    = 0x3b9ad1d0
     DisplayModeKhr                = 0x3b9ad1d1
     DebugReportCallbackExt        = 0x3b9af4f8
+    DescriptorUpdateTemplate      = 0x3b9c1608
+    DescriptorUpdateTemplateKhr   = 0x3b9c1608
     DebugUtilsMessengerExt        = 0x3b9cbe00
-    AccelerationStructureKhr      = 0x3b9d4e88
+    SamplerYcbcrConversion        = 0x3b9d2b60
+    SamplerYcbcrConversionKhr     = 0x3b9d2b60
     ValidationCacheExt            = 0x3b9d3b00
+    AccelerationStructureKhr      = 0x3b9d4e88
+    AccelerationStructureNv       = 0x3b9d4e88
     PerformanceConfigurationIntel = 0x3b9dfe50
     DeferredOperationKhr          = 0x3b9ee0e0
     IndirectCommandsLayoutNv      = 0x3b9f0408
     PrivateDataSlotExt            = 0x3b9f4a58
-    DescriptorUpdateTemplateKhr   = 0x3b9c1608
-    SamplerYcbcrConversionKhr     = 0x3b9d2b60
-    AccelerationStructureNv       = 0x3b9d4e88
     MaxEnum                       = 0x7fffffff
 }
 VkVendorId :: enum #copy #repr("C") #tag_type(i32) {
@@ -2439,40 +2439,6 @@ VkFormat :: enum #copy #repr("C") #tag_type(i32) {
     Astc12x10SrgbBlock                      = 0xb6
     Astc12x12UnormBlock                     = 0xb7
     Astc12x12SrgbBlock                      = 0xb8
-    G8b8g8r8422Unorm                        = 0x3b9d2b60
-    B8g8r8g8422Unorm                        = 0x3b9d2b61
-    G8B8R83plane420Unorm                    = 0x3b9d2b62
-    G8B8r82plane420Unorm                    = 0x3b9d2b63
-    G8B8R83plane422Unorm                    = 0x3b9d2b64
-    G8B8r82plane422Unorm                    = 0x3b9d2b65
-    G8B8R83plane444Unorm                    = 0x3b9d2b66
-    R10x6UnormPack16                        = 0x3b9d2b67
-    R10x6g10x6Unorm2pack16                  = 0x3b9d2b68
-    R10x6g10x6b10x6a10x6Unorm4pack16        = 0x3b9d2b69
-    G10x6b10x6g10x6r10x6422Unorm4pack16     = 0x3b9d2b6a
-    B10x6g10x6r10x6g10x6422Unorm4pack16     = 0x3b9d2b6b
-    G10x6B10x6R10x63plane420Unorm3pack16    = 0x3b9d2b6c
-    G10x6B10x6r10x62plane420Unorm3pack16    = 0x3b9d2b6d
-    G10x6B10x6R10x63plane422Unorm3pack16    = 0x3b9d2b6e
-    G10x6B10x6r10x62plane422Unorm3pack16    = 0x3b9d2b6f
-    G10x6B10x6R10x63plane444Unorm3pack16    = 0x3b9d2b70
-    R12x4UnormPack16                        = 0x3b9d2b71
-    R12x4g12x4Unorm2pack16                  = 0x3b9d2b72
-    R12x4g12x4b12x4a12x4Unorm4pack16        = 0x3b9d2b73
-    G12x4b12x4g12x4r12x4422Unorm4pack16     = 0x3b9d2b74
-    B12x4g12x4r12x4g12x4422Unorm4pack16     = 0x3b9d2b75
-    G12x4B12x4R12x43plane420Unorm3pack16    = 0x3b9d2b76
-    G12x4B12x4r12x42plane420Unorm3pack16    = 0x3b9d2b77
-    G12x4B12x4R12x43plane422Unorm3pack16    = 0x3b9d2b78
-    G12x4B12x4r12x42plane422Unorm3pack16    = 0x3b9d2b79
-    G12x4B12x4R12x43plane444Unorm3pack16    = 0x3b9d2b7a
-    G16b16g16r16422Unorm                    = 0x3b9d2b7b
-    B16g16r16g16422Unorm                    = 0x3b9d2b7c
-    G16B16R163plane420Unorm                 = 0x3b9d2b7d
-    G16B16r162plane420Unorm                 = 0x3b9d2b7e
-    G16B16R163plane422Unorm                 = 0x3b9d2b7f
-    G16B16r162plane422Unorm                 = 0x3b9d2b80
-    G16B16R163plane444Unorm                 = 0x3b9d2b81
     Pvrtc12bppUnormBlockImg                 = 0x3b9b9cf0
     Pvrtc14bppUnormBlockImg                 = 0x3b9b9cf1
     Pvrtc22bppUnormBlockImg                 = 0x3b9b9cf2
@@ -2496,38 +2462,72 @@ VkFormat :: enum #copy #repr("C") #tag_type(i32) {
     Astc12x10SfloatBlockExt                 = 0x3b9bcbdc
     Astc12x12SfloatBlockExt                 = 0x3b9bcbdd
     G8b8g8r8422UnormKhr                     = 0x3b9d2b60
+    G8b8g8r8422Unorm                        = 0x3b9d2b60
     B8g8r8g8422UnormKhr                     = 0x3b9d2b61
+    B8g8r8g8422Unorm                        = 0x3b9d2b61
     G8B8R83plane420UnormKhr                 = 0x3b9d2b62
+    G8B8R83plane420Unorm                    = 0x3b9d2b62
     G8B8r82plane420UnormKhr                 = 0x3b9d2b63
+    G8B8r82plane420Unorm                    = 0x3b9d2b63
     G8B8R83plane422UnormKhr                 = 0x3b9d2b64
+    G8B8R83plane422Unorm                    = 0x3b9d2b64
     G8B8r82plane422UnormKhr                 = 0x3b9d2b65
+    G8B8r82plane422Unorm                    = 0x3b9d2b65
     G8B8R83plane444UnormKhr                 = 0x3b9d2b66
+    G8B8R83plane444Unorm                    = 0x3b9d2b66
     R10x6UnormPack16Khr                     = 0x3b9d2b67
+    R10x6UnormPack16                        = 0x3b9d2b67
     R10x6g10x6Unorm2pack16Khr               = 0x3b9d2b68
+    R10x6g10x6Unorm2pack16                  = 0x3b9d2b68
     R10x6g10x6b10x6a10x6Unorm4pack16Khr     = 0x3b9d2b69
+    R10x6g10x6b10x6a10x6Unorm4pack16        = 0x3b9d2b69
     G10x6b10x6g10x6r10x6422Unorm4pack16Khr  = 0x3b9d2b6a
+    G10x6b10x6g10x6r10x6422Unorm4pack16     = 0x3b9d2b6a
+    B10x6g10x6r10x6g10x6422Unorm4pack16     = 0x3b9d2b6b
     B10x6g10x6r10x6g10x6422Unorm4pack16Khr  = 0x3b9d2b6b
+    G10x6B10x6R10x63plane420Unorm3pack16    = 0x3b9d2b6c
     G10x6B10x6R10x63plane420Unorm3pack16Khr = 0x3b9d2b6c
+    G10x6B10x6r10x62plane420Unorm3pack16    = 0x3b9d2b6d
     G10x6B10x6r10x62plane420Unorm3pack16Khr = 0x3b9d2b6d
+    G10x6B10x6R10x63plane422Unorm3pack16    = 0x3b9d2b6e
     G10x6B10x6R10x63plane422Unorm3pack16Khr = 0x3b9d2b6e
+    G10x6B10x6r10x62plane422Unorm3pack16    = 0x3b9d2b6f
     G10x6B10x6r10x62plane422Unorm3pack16Khr = 0x3b9d2b6f
+    G10x6B10x6R10x63plane444Unorm3pack16    = 0x3b9d2b70
     G10x6B10x6R10x63plane444Unorm3pack16Khr = 0x3b9d2b70
     R12x4UnormPack16Khr                     = 0x3b9d2b71
+    R12x4UnormPack16                        = 0x3b9d2b71
+    R12x4g12x4Unorm2pack16                  = 0x3b9d2b72
     R12x4g12x4Unorm2pack16Khr               = 0x3b9d2b72
+    R12x4g12x4b12x4a12x4Unorm4pack16        = 0x3b9d2b73
     R12x4g12x4b12x4a12x4Unorm4pack16Khr     = 0x3b9d2b73
+    G12x4b12x4g12x4r12x4422Unorm4pack16     = 0x3b9d2b74
     G12x4b12x4g12x4r12x4422Unorm4pack16Khr  = 0x3b9d2b74
+    B12x4g12x4r12x4g12x4422Unorm4pack16     = 0x3b9d2b75
     B12x4g12x4r12x4g12x4422Unorm4pack16Khr  = 0x3b9d2b75
+    G12x4B12x4R12x43plane420Unorm3pack16    = 0x3b9d2b76
     G12x4B12x4R12x43plane420Unorm3pack16Khr = 0x3b9d2b76
+    G12x4B12x4r12x42plane420Unorm3pack16    = 0x3b9d2b77
     G12x4B12x4r12x42plane420Unorm3pack16Khr = 0x3b9d2b77
+    G12x4B12x4R12x43plane422Unorm3pack16    = 0x3b9d2b78
     G12x4B12x4R12x43plane422Unorm3pack16Khr = 0x3b9d2b78
+    G12x4B12x4r12x42plane422Unorm3pack16    = 0x3b9d2b79
     G12x4B12x4r12x42plane422Unorm3pack16Khr = 0x3b9d2b79
+    G12x4B12x4R12x43plane444Unorm3pack16    = 0x3b9d2b7a
     G12x4B12x4R12x43plane444Unorm3pack16Khr = 0x3b9d2b7a
+    G16b16g16r16422Unorm                    = 0x3b9d2b7b
     G16b16g16r16422UnormKhr                 = 0x3b9d2b7b
+    B16g16r16g16422Unorm                    = 0x3b9d2b7c
     B16g16r16g16422UnormKhr                 = 0x3b9d2b7c
+    G16B16R163plane420Unorm                 = 0x3b9d2b7d
     G16B16R163plane420UnormKhr              = 0x3b9d2b7d
+    G16B16r162plane420Unorm                 = 0x3b9d2b7e
     G16B16r162plane420UnormKhr              = 0x3b9d2b7e
+    G16B16R163plane422Unorm                 = 0x3b9d2b7f
     G16B16R163plane422UnormKhr              = 0x3b9d2b7f
+    G16B16r162plane422Unorm                 = 0x3b9d2b80
     G16B16r162plane422UnormKhr              = 0x3b9d2b80
+    G16B16R163plane444Unorm                 = 0x3b9d2b81
     G16B16R163plane444UnormKhr              = 0x3b9d2b81
     MaxEnum                                 = 0x7fffffff
 }
@@ -2557,10 +2557,10 @@ VkQueryType :: enum #copy #repr("C") #tag_type(i32) {
     Timestamp                                 = 0x2
     TransformFeedbackStreamExt                = 0x3b9b3764
     PerformanceQueryKhr                       = 0x3b9c8f20
-    AccelerationStructureCompactedSizeKhr     = 0x3b9d4e88
     AccelerationStructureSerializationSizeKhr = 0x3b9d13f0
-    PerformanceQueryIntel                     = 0x3b9dfe50
+    AccelerationStructureCompactedSizeKhr     = 0x3b9d4e88
     AccelerationStructureCompactedSizeNv      = 0x3b9d4e88
+    PerformanceQueryIntel                     = 0x3b9dfe50
     MaxEnum                                   = 0x7fffffff
 }
 VkSharingMode :: enum #copy #repr("C") #tag_type(i32) {
@@ -2844,8 +2844,8 @@ VkIndexType :: enum #copy #repr("C") #tag_type(i32) {
     Uint16   = 0x0
     Uint32   = 0x1
     NoneKhr  = 0x3b9d4e88
-    Uint8Ext = 0x3b9ed528
     NoneNv   = 0x3b9d4e88
+    Uint8Ext = 0x3b9ed528
     MaxEnum  = 0x7fffffff
 }
 VkSubpassContents :: enum #copy #repr("C") #tag_type(i32) {
@@ -2872,41 +2872,41 @@ VkAccessFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     HostWriteBit                         = 0x4000
     MemoryReadBit                        = 0x8000
     MemoryWriteBit                       = 0x10000
+    CommandPreprocessReadBitNv           = 0x20000
+    CommandPreprocessWriteBitNv          = 0x40000
+    ColorAttachmentReadNoncoherentBitExt = 0x80000
+    ConditionalRenderingReadBitExt       = 0x100000
+    AccelerationStructureReadBitKhr      = 0x200000
+    AccelerationStructureReadBitNv       = 0x200000
+    AccelerationStructureWriteBitKhr     = 0x400000
+    AccelerationStructureWriteBitNv      = 0x400000
+    ShadingRateImageReadBitNv            = 0x800000
+    FragmentDensityMapReadBitExt         = 0x1000000
     TransformFeedbackWriteBitExt         = 0x2000000
     TransformFeedbackCounterReadBitExt   = 0x4000000
     TransformFeedbackCounterWriteBitExt  = 0x8000000
-    ConditionalRenderingReadBitExt       = 0x100000
-    ColorAttachmentReadNoncoherentBitExt = 0x80000
-    AccelerationStructureReadBitKhr      = 0x200000
-    AccelerationStructureWriteBitKhr     = 0x400000
-    ShadingRateImageReadBitNv            = 0x800000
-    FragmentDensityMapReadBitExt         = 0x1000000
-    CommandPreprocessReadBitNv           = 0x20000
-    CommandPreprocessWriteBitNv          = 0x40000
-    AccelerationStructureReadBitNv       = 0x200000
-    AccelerationStructureWriteBitNv      = 0x400000
     MaxEnum                              = 0x7fffffff
 }
 VkImageAspectFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None               = 0x0
     ColorBit           = 0x1
     DepthBit           = 0x2
     StencilBit         = 0x4
     MetadataBit        = 0x8
     Plane0Bit          = 0x10
+    Plane0BitKhr       = 0x10
     Plane1Bit          = 0x20
+    Plane1BitKhr       = 0x20
     Plane2Bit          = 0x40
+    Plane2BitKhr       = 0x40
     MemoryPlane0BitExt = 0x80
     MemoryPlane1BitExt = 0x100
     MemoryPlane2BitExt = 0x200
     MemoryPlane3BitExt = 0x400
-    Plane0BitKhr       = 0x10
-    Plane1BitKhr       = 0x20
-    Plane2BitKhr       = 0x40
     MaxEnum            = 0x7fffffff
 }
 VkFormatFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                                                                   = 0x0
     SampledImageBit                                                        = 0x1
     StorageImageBit                                                        = 0x2
     StorageImageAtomicBit                                                  = 0x4
@@ -2920,59 +2920,59 @@ VkFormatFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     BlitSrcBit                                                             = 0x400
     BlitDstBit                                                             = 0x800
     SampledImageFilterLinearBit                                            = 0x1000
-    TransferSrcBit                                                         = 0x4000
-    TransferDstBit                                                         = 0x8000
-    MidpointChromaSamplesBit                                               = 0x20000
-    SampledImageYcbcrConversionLinearFilterBit                             = 0x40000
-    SampledImageYcbcrConversionSeparateReconstructionFilterBit             = 0x80000
-    SampledImageYcbcrConversionChromaReconstructionExplicitBit             = 0x100000
-    SampledImageYcbcrConversionChromaReconstructionExplicitForceableBit    = 0x200000
-    DisjointBit                                                            = 0x400000
-    CositedChromaSamplesBit                                                = 0x800000
-    SampledImageFilterMinmaxBit                                            = 0x10000
     SampledImageFilterCubicBitImg                                          = 0x2000
-    AccelerationStructureVertexBufferBitKhr                                = 0x20000000
-    FragmentDensityMapBitExt                                               = 0x1000000
+    SampledImageFilterCubicBitExt                                          = 0x2000
+    TransferSrcBit                                                         = 0x4000
     TransferSrcBitKhr                                                      = 0x4000
+    TransferDstBit                                                         = 0x8000
     TransferDstBitKhr                                                      = 0x8000
+    SampledImageFilterMinmaxBit                                            = 0x10000
     SampledImageFilterMinmaxBitExt                                         = 0x10000
+    MidpointChromaSamplesBit                                               = 0x20000
     MidpointChromaSamplesBitKhr                                            = 0x20000
+    SampledImageYcbcrConversionLinearFilterBit                             = 0x40000
     SampledImageYcbcrConversionLinearFilterBitKhr                          = 0x40000
+    SampledImageYcbcrConversionSeparateReconstructionFilterBit             = 0x80000
     SampledImageYcbcrConversionSeparateReconstructionFilterBitKhr          = 0x80000
+    SampledImageYcbcrConversionChromaReconstructionExplicitBit             = 0x100000
     SampledImageYcbcrConversionChromaReconstructionExplicitBitKhr          = 0x100000
     SampledImageYcbcrConversionChromaReconstructionExplicitForceableBitKhr = 0x200000
+    SampledImageYcbcrConversionChromaReconstructionExplicitForceableBit    = 0x200000
     DisjointBitKhr                                                         = 0x400000
+    DisjointBit                                                            = 0x400000
+    CositedChromaSamplesBit                                                = 0x800000
     CositedChromaSamplesBitKhr                                             = 0x800000
-    SampledImageFilterCubicBitExt                                          = 0x2000
+    FragmentDensityMapBitExt                                               = 0x1000000
+    AccelerationStructureVertexBufferBitKhr                                = 0x20000000
     MaxEnum                                                                = 0x7fffffff
 }
 VkImageCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                                 = 0x0
     SparseBindingBit                     = 0x1
     SparseResidencyBit                   = 0x2
     SparseAliasedBit                     = 0x4
     MutableFormatBit                     = 0x8
     CubeCompatibleBit                    = 0x10
-    AliasBit                             = 0x400
-    SplitInstanceBindRegionsBit          = 0x40
     _2dArrayCompatibleBit                = 0x20
-    BlockTexelViewCompatibleBit          = 0x80
-    ExtendedUsageBit                     = 0x100
-    ProtectedBit                         = 0x800
-    DisjointBit                          = 0x200
-    CornerSampledBitNv                   = 0x2000
-    SampleLocationsCompatibleDepthBitExt = 0x1000
-    SubsampledBitExt                     = 0x4000
-    SplitInstanceBindRegionsBitKhr       = 0x40
     _2dArrayCompatibleBitKhr             = 0x20
+    SplitInstanceBindRegionsBit          = 0x40
+    SplitInstanceBindRegionsBitKhr       = 0x40
+    BlockTexelViewCompatibleBit          = 0x80
     BlockTexelViewCompatibleBitKhr       = 0x80
+    ExtendedUsageBit                     = 0x100
     ExtendedUsageBitKhr                  = 0x100
+    DisjointBit                          = 0x200
     DisjointBitKhr                       = 0x200
+    AliasBit                             = 0x400
     AliasBitKhr                          = 0x400
+    ProtectedBit                         = 0x800
+    SampleLocationsCompatibleDepthBitExt = 0x1000
+    CornerSampledBitNv                   = 0x2000
+    SubsampledBitExt                     = 0x4000
     MaxEnum                              = 0x7fffffff
 }
 VkSampleCountFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None    = 0x0
     _1Bit   = 0x1
     _2Bit   = 0x2
     _4Bit   = 0x4
@@ -2983,7 +2983,7 @@ VkSampleCountFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnum = 0x7fffffff
 }
 VkImageUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                      = 0x0
     TransferSrcBit            = 0x1
     TransferDstBit            = 0x2
     SampledBit                = 0x4
@@ -2997,14 +2997,14 @@ VkImageUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnum                   = 0x7fffffff
 }
 VkMemoryHeapFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                = 0x0
     DeviceLocalBit      = 0x1
     MultiInstanceBit    = 0x2
     MultiInstanceBitKhr = 0x2
     MaxEnum             = 0x7fffffff
 }
 VkMemoryPropertyFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                 = 0x0
     DeviceLocalBit       = 0x1
     HostVisibleBit       = 0x2
     HostCoherentBit      = 0x4
@@ -3016,7 +3016,7 @@ VkMemoryPropertyFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnum              = 0x7fffffff
 }
 VkQueueFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None             = 0x0
     GraphicsBit      = 0x1
     ComputeBit       = 0x2
     TransferBit      = 0x4
@@ -3025,12 +3025,12 @@ VkQueueFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnum          = 0x7fffffff
 }
 VkDeviceQueueCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None         = 0x0
     ProtectedBit = 0x1
     MaxEnum      = 0x7fffffff
 }
 VkPipelineStageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                             = 0x0
     TopOfPipeBit                     = 0x1
     DrawIndirectBit                  = 0x2
     VertexInputBit                   = 0x4
@@ -3048,38 +3048,38 @@ VkPipelineStageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     HostBit                          = 0x4000
     AllGraphicsBit                   = 0x8000
     AllCommandsBit                   = 0x10000
-    TransformFeedbackBitExt          = 0x1000000
+    CommandPreprocessBitNv           = 0x20000
     ConditionalRenderingBitExt       = 0x40000
-    RayTracingShaderBitKhr           = 0x200000
-    AccelerationStructureBuildBitKhr = 0x2000000
-    ShadingRateImageBitNv            = 0x400000
     TaskShaderBitNv                  = 0x80000
     MeshShaderBitNv                  = 0x100000
-    FragmentDensityProcessBitExt     = 0x800000
-    CommandPreprocessBitNv           = 0x20000
+    RayTracingShaderBitKhr           = 0x200000
     RayTracingShaderBitNv            = 0x200000
+    ShadingRateImageBitNv            = 0x400000
+    FragmentDensityProcessBitExt     = 0x800000
+    TransformFeedbackBitExt          = 0x1000000
+    AccelerationStructureBuildBitKhr = 0x2000000
     AccelerationStructureBuildBitNv  = 0x2000000
     MaxEnum                          = 0x7fffffff
 }
 VkSparseMemoryBindFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None        = 0x0
     MetadataBit = 0x1
     MaxEnum     = 0x7fffffff
 }
 VkSparseImageFormatFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                    = 0x0
     SingleMiptailBit        = 0x1
     AlignedMipSizeBit       = 0x2
     NonstandardBlockSizeBit = 0x4
     MaxEnum                 = 0x7fffffff
 }
 VkFenceCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None        = 0x0
     SignaledBit = 0x1
     MaxEnum     = 0x7fffffff
 }
 VkQueryPipelineStatisticFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                                       = 0x0
     InputAssemblyVerticesBit                   = 0x1
     InputAssemblyPrimitivesBit                 = 0x2
     VertexShaderInvocationsBit                 = 0x4
@@ -3094,7 +3094,7 @@ VkQueryPipelineStatisticFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags 
     MaxEnum                                    = 0x7fffffff
 }
 VkQueryResultFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                = 0x0
     _64Bit              = 0x1
     WaitBit             = 0x2
     WithAvailabilityBit = 0x4
@@ -3102,7 +3102,7 @@ VkQueryResultFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnum             = 0x7fffffff
 }
 VkBufferCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                             = 0x0
     SparseBindingBit                 = 0x1
     SparseResidencyBit               = 0x2
     SparseAliasedBit                 = 0x4
@@ -3113,7 +3113,7 @@ VkBufferCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnum                          = 0x7fffffff
 }
 VkBufferUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                                 = 0x0
     TransferSrcBit                       = 0x1
     TransferDstBit                       = 0x2
     UniformTexelBufferBit                = 0x4
@@ -3123,150 +3123,150 @@ VkBufferUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     IndexBufferBit                       = 0x40
     VertexBufferBit                      = 0x80
     IndirectBufferBit                    = 0x100
-    ShaderDeviceAddressBit               = 0x20000
-    TransformFeedbackBufferBitExt        = 0x800
-    TransformFeedbackCounterBufferBitExt = 0x1000
     ConditionalRenderingBitExt           = 0x200
     RayTracingBitKhr                     = 0x400
     RayTracingBitNv                      = 0x400
+    TransformFeedbackBufferBitExt        = 0x800
+    TransformFeedbackCounterBufferBitExt = 0x1000
+    ShaderDeviceAddressBit               = 0x20000
     ShaderDeviceAddressBitExt            = 0x20000
     ShaderDeviceAddressBitKhr            = 0x20000
     MaxEnum                              = 0x7fffffff
 }
 VkImageViewCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
-    ragmentDensityMapDynamicBitExt  = 0x1
-    ragmentDensityMapDeferredBitExt = 0x2
-    MaxEnum                         = 0x7fffffff
+    None                             = 0x0
+    FragmentDensityMapDynamicBitExt  = 0x1
+    FragmentDensityMapDeferredBitExt = 0x2
+    MaxEnum                          = 0x7fffffff
 }
 VkShaderModuleCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None    = 0x0
     MaxEnum = 0x7fffffff
 }
 VkPipelineCacheCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                         = 0x0
     ExternallySynchronizedBitExt = 0x1
     MaxEnum                      = 0x7fffffff
 }
 VkColorComponentFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
-    R = 0x1
-    G = 0x2
-    B = 0x4
-    A = 0x8
+    None    = 0x0
+    RBit    = 0x1
+    GBit    = 0x2
+    BBit    = 0x4
+    ABit    = 0x8
     MaxEnum = 0x7fffffff
 }
 VkPipelineCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                                      = 0x0
     DisableOptimizationBit                    = 0x1
     AllowDerivativesBit                       = 0x2
     DerivativeBit                             = 0x4
     ViewIndexFromDeviceIndexBit               = 0x8
+    ViewIndexFromDeviceIndexBitKhr            = 0x8
     DispatchBaseBit                           = 0x10
+    DispatchBase                              = 0x10
+    DispatchBaseKhr                           = 0x10
+    DeferCompileBitNv                         = 0x20
+    CaptureStatisticsBitKhr                   = 0x40
+    CaptureInternalRepresentationsBitKhr      = 0x80
+    FailOnPipelineCompileRequiredBitExt       = 0x100
+    EarlyReturnOnFailureBitExt                = 0x200
+    LibraryBitKhr                             = 0x800
+    RayTracingSkipTrianglesBitKhr             = 0x1000
+    RayTracingSkipAabbsBitKhr                 = 0x2000
     RayTracingNoNullAnyHitShadersBitKhr       = 0x4000
     RayTracingNoNullClosestHitShadersBitKhr   = 0x8000
     RayTracingNoNullMissShadersBitKhr         = 0x10000
     RayTracingNoNullIntersectionShadersBitKhr = 0x20000
-    RayTracingSkipTrianglesBitKhr             = 0x1000
-    RayTracingSkipAabbsBitKhr                 = 0x2000
-    DeferCompileBitNv                         = 0x20
-    CaptureStatisticsBitKhr                   = 0x40
-    CaptureInternalRepresentationsBitKhr      = 0x80
     IndirectBindableBitNv                     = 0x40000
-    LibraryBitKhr                             = 0x800
-    FailOnPipelineCompileRequiredBitExt       = 0x100
-    EarlyReturnOnFailureBitExt                = 0x200
-    DispatchBase                              = 0x10
-    ViewIndexFromDeviceIndexBitKhr            = 0x8
-    DispatchBaseKhr                           = 0x10
     MaxEnum                                   = 0x7fffffff
 }
 VkPipelineShaderStageCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                           = 0x0
     AllowVaryingSubgroupSizeBitExt = 0x1
     RequireFullSubgroupsBitExt     = 0x2
     MaxEnum                        = 0x7fffffff
 }
 VkShaderStageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                      = 0x0
     VertexBit                 = 0x1
     TessellationControlBit    = 0x2
     TessellationEvaluationBit = 0x4
     GeometryBit               = 0x8
     FragmentBit               = 0x10
-    ComputeBit                = 0x20
     AllGraphics               = 0x1f
-    All                       = 0x7fffffff
-    RaygenBitKhr              = 0x100
-    AnyHitBitKhr              = 0x200
-    ClosestHitBitKhr          = 0x400
-    MissBitKhr                = 0x800
-    IntersectionBitKhr        = 0x1000
-    CallableBitKhr            = 0x2000
+    ComputeBit                = 0x20
     TaskBitNv                 = 0x40
     MeshBitNv                 = 0x80
+    RaygenBitKhr              = 0x100
     RaygenBitNv               = 0x100
+    AnyHitBitKhr              = 0x200
     AnyHitBitNv               = 0x200
+    ClosestHitBitKhr          = 0x400
     ClosestHitBitNv           = 0x400
+    MissBitKhr                = 0x800
     MissBitNv                 = 0x800
+    IntersectionBitKhr        = 0x1000
     IntersectionBitNv         = 0x1000
+    CallableBitKhr            = 0x2000
     CallableBitNv             = 0x2000
+    All                       = 0x7fffffff
     MaxEnum                   = 0x7fffffff
 }
-VkCullModeFlags :: enum #copy #repr("C") #tag_type(i32) {
-    None        = 0x0
+VkCullModeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None         = 0x0
     FrontBit     = 0x1
     BackBit      = 0x2
     FrontAndBack = 0x3
     MaxEnum      = 0x7fffffff
 }
 VkSamplerCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                                 = 0x0
     SubsampledBitExt                     = 0x1
     SubsampledCoarseReconstructionBitExt = 0x2
     MaxEnum                              = 0x7fffffff
 }
 VkDescriptorPoolCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
-    reeDescriptorSetBit   = 0x1
+    None                  = 0x0
+    FreeDescriptorSetBit  = 0x1
     UpdateAfterBindBit    = 0x2
     UpdateAfterBindBitExt = 0x2
     MaxEnum               = 0x7fffffff
 }
 VkDescriptorSetLayoutCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
-    UpdateAfterBindPoolBit    = 0x2
+    None                      = 0x0
     PushDescriptorBitKhr      = 0x1
+    UpdateAfterBindPoolBit    = 0x2
     UpdateAfterBindPoolBitExt = 0x2
     MaxEnum                   = 0x7fffffff
 }
 VkAttachmentDescriptionFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None        = 0x0
     MayAliasBit = 0x1
     MaxEnum     = 0x7fffffff
 }
 VkDependencyFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None              = 0x0
     ByRegionBit       = 0x1
-    DeviceGroupBit    = 0x4
     ViewLocalBit      = 0x2
     ViewLocalBitKhr   = 0x2
+    DeviceGroupBit    = 0x4
     DeviceGroupBitKhr = 0x4
     MaxEnum           = 0x7fffffff
 }
 VkFramebufferCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None            = 0x0
     ImagelessBit    = 0x1
     ImagelessBitKhr = 0x1
     MaxEnum         = 0x7fffffff
 }
 VkRenderPassCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None             = 0x0
     TransformBitQcom = 0x2
     MaxEnum          = 0x7fffffff
 }
 VkSubpassDescriptionFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                       = 0x0
     PerViewAttributesBitNvx    = 0x1
     PerViewPositionXOnlyBitNvx = 0x2
     FragmentRegionBitQcom      = 0x4
@@ -3274,36 +3274,36 @@ VkSubpassDescriptionFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnum                    = 0x7fffffff
 }
 VkCommandPoolCreateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                  = 0x0
     TransientBit          = 0x1
     ResetCommandBufferBit = 0x2
     ProtectedBit          = 0x4
     MaxEnum               = 0x7fffffff
 }
 VkCommandPoolResetFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                = 0x0
     ReleaseResourcesBit = 0x1
     MaxEnum             = 0x7fffffff
 }
 VkCommandBufferUsageFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                  = 0x0
     OneTimeSubmitBit      = 0x1
     RenderPassContinueBit = 0x2
     SimultaneousUseBit    = 0x4
     MaxEnum               = 0x7fffffff
 }
 VkQueryControlFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None       = 0x0
     PreciseBit = 0x1
     MaxEnum    = 0x7fffffff
 }
 VkCommandBufferResetFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                = 0x0
     ReleaseResourcesBit = 0x1
     MaxEnum             = 0x7fffffff
 }
 VkStencilFaceFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None         = 0x0
     FrontBit     = 0x1
     BackBit      = 0x2
     FrontAndBack = 0x3
@@ -3311,53 +3311,53 @@ VkStencilFaceFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
 }
 VkPointClippingBehavior :: enum #copy #repr("C") #tag_type(i32) {
     AllClipPlanes         = 0x0
-    UserClipPlanesOnly    = 0x1
     AllClipPlanesKhr      = 0x0
+    UserClipPlanesOnly    = 0x1
     UserClipPlanesOnlyKhr = 0x1
     MaxEnum               = 0x7fffffff
 }
 VkTessellationDomainOrigin :: enum #copy #repr("C") #tag_type(i32) {
     UpperLeft    = 0x0
-    LowerLeft    = 0x1
     UpperLeftKhr = 0x0
+    LowerLeft    = 0x1
     LowerLeftKhr = 0x1
     MaxEnum      = 0x7fffffff
 }
 VkSamplerYcbcrModelConversion :: enum #copy #repr("C") #tag_type(i32) {
     RgbIdentity      = 0x0
-    YcbcrIdentity    = 0x1
-    Ycbcr709         = 0x2
-    Ycbcr601         = 0x3
-    Ycbcr2020        = 0x4
     RgbIdentityKhr   = 0x0
+    YcbcrIdentity    = 0x1
     YcbcrIdentityKhr = 0x1
+    Ycbcr709         = 0x2
     Ycbcr709Khr      = 0x2
+    Ycbcr601         = 0x3
     Ycbcr601Khr      = 0x3
+    Ycbcr2020        = 0x4
     Ycbcr2020Khr     = 0x4
     MaxEnum          = 0x7fffffff
 }
 VkSamplerYcbcrRange :: enum #copy #repr("C") #tag_type(i32) {
     ItuFull      = 0x0
-    ItuNarrow    = 0x1
     ItuFullKhr   = 0x0
+    ItuNarrow    = 0x1
     ItuNarrowKhr = 0x1
     MaxEnum      = 0x7fffffff
 }
 VkChromaLocation :: enum #copy #repr("C") #tag_type(i32) {
     CositedEven    = 0x0
-    Midpoint       = 0x1
     CositedEvenKhr = 0x0
+    Midpoint       = 0x1
     MidpointKhr    = 0x1
     MaxEnum        = 0x7fffffff
 }
 VkDescriptorUpdateTemplateType :: enum #copy #repr("C") #tag_type(i32) {
     DescriptorSet      = 0x0
-    PushDescriptorsKhr = 0x1
     DescriptorSetKhr   = 0x0
+    PushDescriptorsKhr = 0x1
     MaxEnum            = 0x7fffffff
 }
 VkSubgroupFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None               = 0x0
     BasicBit           = 0x1
     VoteBit            = 0x2
     ArithmeticBit      = 0x4
@@ -3370,195 +3370,195 @@ VkSubgroupFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnum            = 0x7fffffff
 }
 VkPeerMemoryFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None             = 0x0
     CopySrcBit       = 0x1
-    CopyDstBit       = 0x2
-    GenericSrcBit    = 0x4
-    GenericDstBit    = 0x8
     CopySrcBitKhr    = 0x1
+    CopyDstBit       = 0x2
     CopyDstBitKhr    = 0x2
+    GenericSrcBit    = 0x4
     GenericSrcBitKhr = 0x4
+    GenericDstBit    = 0x8
     GenericDstBitKhr = 0x8
     MaxEnum          = 0x7fffffff
 }
 VkMemoryAllocateFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                             = 0x0
     DeviceMaskBit                    = 0x1
-    DeviceAddressBit                 = 0x2
-    DeviceAddressCaptureReplayBit    = 0x4
     DeviceMaskBitKhr                 = 0x1
+    DeviceAddressBit                 = 0x2
     DeviceAddressBitKhr              = 0x2
+    DeviceAddressCaptureReplayBit    = 0x4
     DeviceAddressCaptureReplayBitKhr = 0x4
     MaxEnum                          = 0x7fffffff
 }
 VkExternalMemoryHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                            = 0x0
     OpaqueFdBit                     = 0x1
+    OpaqueFdBitKhr                  = 0x1
     OpaqueWin32Bit                  = 0x2
+    OpaqueWin32BitKhr               = 0x2
     OpaqueWin32KmtBit               = 0x4
+    OpaqueWin32KmtBitKhr            = 0x4
     D3d11TextureBit                 = 0x8
+    D3d11TextureBitKhr              = 0x8
     D3d11TextureKmtBit              = 0x10
+    D3d11TextureKmtBitKhr           = 0x10
     D3d12HeapBit                    = 0x20
+    D3d12HeapBitKhr                 = 0x20
     D3d12ResourceBit                = 0x40
-    DmaBufBitExt                    = 0x200
-    AndroidHardwareBufferBitAndroid = 0x400
+    D3d12ResourceBitKhr             = 0x40
     HostAllocationBitExt            = 0x80
     HostMappedForeignMemoryBitExt   = 0x100
-    OpaqueFdBitKhr                  = 0x1
-    OpaqueWin32BitKhr               = 0x2
-    OpaqueWin32KmtBitKhr            = 0x4
-    D3d11TextureBitKhr              = 0x8
-    D3d11TextureKmtBitKhr           = 0x10
-    D3d12HeapBitKhr                 = 0x20
-    D3d12ResourceBitKhr             = 0x40
+    DmaBufBitExt                    = 0x200
+    AndroidHardwareBufferBitAndroid = 0x400
     MaxEnum                         = 0x7fffffff
 }
 VkExternalMemoryFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                = 0x0
     DedicatedOnlyBit    = 0x1
-    ExportableBit       = 0x2
-    ImportableBit       = 0x4
     DedicatedOnlyBitKhr = 0x1
+    ExportableBit       = 0x2
     ExportableBitKhr    = 0x2
+    ImportableBit       = 0x4
     ImportableBitKhr    = 0x4
     MaxEnum             = 0x7fffffff
 }
 VkExternalFenceHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                 = 0x0
     OpaqueFdBit          = 0x1
-    OpaqueWin32Bit       = 0x2
-    OpaqueWin32KmtBit    = 0x4
-    SyncFdBit            = 0x8
     OpaqueFdBitKhr       = 0x1
+    OpaqueWin32Bit       = 0x2
     OpaqueWin32BitKhr    = 0x2
+    OpaqueWin32KmtBit    = 0x4
     OpaqueWin32KmtBitKhr = 0x4
+    SyncFdBit            = 0x8
     SyncFdBitKhr         = 0x8
     MaxEnum              = 0x7fffffff
 }
 VkExternalFenceFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None             = 0x0
     ExportableBit    = 0x1
-    ImportableBit    = 0x2
     ExportableBitKhr = 0x1
+    ImportableBit    = 0x2
     ImportableBitKhr = 0x2
     MaxEnum          = 0x7fffffff
 }
 VkFenceImportFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None            = 0x0
     TemporaryBit    = 0x1
     TemporaryBitKhr = 0x1
     MaxEnum         = 0x7fffffff
 }
 VkSemaphoreImportFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None            = 0x0
     TemporaryBit    = 0x1
     TemporaryBitKhr = 0x1
     MaxEnum         = 0x7fffffff
 }
 VkExternalSemaphoreHandleTypeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                 = 0x0
     OpaqueFdBit          = 0x1
-    OpaqueWin32Bit       = 0x2
-    OpaqueWin32KmtBit    = 0x4
-    D3d12FenceBit        = 0x8
-    SyncFdBit            = 0x10
-    D3d11FenceBit        = 0x8
     OpaqueFdBitKhr       = 0x1
+    OpaqueWin32Bit       = 0x2
     OpaqueWin32BitKhr    = 0x2
+    OpaqueWin32KmtBit    = 0x4
     OpaqueWin32KmtBitKhr = 0x4
+    D3d12FenceBit        = 0x8
+    D3d11FenceBit        = 0x8
     D3d12FenceBitKhr     = 0x8
+    SyncFdBit            = 0x10
     SyncFdBitKhr         = 0x10
     MaxEnum              = 0x7fffffff
 }
 VkExternalSemaphoreFeatureFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None             = 0x0
     ExportableBit    = 0x1
-    ImportableBit    = 0x2
     ExportableBitKhr = 0x1
+    ImportableBit    = 0x2
     ImportableBitKhr = 0x2
     MaxEnum          = 0x7fffffff
 }
 VkDriverId :: enum #copy #repr("C") #tag_type(i32) {
     AmdProprietary             = 0x1
+    AmdProprietaryKhr          = 0x1
     AmdOpenSource              = 0x2
+    AmdOpenSourceKhr           = 0x2
     MesaRadv                   = 0x3
+    MesaRadvKhr                = 0x3
     NvidiaProprietary          = 0x4
+    NvidiaProprietaryKhr       = 0x4
     IntelProprietaryWindows    = 0x5
+    IntelProprietaryWindowsKhr = 0x5
     IntelOpenSourceMesa        = 0x6
+    IntelOpenSourceMesaKhr     = 0x6
     ImaginationProprietary     = 0x7
+    ImaginationProprietaryKhr  = 0x7
     QualcommProprietary        = 0x8
+    QualcommProprietaryKhr     = 0x8
     ArmProprietary             = 0x9
+    ArmProprietaryKhr          = 0x9
     GoogleSwiftshader          = 0xa
+    GoogleSwiftshaderKhr       = 0xa
     GgpProprietary             = 0xb
+    GgpProprietaryKhr          = 0xb
     BroadcomProprietary        = 0xc
+    BroadcomProprietaryKhr     = 0xc
     MesaLlvmpipe               = 0xd
     Moltenvk                   = 0xe
-    AmdProprietaryKhr          = 0x1
-    AmdOpenSourceKhr           = 0x2
-    MesaRadvKhr                = 0x3
-    NvidiaProprietaryKhr       = 0x4
-    IntelProprietaryWindowsKhr = 0x5
-    IntelOpenSourceMesaKhr     = 0x6
-    ImaginationProprietaryKhr  = 0x7
-    QualcommProprietaryKhr     = 0x8
-    ArmProprietaryKhr          = 0x9
-    GoogleSwiftshaderKhr       = 0xa
-    GgpProprietaryKhr          = 0xb
-    BroadcomProprietaryKhr     = 0xc
     MaxEnum                    = 0x7fffffff
 }
 VkShaderFloatControlsIndependence :: enum #copy #repr("C") #tag_type(i32) {
     _32BitOnly    = 0x0
-    All           = 0x1
-    None          = 0x2
     _32BitOnlyKhr = 0x0
+    All           = 0x1
     AllKhr        = 0x1
+    None          = 0x2
     NoneKhr       = 0x2
     MaxEnum       = 0x7fffffff
 }
 VkSamplerReductionMode :: enum #copy #repr("C") #tag_type(i32) {
     WeightedAverage    = 0x0
-    Min                = 0x1
-    Max                = 0x2
     WeightedAverageExt = 0x0
+    Min                = 0x1
     MinExt             = 0x1
+    Max                = 0x2
     MaxExt             = 0x2
     MaxEnum            = 0x7fffffff
 }
 VkSemaphoreType :: enum #copy #repr("C") #tag_type(i32) {
     Binary      = 0x0
-    Timeline    = 0x1
     BinaryKhr   = 0x0
+    Timeline    = 0x1
     TimelineKhr = 0x1
     MaxEnum     = 0x7fffffff
 }
 VkResolveModeFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
-    SampleZeroBit    = 0x1
-    AverageBit       = 0x2
-    MinBit           = 0x4
-    MaxBit           = 0x8
+    None             = 0x0
     NoneKhr          = 0x0
+    SampleZeroBit    = 0x1
     SampleZeroBitKhr = 0x1
+    AverageBit       = 0x2
     AverageBitKhr    = 0x2
+    MinBit           = 0x4
     MinBitKhr        = 0x4
+    MaxBit           = 0x8
     MaxBitKhr        = 0x8
     MaxEnum          = 0x7fffffff
 }
 VkDescriptorBindingFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                           = 0x0
     UpdateAfterBindBit             = 0x1
-    UpdateUnusedWhilePendingBit    = 0x2
-    PartiallyBoundBit              = 0x4
-    VariableDescriptorCountBit     = 0x8
     UpdateAfterBindBitExt          = 0x1
+    UpdateUnusedWhilePendingBit    = 0x2
     UpdateUnusedWhilePendingBitExt = 0x2
+    PartiallyBoundBit              = 0x4
     PartiallyBoundBitExt           = 0x4
+    VariableDescriptorCountBit     = 0x8
     VariableDescriptorCountBitExt  = 0x8
     MaxEnum                        = 0x7fffffff
 }
 VkSemaphoreWaitFlagBits :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None      = 0x0
     AnyBit    = 0x1
     AnyBitKhr = 0x1
     MaxEnum   = 0x7fffffff
@@ -3574,9 +3574,11 @@ VkPresentModeKHR :: enum #copy #repr("C") #tag_type(i32) {
 }
 VkColorSpaceKHR :: enum #copy #repr("C") #tag_type(i32) {
     SrgbNonlinearKhr           = 0x0
+    ColorspaceSrgbNonlinearKhr = 0x0
     DisplayP3NonlinearExt      = 0x3b9c6041
     ExtendedSrgbLinearExt      = 0x3b9c6042
     DisplayP3LinearExt         = 0x3b9c6043
+    DciP3LinearExt             = 0x3b9c6043
     DciP3NonlinearExt          = 0x3b9c6044
     Bt709LinearExt             = 0x3b9c6045
     Bt709NonlinearExt          = 0x3b9c6046
@@ -3589,12 +3591,10 @@ VkColorSpaceKHR :: enum #copy #repr("C") #tag_type(i32) {
     PassThroughExt             = 0x3b9c604d
     ExtendedSrgbNonlinearExt   = 0x3b9c604e
     DisplayNativeAmd           = 0x3b9e0a08
-    ColorspaceSrgbNonlinearKhr = 0x0
-    DciP3LinearExt             = 0x3b9c6043
     MaxEnumKhr                 = 0x7fffffff
 }
 VkSurfaceTransformFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                            = 0x0
     IdentityBitKhr                  = 0x1
     Rotate90BitKhr                  = 0x2
     Rotate180BitKhr                 = 0x4
@@ -3607,7 +3607,7 @@ VkSurfaceTransformFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnumKhr                      = 0x7fffffff
 }
 VkCompositeAlphaFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                 = 0x0
     OpaqueBitKhr         = 0x1
     PreMultipliedBitKhr  = 0x2
     PostMultipliedBitKhr = 0x4
@@ -3615,14 +3615,14 @@ VkCompositeAlphaFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
     MaxEnumKhr           = 0x7fffffff
 }
 VkSwapchainCreateFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                           = 0x0
     SplitInstanceBindRegionsBitKhr = 0x1
     ProtectedBitKhr                = 0x2
     MutableFormatBitKhr            = 0x4
     MaxEnumKhr                     = 0x7fffffff
 }
 VkDeviceGroupPresentModeFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                   = 0x0
     LocalBitKhr            = 0x1
     RemoteBitKhr           = 0x2
     SumBitKhr              = 0x4
@@ -3630,7 +3630,7 @@ VkDeviceGroupPresentModeFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #fla
     MaxEnumKhr             = 0x7fffffff
 }
 VkDisplayPlaneAlphaFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                        = 0x0
     OpaqueBitKhr                = 0x1
     GlobalBitKhr                = 0x2
     PerPixelBitKhr              = 0x4
@@ -3653,10 +3653,10 @@ VkPerformanceCounterUnitKHR :: enum #copy #repr("C") #tag_type(i32) {
 }
 VkPerformanceCounterScopeKHR :: enum #copy #repr("C") #tag_type(i32) {
     CommandBufferKhr           = 0x0
-    RenderPassKhr              = 0x1
-    CommandKhr                 = 0x2
     QueryScopeCommandBufferKhr = 0x0
+    RenderPassKhr              = 0x1
     QueryScopeRenderPassKhr    = 0x1
+    CommandKhr                 = 0x2
     QueryScopeCommandKhr       = 0x2
     MaxEnumKhr                 = 0x7fffffff
 }
@@ -3670,13 +3670,13 @@ VkPerformanceCounterStorageKHR :: enum #copy #repr("C") #tag_type(i32) {
     MaxEnumKhr = 0x7fffffff
 }
 VkPerformanceCounterDescriptionFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                    = 0x0
     PerformanceImpactingKhr = 0x1
     ConcurrentlyImpactedKhr = 0x2
     MaxEnumKhr              = 0x7fffffff
 }
 VkAcquireProfilingLockFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None       = 0x0
     MaxEnumKhr = 0x7fffffff
 }
 VkPipelineExecutableStatisticFormatKHR :: enum #copy #repr("C") #tag_type(i32) {
@@ -3716,21 +3716,21 @@ VkDebugReportObjectTypeEXT :: enum #copy #repr("C") #tag_type(i32) {
     SurfaceKhrExt                  = 0x1a
     SwapchainKhrExt                = 0x1b
     DebugReportCallbackExtExt      = 0x1c
+    DebugReportExt                 = 0x1c
     DisplayKhrExt                  = 0x1d
     DisplayModeKhrExt              = 0x1e
     ValidationCacheExtExt          = 0x21
-    SamplerYcbcrConversionExt      = 0x3b9d2b60
-    DescriptorUpdateTemplateExt    = 0x3b9c1608
-    AccelerationStructureKhrExt    = 0x3b9d4e88
-    DebugReportExt                 = 0x1c
     ValidationCacheExt             = 0x21
+    DescriptorUpdateTemplateExt    = 0x3b9c1608
     DescriptorUpdateTemplateKhrExt = 0x3b9c1608
+    SamplerYcbcrConversionExt      = 0x3b9d2b60
     SamplerYcbcrConversionKhrExt   = 0x3b9d2b60
+    AccelerationStructureKhrExt    = 0x3b9d4e88
     AccelerationStructureNvExt     = 0x3b9d4e88
     MaxEnumExt                     = 0x7fffffff
 }
 VkDebugReportFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                     = 0x0
     InformationBitExt        = 0x1
     WarningBitExt            = 0x2
     PerformanceWarningBitExt = 0x4
@@ -3750,7 +3750,7 @@ VkShaderInfoTypeAMD :: enum #copy #repr("C") #tag_type(i32) {
     MaxEnumAmd     = 0x7fffffff
 }
 VkExternalMemoryHandleTypeFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                = 0x0
     OpaqueWin32BitNv    = 0x1
     OpaqueWin32KmtBitNv = 0x2
     D3d11ImageBitNv     = 0x4
@@ -3758,7 +3758,7 @@ VkExternalMemoryHandleTypeFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #fl
     MaxEnumNv           = 0x7fffffff
 }
 VkExternalMemoryFeatureFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None               = 0x0
     DedicatedOnlyBitNv = 0x1
     ExportableBitNv    = 0x2
     ImportableBitNv    = 0x4
@@ -3770,12 +3770,12 @@ VkValidationCheckEXT :: enum #copy #repr("C") #tag_type(i32) {
     MaxEnumExt = 0x7fffffff
 }
 VkConditionalRenderingFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None           = 0x0
     InvertedBitExt = 0x1
     MaxEnumExt     = 0x7fffffff
 }
 VkSurfaceCounterFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None       = 0x0
     VblankExt  = 0x1
     MaxEnumExt = 0x7fffffff
 }
@@ -3816,7 +3816,7 @@ VkConservativeRasterizationModeEXT :: enum #copy #repr("C") #tag_type(i32) {
     MaxEnumExt       = 0x7fffffff
 }
 VkDebugUtilsMessageSeverityFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None          = 0x0
     VerboseBitExt = 0x1
     InfoBitExt    = 0x10
     WarningBitExt = 0x100
@@ -3824,7 +3824,7 @@ VkDebugUtilsMessageSeverityFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #
     MaxEnumExt    = 0x7fffffff
 }
 VkDebugUtilsMessageTypeFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None              = 0x0
     GeneralBitExt     = 0x1
     ValidationBitExt  = 0x2
     PerformanceBitExt = 0x4
@@ -3871,77 +3871,77 @@ VkCoarseSampleOrderTypeNV :: enum #copy #repr("C") #tag_type(i32) {
 }
 VkRayTracingShaderGroupTypeKHR :: enum #copy #repr("C") #tag_type(i32) {
     GeneralKhr            = 0x0
-    TrianglesHitGroupKhr  = 0x1
-    ProceduralHitGroupKhr = 0x2
     GeneralNv             = 0x0
+    TrianglesHitGroupKhr  = 0x1
     TrianglesHitGroupNv   = 0x1
+    ProceduralHitGroupKhr = 0x2
     ProceduralHitGroupNv  = 0x2
     MaxEnumKhr            = 0x7fffffff
 }
 VkGeometryTypeKHR :: enum #copy #repr("C") #tag_type(i32) {
     TrianglesKhr = 0x0
-    AabbsKhr     = 0x1
-    InstancesKhr = 0x3b9d13f0
     TrianglesNv  = 0x0
+    AabbsKhr     = 0x1
     AabbsNv      = 0x1
+    InstancesKhr = 0x3b9d13f0
     MaxEnumKhr   = 0x7fffffff
 }
 VkAccelerationStructureTypeKHR :: enum #copy #repr("C") #tag_type(i32) {
     TopLevelKhr    = 0x0
-    BottomLevelKhr = 0x1
     TopLevelNv     = 0x0
+    BottomLevelKhr = 0x1
     BottomLevelNv  = 0x1
     MaxEnumKhr     = 0x7fffffff
 }
 VkCopyAccelerationStructureModeKHR :: enum #copy #repr("C") #tag_type(i32) {
     CloneKhr       = 0x0
+    CloneNv        = 0x0
     CompactKhr     = 0x1
+    CompactNv      = 0x1
     SerializeKhr   = 0x2
     DeserializeKhr = 0x3
-    CloneNv        = 0x0
-    CompactNv      = 0x1
     MaxEnumKhr     = 0x7fffffff
 }
 VkAccelerationStructureMemoryRequirementsTypeKHR :: enum #copy #repr("C") #tag_type(i32) {
     ObjectKhr        = 0x0
-    BuildScratchKhr  = 0x1
-    UpdateScratchKhr = 0x2
     ObjectNv         = 0x0
+    BuildScratchKhr  = 0x1
     BuildScratchNv   = 0x1
+    UpdateScratchKhr = 0x2
     UpdateScratchNv  = 0x2
     MaxEnumKhr       = 0x7fffffff
 }
 VkGeometryFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                              = 0x0
     OpaqueBitKhr                      = 0x1
-    NoDuplicateAnyHitInvocationBitKhr = 0x2
     OpaqueBitNv                       = 0x1
+    NoDuplicateAnyHitInvocationBitKhr = 0x2
     NoDuplicateAnyHitInvocationBitNv  = 0x2
     MaxEnumKhr                        = 0x7fffffff
 }
 VkGeometryInstanceFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                                = 0x0
     TriangleFacingCullDisableBitKhr     = 0x1
-    TriangleFrontCounterclockwiseBitKhr = 0x2
-    ForceOpaqueBitKhr                   = 0x4
-    ForceNoOpaqueBitKhr                 = 0x8
     TriangleCullDisableBitNv            = 0x1
+    TriangleFrontCounterclockwiseBitKhr = 0x2
     TriangleFrontCounterclockwiseBitNv  = 0x2
+    ForceOpaqueBitKhr                   = 0x4
     ForceOpaqueBitNv                    = 0x4
+    ForceNoOpaqueBitKhr                 = 0x8
     ForceNoOpaqueBitNv                  = 0x8
     MaxEnumKhr                          = 0x7fffffff
 }
 VkBuildAccelerationStructureFlagBitsKHR :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                  = 0x0
     AllowUpdateBitKhr     = 0x1
-    AllowCompactionBitKhr = 0x2
-    PreferFastTraceBitKhr = 0x4
-    PreferFastBuildBitKhr = 0x8
-    LowMemoryBitKhr       = 0x10
     AllowUpdateBitNv      = 0x1
+    AllowCompactionBitKhr = 0x2
     AllowCompactionBitNv  = 0x2
+    PreferFastTraceBitKhr = 0x4
     PreferFastTraceBitNv  = 0x4
+    PreferFastBuildBitKhr = 0x8
     PreferFastBuildBitNv  = 0x8
+    LowMemoryBitKhr       = 0x10
     LowMemoryBitNv        = 0x10
     MaxEnumKhr            = 0x7fffffff
 }
@@ -3953,7 +3953,7 @@ VkQueueGlobalPriorityEXT :: enum #copy #repr("C") #tag_type(i32) {
     MaxEnumExt  = 0x7fffffff
 }
 VkPipelineCompilerControlFlagBitsAMD :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None       = 0x0
     MaxEnumAmd = 0x7fffffff
 }
 VkTimeDomainEXT :: enum #copy #repr("C") #tag_type(i32) {
@@ -3970,7 +3970,7 @@ VkMemoryOverallocationBehaviorAMD :: enum #copy #repr("C") #tag_type(i32) {
     MaxEnumAmd    = 0x7fffffff
 }
 VkPipelineCreationFeedbackFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                              = 0x0
     ValidBitExt                       = 0x1
     ApplicationPipelineCacheHitBitExt = 0x2
     BasePipelineAccelerationBitExt    = 0x4
@@ -4003,11 +4003,11 @@ VkPerformanceValueTypeINTEL :: enum #copy #repr("C") #tag_type(i32) {
     MaxEnumIntel = 0x7fffffff
 }
 VkShaderCorePropertiesFlagBitsAMD :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None       = 0x0
     MaxEnumAmd = 0x7fffffff
 }
 VkToolPurposeFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
-    None = 0x0
+    None                     = 0x0
     ValidationBitExt         = 0x1
     ProfilingBitExt          = 0x2
     TracingBitExt            = 0x4
@@ -4078,20 +4078,24 @@ VkIndirectCommandsTokenTypeNV :: enum #copy #repr("C") #tag_type(i32) {
     DrawTasksNv    = 0x7
     MaxEnumNv      = 0x7fffffff
 }
-VkIndirectStateFlagBitsNV :: enum #copy #repr("C") #tag_type(i32) {
+VkIndirectStateFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None           = 0x0
     FrontfaceBitNv = 0x1
     MaxEnumNv      = 0x7fffffff
 }
-VkIndirectCommandsLayoutUsageFlagBitsNV :: enum #copy #repr("C") #tag_type(i32) {
+VkIndirectCommandsLayoutUsageFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None                    = 0x0
     ExplicitPreprocessBitNv = 0x1
     IndexedSequencesBitNv   = 0x2
     UnorderedSequencesBitNv = 0x4
     MaxEnumNv               = 0x7fffffff
 }
-VkPrivateDataSlotCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(i32) {
+VkPrivateDataSlotCreateFlagBitsEXT :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None       = 0x0
     MaxEnumExt = 0x7fffffff
 }
-VkDeviceDiagnosticsConfigFlagBitsNV :: enum #copy #repr("C") #tag_type(i32) {
+VkDeviceDiagnosticsConfigFlagBitsNV :: enum #copy #repr("C") #tag_type(u32) #flags {
+    None                            = 0x0
     EnableShaderDebugInfoBitNv      = 0x1
     EnableResourceTrackingBitNv     = 0x2
     EnableAutomaticCheckpointsBitNv = 0x4
