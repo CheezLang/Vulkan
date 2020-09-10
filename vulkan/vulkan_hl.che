@@ -335,12 +335,6 @@ PhysicalDevice :: struct {
     queue_family_properties : Array[VkQueueFamilyProperties]
 }
 
-SwapchainSupportDetails :: struct {
-    capabilities    : VkSurfaceCapabilitiesKHR = default
-    formats         := Array[VkSurfaceFormatKHR].new()
-    present_modes   := Array[VkPresentModeKHR].new()
-}
-
 impl PhysicalDevice {
     new :: (handle: VkPhysicalDevice) -> PhysicalDevice {
         mut properties := VkPhysicalDeviceProperties()
@@ -398,8 +392,9 @@ impl PhysicalDevice {
         return result
     }
 
-    get_swapchain_support_details :: (&Self, surface: &Surface) -> SwapchainSupportDetails {
-        mut details := SwapchainSupportDetails(
+    get_swapchain_support_details :: (&Self, surface: &Surface) -> PhysicalDeviceSurfaceCapabilities {
+        mut details := PhysicalDeviceSurfaceCapabilities(
+            physical_device = self.handle
             formats         = self.get_surface_formats(surface)
             present_modes   = self.get_surface_present_modes(surface)
         )
@@ -458,6 +453,88 @@ impl PhysicalDevice {
         }
 
         return result
+    }
+
+    get_surface_formats :: (&Self, surface: &Surface) -> Array[VkSurfaceFormatKHR] {
+        count : u32 = default
+        vkGetPhysicalDeviceSurfaceFormatsKHR(self.handle, surface.handle, ^count, null)
+        mut result := Array[VkSurfaceFormatKHR].new(initial_capacity = cast count)
+        result.resize(cast count)
+        vkGetPhysicalDeviceSurfaceFormatsKHR(self.handle, surface.handle, ^count, result.get_raw_mut())
+        return result
+    }
+
+    get_surface_present_modes :: (&Self, surface: &Surface) -> Array[VkPresentModeKHR] {
+        count : u32 = default
+        vkGetPhysicalDeviceSurfacePresentModesKHR(self.handle, surface.handle, ^count, null)
+        mut result := Array[VkPresentModeKHR].new(initial_capacity = cast count)
+        result.length = cast count // can't use resize because VkPresentModeKHR is an enum. @TODO: fix
+        vkGetPhysicalDeviceSurfacePresentModesKHR(self.handle, surface.handle, ^count, result.get_raw_mut())
+        return result
+    }
+
+    query_swapchain_support :: (&Self, surface: &Surface) -> PhysicalDeviceSurfaceCapabilities {
+        mut details := PhysicalDeviceSurfaceCapabilities(
+            physical_device = self.handle
+            formats         = get_surface_formats(surface)
+            present_modes   = get_surface_present_modes(surface)
+        )
+
+        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(self.handle, surface.handle, ^mut details.capabilities)
+
+        return details
+    }
+}
+
+PhysicalDeviceSurfaceCapabilities :: struct {
+    physical_device : VkPhysicalDevice
+    capabilities    : VkSurfaceCapabilitiesKHR = default
+    formats         := Array[VkSurfaceFormatKHR].new()
+    present_modes   := Array[VkPresentModeKHR].new()
+}
+
+impl PhysicalDeviceSurfaceCapabilities {
+    update_capabilities :: (&mut Self, surface: &Surface) {
+        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(self.physical_device, surface.handle, ^mut self.capabilities)
+    }
+
+    choose_image_count :: (&Self) -> u32 {
+        mut image_count := self.capabilities.minImageCount + 1
+        if self.capabilities.maxImageCount > 0 and image_count > self.capabilities.maxImageCount {
+            image_count = self.capabilities.maxImageCount
+        }
+        return image_count
+    }
+
+    choose_swap_extent :: (&Self, fallback_extent: VkExtent2D) -> VkExtent2D {
+        if self.capabilities.currentExtent.width != u32.max {
+            return self.capabilities.currentExtent
+        }
+
+        mut actual_extent := fallback_extent
+        actual_extent.width = clamp(actual_extent.width, self.capabilities.minImageExtent.width, self.capabilities.maxImageExtent.width)
+        actual_extent.height = clamp(actual_extent.height, self.capabilities.minImageExtent.height, self.capabilities.maxImageExtent.height)
+        return actual_extent
+    }
+
+    choose_swap_present_mode :: (&Self, preferred_mode: VkPresentModeKHR) -> VkPresentModeKHR {
+        for(by_ref=false) mode in self.present_modes[..] {
+            if mode == preferred_mode {
+                return mode
+            }
+        }
+
+        return .FifoKhr
+    }
+
+    choose_swap_surface_format :: (&Self, preferred_format: VkFormat, preferred_colorspace: VkColorSpaceKHR) -> VkSurfaceFormatKHR {
+        for format in self.formats[..] {
+            if format.format == preferred_format and format.colorSpace == preferred_colorspace {
+                return format
+            }
+        }
+
+        return *formats[0]
     }
 }
 
@@ -550,6 +627,7 @@ impl Surface {
         }
         @cast(&mut Self, self).handle = null
     }
+
 }
 
 impl Drop for Surface {
@@ -595,90 +673,29 @@ Swapchain :: struct {
 }
 
 impl Swapchain {
-    new :: (device: &Device, physical_device: &PhysicalDevice, surface: &Surface, fallback_extent: VkExtent2D, queue_family_indices: []u32) -> Result[Rc[Swapchain], Error] {
-        SwapChainSupportDetails :: struct {
-            capabilities    : VkSurfaceCapabilitiesKHR = default
-            formats         := Array[VkSurfaceFormatKHR].new()
-            present_modes   := Array[VkPresentModeKHR].new()
-        }
-        get_physical_device_surface_formats :: (physical_device: VkPhysicalDevice, surface: VkSurfaceKHR) -> Array[VkSurfaceFormatKHR] {
-            count : u32 = default
-            vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device, surface, ^count, null)
-            mut result := Array[VkSurfaceFormatKHR].new(initial_capacity = cast count)
-            result.resize(cast count)
-            vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device, surface, ^count, result.get_raw_mut())
-            return result
-        }
-        get_physical_device_surface_present_modes :: (physical_device: VkPhysicalDevice, surface: VkSurfaceKHR) -> Array[VkPresentModeKHR] {
-            count : u32 = default
-            vkGetPhysicalDeviceSurfacePresentModesKHR(physical_device, surface, ^count, null)
-            mut result := Array[VkPresentModeKHR].new(initial_capacity = cast count)
-            result.length = cast count // can't use resize because VkPresentModeKHR is an enum. @TODO: fix
-            vkGetPhysicalDeviceSurfacePresentModesKHR(physical_device, surface, ^count, result.get_raw_mut())
-            return result
-        }
-        query_swapchain_support :: (physical_device: &PhysicalDevice, surface: &Surface) -> SwapChainSupportDetails {
-            mut details := SwapChainSupportDetails(
-                formats         = get_physical_device_surface_formats(physical_device.handle, surface.handle)
-                present_modes   = get_physical_device_surface_present_modes(physical_device.handle, surface.handle)
-            )
-
-            vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physical_device.handle, surface.handle, ^mut details.capabilities)
-
-            return details
-        }
-
-        choose_swap_extent :: (capabilities: &VkSurfaceCapabilitiesKHR, fallback_extent: VkExtent2D) -> VkExtent2D {
-            if capabilities.currentExtent.width != u32.max {
-                return capabilities.currentExtent
-            }
-
-            mut actual_extent := fallback_extent
-            actual_extent.width = clamp(actual_extent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width)
-            actual_extent.height = clamp(actual_extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height)
-            return actual_extent
-        }
-
-        choose_swap_present_mode :: (available_modes: &mut Array[VkPresentModeKHR]) -> VkPresentModeKHR {
-            for(by_ref=false) mode in available_modes {
-                if mode == .MailboxKhr {
-                    return mode
-                }
-            }
-
-            return .FifoKhr
-        }
-
-        choose_swap_surface_format :: (available_formats: &mut Array[VkSurfaceFormatKHR]) -> VkSurfaceFormatKHR {
-            for format in available_formats {
-                if format.format == .B8g8r8a8Srgb and format.colorSpace == .SrgbNonlinearKhr {
-                    return *format
-                }
-            }
-
-            return *available_formats[0]
-        }
-
-        mut swapchain_support := query_swapchain_support(physical_device, surface)
-        surface_format := choose_swap_surface_format(&mut swapchain_support.formats)
-        present_mode := choose_swap_present_mode(&mut swapchain_support.present_modes)
-        extent := choose_swap_extent(&swapchain_support.capabilities, fallback_extent)
-        mut image_count := swapchain_support.capabilities.minImageCount + 1
-        if swapchain_support.capabilities.maxImageCount > 0 and image_count > swapchain_support.capabilities.maxImageCount {
-            image_count = swapchain_support.capabilities.maxImageCount
-        }
+    new :: (
+        device: &Device,
+        physical_device: &PhysicalDevice,
+        surface: &Surface,
+        queue_family_indices: []u32,
+        extent: VkExtent2D,
+        image_format: VkFormat,
+        color_space: VkColorSpaceKHR,
+        present_mode: VkPresentModeKHR,
+        image_count: u32,
+        pre_transform: VkSurfaceTransformFlagsKHR) -> Result[Rc[Swapchain], Error] {
 
         mut create_info := VkSwapchainCreateInfoKHR(
             sType                   = .SwapchainCreateInfoKhr
             flags                   = .None
             surface                 = surface.handle
             minImageCount           = image_count
-            imageFormat             = surface_format.format
-            imageColorSpace         = surface_format.colorSpace
+            imageFormat             = image_format
+            imageColorSpace         = color_space
             imageExtent             = extent
             imageArrayLayers        = 1
             imageUsage              = .ColorAttachmentBit
-            preTransform            = swapchain_support.capabilities.currentTransform
+            preTransform            = pre_transform
             compositeAlpha          = .OpaqueBitKhr
             presentMode             = present_mode
             clipped                 = VK_TRUE
@@ -710,7 +727,7 @@ impl Swapchain {
         return Ok(Rc[Swapchain].new(Swapchain(
             handle          = handle
             device          = device.handle
-            image_format    = surface_format.format
+            image_format    = image_format
             extent          = extent
             images          = images
             image_views     = Array[VkImageView].new(initial_capacity = cast image_count)
