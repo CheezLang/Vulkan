@@ -549,7 +549,11 @@ DeviceQueueCreateInfo :: struct {
 }
 
 impl Device {
-    new :: (physical_device: &PhysicalDevice, extensions: []string, queues: []DeviceQueueCreateInfo, features: &VkPhysicalDeviceFeatures) -> Result[Device, Error] {
+    new :: (
+        physical_device: &PhysicalDevice,
+        extensions: []string,
+        queues: []DeviceQueueCreateInfo,
+        features: ^VkPhysicalDeviceFeatures2) -> Result[Device, Error] {
         required_extensions := Array[^char8].new(extensions.length + 1)
         for extension in extensions do required_extensions.add(extension.to_cstring())
         defer for(by_ref=false) extension in required_extensions.slice() do mem.free(extension)
@@ -568,11 +572,12 @@ impl Device {
 
         create_info := VkDeviceCreateInfo(
             sType                   = .DeviceCreateInfo
+            pNext                   = features
             queueCreateInfoCount    = cast queue_create_infos.count()
             pQueueCreateInfos       = queue_create_infos.get_raw_mut()
             enabledExtensionCount   = cast required_extensions.count()
             ppEnabledExtensionNames = required_extensions.get_raw_mut()
-            pEnabledFeatures        = ^*features
+            pEnabledFeatures        = null
         )
 
         mut handle : VkDevice = default
