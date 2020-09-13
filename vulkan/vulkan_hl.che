@@ -740,6 +740,10 @@ impl Swapchain {
         )))
     }
 
+    get_images :: (&Self) -> []VkImage {
+        return self.images[..]
+    }
+
     get_image_views :: (&Self) -> []VkImageView {
         return self.image_views[..]
     }
