@@ -9,6 +9,7 @@ use import std.math
 
 mem :: import std.mem.allocator
 io :: import std.io
+fmt :: import std.fmt
 
 #export_scope
 
@@ -131,6 +132,12 @@ Error :: enum {
     UnsupportedLayers       : Array[String]
     UnsupportedExtensions   : Array[String]
     NoPhysicalDevice
+}
+
+impl Into[String] for Error {
+    into :: (&Self) -> String {
+        return fmt.format("{}", [*self])
+    }
 }
 
 ValidationInfo :: struct #copy {
@@ -540,6 +547,7 @@ impl PhysicalDeviceSurfaceCapabilities {
 
 Device :: struct {
     handle          : VkDevice
+    physical_device : VkPhysicalDevice
 }
 
 DeviceQueueCreateInfo :: struct {
@@ -583,7 +591,19 @@ impl Device {
         mut handle : VkDevice = default
         vk_try(vkCreateDevice(physical_device.handle, ^create_info, null, ^mut handle))
 
-        return Ok(Device(handle))
+        return Ok(Device(handle, physical_device.handle))
+    }
+
+    get_memory_type :: (&Self, memory_type_bits: u32, flags: VkMemoryPropertyFlagBits) -> Option[u32] {
+        mut properties : VkPhysicalDeviceMemoryProperties = default
+        vkGetPhysicalDeviceMemoryProperties(self.physical_device, ^mut properties)
+        for typ in properties.memoryTypes[..i64(properties.memoryTypeCount)] {
+            is_possible_type := @bin_and(@bin_lsl(1, u32(it_index)), memory_type_bits) != 0
+            if is_possible_type and (flags is in typ.propertyFlags) {
+                return .Some(u32(it_index))
+            }
+        }
+        return .None
     }
 
     get_queue :: (&Self, family: u32) -> Queue {
@@ -668,13 +688,15 @@ impl Drop for DebugUtilsMessenger {
 }
 
 Swapchain :: struct {
-    handle          : VkSwapchainKHR
-    device          : VkDevice
-    image_format    : VkFormat
-    extent          : VkExtent2D
-    images          : Array[VkImage]
-    image_views     : Array[VkImageView]
-    framebuffers    : Array[VkFramebuffer]
+    handle              : VkSwapchainKHR
+    device              : VkDevice
+    image_format        : VkFormat
+    extent              : VkExtent2D
+    images              : Array[VkImage]
+    image_views         : Array[VkImageView]
+    depth_images        : Array[Image]
+    depth_image_views   : Array[VkImageView]
+    framebuffers        : Array[VkFramebuffer]
 }
 
 impl Swapchain {
@@ -730,13 +752,15 @@ impl Swapchain {
         vkGetSwapchainImagesKHR(device.handle, handle, ^mut image_count, images.get_raw_mut())
 
         return Ok(Rc[Swapchain].new(Swapchain(
-            handle          = handle
-            device          = device.handle
-            image_format    = image_format
-            extent          = extent
-            images          = images
-            image_views     = Array[VkImageView].new(initial_capacity = cast image_count)
-            framebuffers    = Array[VkFramebuffer].new(initial_capacity = cast image_count)
+            handle              = handle
+            device              = device.handle
+            image_format        = image_format
+            extent              = extent
+            images              = images
+            image_views         = Array[VkImageView].new(initial_capacity = cast image_count)
+            depth_images        = Array[Image].new(initial_capacity = cast image_count)
+            depth_image_views   = Array[VkImageView].new(initial_capacity = cast image_count)
+            framebuffers        = Array[VkFramebuffer].new(initial_capacity = cast image_count)
         )))
     }
 
@@ -778,6 +802,53 @@ impl Swapchain {
         return Ok()
     }
 
+    get_depth_images :: (&Self) -> []Image {
+        return self.depth_images[..]
+    }
+
+    get_depth_image_views :: (&Self) -> []VkImageView {
+        return self.depth_image_views[..]
+    }
+
+    create_depth_images :: (&mut Self, device: &Device) -> Result[(), Error] {
+        for i in 0 .. self.images.count() {
+            image := try(Image.new_2d(device, self.extent, .D32Sfloat, .DepthStencilAttachmentBit))
+            self.depth_images.add(image)
+        }
+
+        return Ok()
+    }
+
+    create_depth_image_views :: (&mut Self) -> Result[(), Error] {
+        self.depth_image_views.resize(self.depth_images.count())
+
+        for(by_ref=false) image, i in self.depth_images[..] {
+            create_info := VkImageViewCreateInfo(
+                sType            = .ImageViewCreateInfo
+                image            = image.handle
+                viewType         = ._2d
+                format           = .D32Sfloat
+                components       = VkComponentMapping(
+                    r = .Identity
+                    g = .Identity
+                    b = .Identity
+                    a = .Identity
+                )
+                subresourceRange = VkImageSubresourceRange(
+                    aspectMask     = .DepthBit
+                    baseMipLevel   = 0
+                    levelCount     = 1
+                    baseArrayLayer = 0
+                    layerCount     = 1
+                )
+            )
+
+            vk_try(vkCreateImageView(self.device, ^create_info, null, ^mut *self.depth_image_views[i]))
+        }
+
+        return Ok()
+    }
+
     get_framebuffers :: (&Self) -> []VkFramebuffer {
         return self.framebuffers[..]
     }
@@ -785,8 +856,12 @@ impl Swapchain {
     create_framebuffers :: (&mut Self, render_pass: VkRenderPass) -> Result[(), Error] {
         self.framebuffers.resize(self.image_views.count())
 
+        use_depth := self.depth_images.count() > 0
+
         for(by_ref=false) view, i in self.get_image_views() {
-            attachments := [view]
+            with_depth := [view, *self.depth_image_views[i]]
+            without_depth := [view]
+            attachments : []mut VkImageView = if use_depth then with_depth[..] else without_depth[..]
             framebuffer_info := VkFramebufferCreateInfo(
                 sType           = .FramebufferCreateInfo
                 renderPass      = render_pass
@@ -804,6 +879,15 @@ impl Swapchain {
     }
 
     destroy :: (&Self) {
+        for(by_ref=true) depth_image in self.depth_images[..] {
+            depth_image.destroy(self.device)
+        }
+        self.depth_images.clear()
+        for depth_image_view in self.depth_image_views[..] {
+            vkDestroyImageView(self.device, depth_image_view, null)
+        }
+        self.depth_image_views.clear()
+
         if self.handle != null {
             vkDestroySwapchainKHR(self.device, self.handle, null)
         }
@@ -816,6 +900,92 @@ impl Drop for Swapchain {
         self.destroy()
     }
 }
+
+Image :: struct {
+    handle : VkImage = default
+    memory : VkDeviceMemory = default
+}
+
+impl Image {
+    new_2d :: (device: &Device, extent: VkExtent2D, format: VkFormat, usage: VkImageUsageFlags) -> Result[Image, Error] {
+        create_info := VkImageCreateInfo(
+            sType                   = .ImageCreateInfo
+            imageType               = ._2d
+            format                  = format
+            extent                  = VkExtent3D(extent.width, extent.height, 1)
+            mipLevels               = 1
+            arrayLayers             = 1
+            samples                 = ._1Bit
+            tiling                  = .Optimal
+            usage                   = usage
+            sharingMode             = .Exclusive
+            initialLayout           = .Undefined
+        )
+        mut image : VkImage = default
+        vk_try(vkCreateImage(device.handle, ^create_info, null, ^mut image))
+
+        memory_requirements := VkMemoryRequirements()
+        vkGetImageMemoryRequirements(device.handle, image, ^mut memory_requirements)
+        allocation_info := VkMemoryAllocateInfo(
+            sType = .MemoryAllocateInfo
+            allocationSize = memory_requirements.size
+            memoryTypeIndex = device.get_memory_type(memory_requirements.memoryTypeBits, .DeviceLocalBit).unwrap()
+        )
+
+        mut memory : VkDeviceMemory = default
+        vk_try(vkAllocateMemory(device.handle, ^allocation_info, null, ^mut memory))
+        vk_try(vkBindImageMemory(device.handle, image, memory, 0))
+
+
+        return Ok(Image(image, memory))
+    }
+
+    destroy :: (&Self, device: VkDevice) {
+        if handle != null then vkDestroyImage(device, handle, null)
+        if memory != null then vkFreeMemory(device, memory, null)
+    }
+}
+
+Buffer :: struct {
+    handle : VkBuffer = default
+    memory : VkDeviceMemory = default
+}
+
+impl Buffer {
+    new :: (device: &Device, queue_families: []mut u32, size: u64, usage: VkBufferUsageFlags) -> Result[Buffer, Error] {
+        create_info := VkBufferCreateInfo(
+            sType = .BufferCreateInfo
+            size  = size
+            usage = usage
+            sharingMode = .Exclusive
+            queueFamilyIndexCount = cast queue_families.length
+            pQueueFamilyIndices = queue_families.data
+        )
+
+        mut buffer : VkBuffer = default
+        vk_try(vkCreateBuffer(device.handle, ^create_info, null, ^mut buffer))
+
+        memory_requirements := VkMemoryRequirements()
+        vkGetBufferMemoryRequirements(device.handle, buffer, ^mut memory_requirements)
+        allocation_info := VkMemoryAllocateInfo(
+            sType = .MemoryAllocateInfo
+            allocationSize = memory_requirements.size
+            memoryTypeIndex = device.get_memory_type(memory_requirements.memoryTypeBits, .HostVisibleBit or .HostCoherentBit).unwrap()
+        )
+
+        mut memory : VkDeviceMemory = default
+        vk_try(vkAllocateMemory(device.handle, ^allocation_info, null, ^mut memory))
+        vk_try(vkBindBufferMemory(device.handle, buffer, memory, 0))
+
+        return Ok(Buffer(buffer, memory))
+    }
+
+    destroy :: (&Self, device: VkDevice) {
+        if handle != null then vkDestroyBuffer(device, handle, null)
+        if memory != null then vkFreeMemory(device, memory, null)
+    }
+}
+
 
 #file_scope
 
