@@ -1,14 +1,7 @@
 
 
-#lib("./lib/spirv-cross-c.lib")
-#lib("./lib/spirv-cross-core.lib")
-#lib("./lib/spirv-cross-cpp.lib")
-#lib("./lib/spirv-cross-c-shared.lib")
-#lib("./lib/spirv-cross-glsl.lib")
-#lib("./lib/spirv-cross-hlsl.lib")
-#lib("./lib/spirv-cross-msl.lib")
-#lib("./lib/spirv-cross-reflect.lib")
-#lib("./lib/spirv-cross-util.lib")
+#lib("./lib/binding.lib")
+#lib("./lib/spirv_cross.lib")
 
 #export_scope
 
