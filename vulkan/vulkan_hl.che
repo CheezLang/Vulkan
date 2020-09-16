@@ -911,12 +911,15 @@ impl Drop for Swapchain {
 Shader :: struct {
     StageInput :: struct {
         location    : u32
+        offset      : u32
         typ         : &TypeInfo
     }
 
     module  : VkShaderModule
     entry   : String
     stage   : VkShaderStageFlags
+
+    vertex_input_binding : VkVertexInputBindingDescription
     stage_inputs : Array[StageInput]
 }
 
@@ -955,8 +958,39 @@ impl Shader {
             return Err(Error.NoShaderEntryPoint(path.to_owned()))
         }
 
+        mut resources : spvc_resources = default
+        spvc_try(spvc_compiler_create_shader_resources(compiler, ^mut resources))
+
+
         // get input stages
-        // stage_inputs = Array[StageInput].new()
+        mut stage_input_array := Array[Shader.StageInput].new()
+        mut offset : u32 = 0
+        mut stage_inputs : []spvc_reflected_resource = default
+        spvc_try(spvc_resources_get_resource_list_for_type(resources, .StageInput, cast ^stage_inputs.data, cast ^stage_inputs.length))
+        for(by_ref=true) input in stage_inputs {
+            location := spvc_compiler_get_decoration(compiler, input.id, .Location)
+            stage_input_array.add(Shader.StageInput(
+                location    = location
+                offset      = offset
+                typ         = match location {
+                    0 -> &*@type_info(Vector4[f32])
+                    1 -> &*@type_info(Vector4[f32])
+                    2 -> &*@type_info(Vector4[f32])
+                    _ -> @assert(false)
+                }
+            ))
+
+            offset += u32(stage_input_array.peek_last().typ.size)
+        }
+
+        mut vertex_input_binding := VkVertexInputBindingDescription(
+            binding = 0
+            inputRate = .Vertex
+            stride = 0
+        )
+        for(by_ref=true) input in stage_input_array.slice() {
+            vertex_input_binding.stride += u32(input.typ.size)
+        }
 
         // create vulkan shader module
         module := try(create_shader_module(device, shader_code.slice()))
@@ -965,7 +999,8 @@ impl Shader {
             module = module
             stage  = stage
             entry  = String.from_cstring(entry_points[0].name)
-            stage_inputs = Array[Shader.StageInput].new()
+            vertex_input_binding = vertex_input_binding
+            stage_inputs = stage_input_array
         ))
     }
 
@@ -991,11 +1026,22 @@ GraphicsPipeline :: struct {
     handle : VkPipeline = default
     device : VkDevice = default
     layout : VkPipelineLayout = default
-    descriptor_set_layout : VkDescriptorSetLayout = default
+    frame_set_layout : VkDescriptorSetLayout = default
+    mesh_set_layout : VkDescriptorSetLayout = default
+}
+
+type_info_to_vulkan_format :: (typ: &TypeInfo) -> VkFormat {
+    return match ^*typ {
+        $T if T == @type_info(f32) -> .R32Sfloat
+        $T if T == @type_info(Vector2[f32]) -> .R32g32Sfloat
+        $T if T == @type_info(Vector3[f32]) -> .R32g32b32Sfloat
+        $T if T == @type_info(Vector4[f32]) -> .R32g32b32a32Sfloat
+        _ -> @assert(false, "Not implemented")
+    }
 }
 
 impl GraphicsPipeline {
-    new :: (device: &Device, cache: VkPipelineCache, render_pass: VkRenderPass, shaders: []Shader, $VertexType: type) -> Result[GraphicsPipeline, Error] {
+    new :: (device: &Device, cache: VkPipelineCache, render_pass: VkRenderPass, shaders: []Shader) -> Result[GraphicsPipeline, Error] {
         shader_stages := Array[VkPipelineShaderStageCreateInfo].new(shaders.length)
         for(by_ref=true) shader in shaders {
             shader_stages.add(VkPipelineShaderStageCreateInfo(
@@ -1006,39 +1052,12 @@ impl GraphicsPipeline {
             ))
         }
 
-        vertex_bindings := [
-            VkVertexInputBindingDescription(
-                binding = 0
-                stride = @sizeof(VertexType)
-                inputRate = .Vertex
-            )
-        ]
-        vertex_attribs := [
-            VkVertexInputAttributeDescription(
-                location = 0
-                binding = 0
-                format = .R32g32b32Sfloat
-                offset = cast @offsetof(VertexType, "position")
-            )
-            VkVertexInputAttributeDescription(
-                location = 1
-                binding = 0
-                format = .R32g32b32Sfloat
-                offset = cast @offsetof(VertexType, "normal")
-            )
-            VkVertexInputAttributeDescription(
-                location = 2
-                binding = 0
-                format = .R32g32Sfloat
-                offset = cast @offsetof(VertexType, "tex_coord")
-            )
-        ]
         vertex_input_info := VkPipelineVertexInputStateCreateInfo(
             sType                           = .PipelineVertexInputStateCreateInfo
-            vertexBindingDescriptionCount   = cast vertex_bindings.length
-            pVertexBindingDescriptions      = vertex_bindings.data
-            vertexAttributeDescriptionCount = cast vertex_attribs.length
-            pVertexAttributeDescriptions    = vertex_attribs.data
+            vertexBindingDescriptionCount   = 0
+            pVertexBindingDescriptions      = null
+            vertexAttributeDescriptionCount = 0
+            pVertexAttributeDescriptions    = null
         )
 
         input_assembly := VkPipelineInputAssemblyStateCreateInfo(
@@ -1110,25 +1129,39 @@ impl GraphicsPipeline {
             maxDepthBounds          = 1.0
         )
 
-        bindings := [
+        mut bindings := [
             VkDescriptorSetLayoutBinding(
                 binding         = 0
-                descriptorType  = .StorageBuffer
+                descriptorType  = .UniformBuffer
                 descriptorCount = 1
-                stageFlags      = .VertexBit or .FragmentBit
+                stageFlags      = .VertexBit
             )
         ]
-
-        layout_create_info := VkDescriptorSetLayoutCreateInfo(
+        mut layout_create_info := VkDescriptorSetLayoutCreateInfo(
             sType           = .DescriptorSetLayoutCreateInfo
             bindingCount    = cast bindings.length
             pBindings       = bindings.data
         )
+        mut frame_set_layout : VkDescriptorSetLayout = default
+        vk_try(vkCreateDescriptorSetLayout(device.handle, ^layout_create_info, null, ^mut frame_set_layout))
 
-        mut set_layout : VkDescriptorSetLayout = default
-        vk_try(vkCreateDescriptorSetLayout(device.handle, ^layout_create_info, null, ^mut set_layout))
+        bindings = [
+            VkDescriptorSetLayoutBinding(
+                binding         = 0
+                descriptorType  = .StorageBuffer
+                descriptorCount = 1
+                stageFlags      = .VertexBit
+            )
+        ]
+        layout_create_info = VkDescriptorSetLayoutCreateInfo(
+            sType           = .DescriptorSetLayoutCreateInfo
+            bindingCount    = cast bindings.length
+            pBindings       = bindings.data
+        )
+        mut mesh_set_layout : VkDescriptorSetLayout = default
+        vk_try(vkCreateDescriptorSetLayout(device.handle, ^layout_create_info, null, ^mut mesh_set_layout))
 
-        set_layouts := [set_layout]
+        set_layouts := [frame_set_layout, mesh_set_layout]
         pipline_layout_info := VkPipelineLayoutCreateInfo(
             sType                  = .PipelineLayoutCreateInfo
             setLayoutCount         = cast set_layouts.length
@@ -1169,17 +1202,18 @@ impl GraphicsPipeline {
 
         mut handle : VkPipeline = default
         vk_try(vkCreateGraphicsPipelines(device.handle, cache, 1, ^pipeline_info, null, ^mut handle))
-        io.formatln("GraphicsPipeline")
         return Ok(GraphicsPipeline(
             handle = handle
             device = device.handle
             layout = pipeline_layout
-            descriptor_set_layout = set_layout
+            frame_set_layout = frame_set_layout
+            mesh_set_layout = mesh_set_layout
         ))
     }
 
     destroy :: (&Self) {
-        if descriptor_set_layout != null then vkDestroyDescriptorSetLayout(device, descriptor_set_layout, null)
+        if frame_set_layout != null then vkDestroyDescriptorSetLayout(device, frame_set_layout, null)
+        if mesh_set_layout != null then vkDestroyDescriptorSetLayout(device, mesh_set_layout, null)
         if layout != null then vkDestroyPipelineLayout(device, layout, null)
         if handle != null then vkDestroyPipeline(device, handle, null)
     }
