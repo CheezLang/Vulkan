@@ -139,6 +139,8 @@ Error :: enum {
     NoPhysicalDevice
     FsError                 : fs.FsError
     SpirvCrossError         : String
+    // MismatchedShaderBufferType : (Shader.Buffer, Shader.Buffer) // this causes the compiler to crash
+    Other                   : String
 }
 
 impl Into[String] for Error {
@@ -908,6 +910,13 @@ impl Drop for Swapchain {
     }
 }
 
+ShaderBuffer :: struct {
+    typ : VkDescriptorType
+    set : u32
+    binding : u32
+    stage : VkShaderStageFlags
+}
+
 Shader :: struct {
     StageInput :: struct {
         location    : u32
@@ -921,6 +930,7 @@ Shader :: struct {
 
     vertex_input_binding : VkVertexInputBindingDescription
     stage_inputs : Array[StageInput]
+    buffers : Array[ShaderBuffer]
 }
 
 impl Shader {
@@ -992,6 +1002,37 @@ impl Shader {
             vertex_input_binding.stride += u32(input.typ.size)
         }
 
+        // storage and uniform buffers
+        mut all_buffers := Array[ShaderBuffer].new()
+
+        mut storage_buffers : []spvc_reflected_resource = default
+        spvc_try(spvc_resources_get_resource_list_for_type(resources, .StorageBuffer, cast ^storage_buffers.data, cast ^storage_buffers.length))
+
+        for(by_ref=true) sb in storage_buffers {
+            binding := spvc_compiler_get_decoration(compiler, sb.id, .Binding)
+            set := spvc_compiler_get_decoration(compiler, sb.id, .DescriptorSet)
+            all_buffers.add(ShaderBuffer(
+                typ     = .StorageBuffer
+                binding = binding
+                set     = set
+                stage   = stage
+            ))
+        }
+
+        mut uniform_buffers : []spvc_reflected_resource = default
+        spvc_try(spvc_resources_get_resource_list_for_type(resources, .UniformBuffer, cast ^uniform_buffers.data, cast ^uniform_buffers.length))
+
+        for(by_ref=true) ub in uniform_buffers {
+            binding := spvc_compiler_get_decoration(compiler, ub.id, .Binding)
+            set := spvc_compiler_get_decoration(compiler, ub.id, .DescriptorSet)
+            all_buffers.add(ShaderBuffer(
+                typ     = .UniformBuffer
+                binding = binding
+                set     = set
+                stage   = stage
+            ))
+        }
+
         // create vulkan shader module
         module := try(create_shader_module(device, shader_code.slice()))
 
@@ -999,8 +1040,9 @@ impl Shader {
             module = module
             stage  = stage
             entry  = String.from_cstring(entry_points[0].name)
-            vertex_input_binding = vertex_input_binding
-            stage_inputs = stage_input_array
+            vertex_input_binding    = vertex_input_binding
+            stage_inputs            = stage_input_array
+            buffers                 = all_buffers
         ))
     }
 
@@ -1129,43 +1171,12 @@ impl GraphicsPipeline {
             maxDepthBounds          = 1.0
         )
 
-        mut bindings := [
-            VkDescriptorSetLayoutBinding(
-                binding         = 0
-                descriptorType  = .UniformBuffer
-                descriptorCount = 1
-                stageFlags      = .VertexBit
-            )
-        ]
-        mut layout_create_info := VkDescriptorSetLayoutCreateInfo(
-            sType           = .DescriptorSetLayoutCreateInfo
-            bindingCount    = cast bindings.length
-            pBindings       = bindings.data
-        )
-        mut frame_set_layout : VkDescriptorSetLayout = default
-        vk_try(vkCreateDescriptorSetLayout(device.handle, ^layout_create_info, null, ^mut frame_set_layout))
+        set_layouts := try(compute_descriptor_set_layouts(device, shaders))
 
-        bindings = [
-            VkDescriptorSetLayoutBinding(
-                binding         = 0
-                descriptorType  = .StorageBuffer
-                descriptorCount = 1
-                stageFlags      = .VertexBit
-            )
-        ]
-        layout_create_info = VkDescriptorSetLayoutCreateInfo(
-            sType           = .DescriptorSetLayoutCreateInfo
-            bindingCount    = cast bindings.length
-            pBindings       = bindings.data
-        )
-        mut mesh_set_layout : VkDescriptorSetLayout = default
-        vk_try(vkCreateDescriptorSetLayout(device.handle, ^layout_create_info, null, ^mut mesh_set_layout))
-
-        set_layouts := [frame_set_layout, mesh_set_layout]
         pipline_layout_info := VkPipelineLayoutCreateInfo(
             sType                  = .PipelineLayoutCreateInfo
-            setLayoutCount         = cast set_layouts.length
-            pSetLayouts            = set_layouts.data
+            setLayoutCount         = cast set_layouts.count()
+            pSetLayouts            = set_layouts.get_raw_mut()
             pushConstantRangeCount = 0
             pPushConstantRanges    = null
         )
@@ -1206,9 +1217,56 @@ impl GraphicsPipeline {
             handle = handle
             device = device.handle
             layout = pipeline_layout
-            frame_set_layout = frame_set_layout
-            mesh_set_layout = mesh_set_layout
+            frame_set_layout = *set_layouts[0]
+            mesh_set_layout = *set_layouts[1]
         ))
+    }
+
+    compute_descriptor_set_layouts :: (device: &Device, shaders: []Shader) -> Result[Array[VkDescriptorSetLayout], Error] {
+        sets := Map[u32, Array[&mut ShaderBuffer]].new()
+        for(by_ref=true) shader in shaders {
+            for (by_ref=true) buffer in shader.buffers[..] {
+                buffers := sets.get_or_insert(buffer.set, () => Array[&mut ShaderBuffer].new())
+
+                mut found_existing := false
+                for existing in buffers.slice() {
+                    if existing.binding == buffer.binding {
+                        existing.stage = existing.stage or buffer.stage
+                        if existing.typ != buffer.typ {
+                            return Err(Error.Other(fmt.format("Mismatched shader buffer types: {} and {}", [*existing, *buffer])))
+                        }
+                        found_existing = true
+                        break
+                    }
+                }
+                if !found_existing then buffers.add(cast buffer)
+            }
+        }
+
+
+        mut set_layouts := Array[VkDescriptorSetLayout].new(sets.count())
+        set_layouts.resize(sets.count())
+
+        for kv in &sets {
+            bindings := Array[VkDescriptorSetLayoutBinding].new(kv.value.count())
+            for buff in kv.value.slice() {
+                bindings.add(VkDescriptorSetLayoutBinding(
+                    binding         = buff.binding
+                    descriptorType  = buff.typ
+                    descriptorCount = 1
+                    stageFlags      = buff.stage
+                ))
+            }
+            mut layout_create_info := VkDescriptorSetLayoutCreateInfo(
+                sType           = .DescriptorSetLayoutCreateInfo
+                bindingCount    = cast bindings.count()
+                pBindings       = bindings.get_raw_mut()
+            )
+            mut set_layout : VkDescriptorSetLayout = default
+            vk_try(vkCreateDescriptorSetLayout(device.handle, ^layout_create_info, null, ^mut set_layout))
+            *set_layouts[it_index] = set_layout
+        }
+        return Ok(set_layouts)
     }
 
     destroy :: (&Self) {
