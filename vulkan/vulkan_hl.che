@@ -180,7 +180,7 @@ impl Instance {
             for layer in validation_layers[..] do required_layers.add(layer.to_cstring())
         }
 
-        defer for(by_ref=false) layer in required_layers.slice() do mem.free(layer)
+        defer for layer in required_layers.slice() do mem.free(layer)
 
         // check if all layers are supported
         supported_layers := enumerate_instance_layer_properties()
@@ -197,7 +197,7 @@ impl Instance {
             for extension in debug_extensions[..] do required_extensions.add(extension)
         }
 
-        defer for(by_ref=false) extension in required_extensions.slice() do mem.free(extension)
+        defer for extension in required_extensions.slice() do mem.free(extension)
 
         // check if all extensions are supported
         supported_extensions := enumerate_instance_extension_properties()
@@ -289,7 +289,7 @@ impl Instance {
 
 
         mut result := Array[PhysicalDevice].new(initial_capacity = cast count)
-        for(by_ref=false) handle in handles[..] {
+        for handle in handles[..] {
             result.add(PhysicalDevice.new(handle))
         }
 
@@ -425,11 +425,11 @@ impl PhysicalDevice {
         required_extensions := Array[^char8].new(extensions.length + 1)
         for extension in extensions do required_extensions.add(extension.to_cstring())
 
-        defer for(by_ref=false) extension in required_extensions.slice() do mem.free(extension)
+        defer for extension in required_extensions.slice() do mem.free(extension)
 
         // filter devices
         mut result := Array[&PhysicalDevice].new(devices.length)
-        for(by_ref=true) device in devices #label device_loop {
+        for &device in devices #label device_loop {
             // check extensions
             supported_extensions := enumerate_device_extension_properties(device.handle)
             missing_extensions := find_missing_requirements(required_extensions[..], supported_extensions[..], extension => cast(^char8)extension.extensionName.data)
@@ -438,7 +438,7 @@ impl PhysicalDevice {
             }
 
             // check queue families
-            for(by_ref=false) queue in queues {
+            for queue in queues {
                 families := device.get_queue_families_with(queue)
                 if families.count() == 0 {
                     continue device_loop
@@ -534,7 +534,7 @@ impl PhysicalDeviceSurfaceCapabilities {
     }
 
     choose_swap_present_mode :: (&Self, preferred_mode: VkPresentModeKHR) -> VkPresentModeKHR {
-        for(by_ref=false) mode in self.present_modes[..] {
+        for mode in self.present_modes[..] {
             if mode == preferred_mode {
                 return mode
             }
@@ -573,11 +573,11 @@ impl Device {
         features: ^VkPhysicalDeviceFeatures2) -> Result[Device, Error] {
         required_extensions := Array[^char8].new(extensions.length + 1)
         for extension in extensions do required_extensions.add(extension.to_cstring())
-        defer for(by_ref=false) extension in required_extensions.slice() do mem.free(extension)
+        defer for extension in required_extensions.slice() do mem.free(extension)
 
         queue_create_infos := Array[VkDeviceQueueCreateInfo].new()
 
-        for(by_ref=true) queue in queues {
+        for &queue in queues {
             queue_create_infos.add(VkDeviceQueueCreateInfo(
                 sType               = .DeviceQueueCreateInfo
                 flags               = queue.flags
@@ -739,7 +739,7 @@ impl Swapchain {
         )
 
         unique_indices := Map[u32, ()].new()
-        for(by_ref=false) index in queue_family_indices {
+        for index in queue_family_indices {
             unique_indices.set(index, ())
         }
         if unique_indices.count() <= 1 {
@@ -784,7 +784,7 @@ impl Swapchain {
     create_image_views :: (&mut Self) -> Result[(), Error] {
         self.image_views.resize(self.images.count())
 
-        for(by_ref=false) image, i in self.images[..] {
+        for image, i in self.images[..] {
             create_info := VkImageViewCreateInfo(
                 sType            = .ImageViewCreateInfo
                 image            = image
@@ -831,7 +831,7 @@ impl Swapchain {
     create_depth_image_views :: (&mut Self) -> Result[(), Error] {
         self.depth_image_views.resize(self.depth_images.count())
 
-        for(by_ref=false) image, i in self.depth_images[..] {
+        for image, i in self.depth_images[..] {
             create_info := VkImageViewCreateInfo(
                 sType            = .ImageViewCreateInfo
                 image            = image.handle
@@ -867,7 +867,7 @@ impl Swapchain {
 
         use_depth := self.depth_images.count() > 0
 
-        for(by_ref=false) view, i in self.get_image_views() {
+        for view, i in self.get_image_views() {
             with_depth := [view, *self.depth_image_views[i]]
             without_depth := [view]
             attachments : []mut VkImageView = if use_depth then with_depth[..] else without_depth[..]
@@ -888,7 +888,7 @@ impl Swapchain {
     }
 
     destroy :: (&Self) {
-        for(by_ref=true) depth_image in self.depth_images[..] {
+        for &depth_image in self.depth_images[..] {
             depth_image.destroy(self.device)
         }
         self.depth_images.clear()
@@ -977,7 +977,7 @@ impl Shader {
         mut offset : u32 = 0
         mut stage_inputs : []spvc_reflected_resource = default
         spvc_try(spvc_resources_get_resource_list_for_type(resources, .StageInput, cast ^stage_inputs.data, cast ^stage_inputs.length))
-        for(by_ref=true) input in stage_inputs {
+        for &input in stage_inputs {
             location := spvc_compiler_get_decoration(compiler, input.id, .Location)
             stage_input_array.add(Shader.StageInput(
                 location    = location
@@ -998,7 +998,7 @@ impl Shader {
             inputRate = .Vertex
             stride = 0
         )
-        for(by_ref=true) input in stage_input_array.slice() {
+        for &input in stage_input_array.slice() {
             vertex_input_binding.stride += u32(input.typ.size)
         }
 
@@ -1008,7 +1008,7 @@ impl Shader {
         mut storage_buffers : []spvc_reflected_resource = default
         spvc_try(spvc_resources_get_resource_list_for_type(resources, .StorageBuffer, cast ^storage_buffers.data, cast ^storage_buffers.length))
 
-        for(by_ref=true) sb in storage_buffers {
+        for &sb in storage_buffers {
             binding := spvc_compiler_get_decoration(compiler, sb.id, .Binding)
             set := spvc_compiler_get_decoration(compiler, sb.id, .DescriptorSet)
             all_buffers.add(ShaderBuffer(
@@ -1022,7 +1022,7 @@ impl Shader {
         mut uniform_buffers : []spvc_reflected_resource = default
         spvc_try(spvc_resources_get_resource_list_for_type(resources, .UniformBuffer, cast ^uniform_buffers.data, cast ^uniform_buffers.length))
 
-        for(by_ref=true) ub in uniform_buffers {
+        for &ub in uniform_buffers {
             binding := spvc_compiler_get_decoration(compiler, ub.id, .Binding)
             set := spvc_compiler_get_decoration(compiler, ub.id, .DescriptorSet)
             all_buffers.add(ShaderBuffer(
@@ -1085,7 +1085,7 @@ type_info_to_vulkan_format :: (typ: &TypeInfo) -> VkFormat {
 impl GraphicsPipeline {
     new :: (device: &Device, cache: VkPipelineCache, render_pass: VkRenderPass, shaders: []Shader) -> Result[GraphicsPipeline, Error] {
         shader_stages := Array[VkPipelineShaderStageCreateInfo].new(shaders.length)
-        for(by_ref=true) shader in shaders {
+        for &shader in shaders {
             shader_stages.add(VkPipelineShaderStageCreateInfo(
                 sType   = .PipelineShaderStageCreateInfo
                 stage   = shader.stage
@@ -1224,8 +1224,8 @@ impl GraphicsPipeline {
 
     compute_descriptor_set_layouts :: (device: &Device, shaders: []Shader) -> Result[Array[VkDescriptorSetLayout], Error] {
         sets := Map[u32, Array[&mut ShaderBuffer]].new()
-        for(by_ref=true) shader in shaders {
-            for (by_ref=true) buffer in shader.buffers[..] {
+        for &shader in shaders {
+            for &buffer in shader.buffers[..] {
                 buffers := sets.get_or_insert(buffer.set, () => Array[&mut ShaderBuffer].new())
 
                 mut found_existing := false
@@ -1418,7 +1418,7 @@ enumerate_device_extension_properties :: (physical_device: VkPhysicalDevice) -> 
 
 find_missing_requirements :: (required: []^char8, supported: []$T, name_accessor: fn(&T) -> ^char8) -> Array[String] {
     missing := Array[String].new(required.length)
-    for(by_ref=false) req in required {
+    for req in required {
         mut found := false
         for prop in supported {
             if string.from_cstring(req) == string.from_cstring(name_accessor(&prop)) {
