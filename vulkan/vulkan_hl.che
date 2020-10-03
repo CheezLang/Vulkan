@@ -1064,12 +1064,21 @@ impl Shader {
     }
 }
 
+GraphicsPipelineSpec :: struct {
+    name    := String.from_string("Graphics Pipeline")
+    shaders := Array[String].new()
+
+}
+
 GraphicsPipeline :: struct {
-    handle : VkPipeline = default
-    device : VkDevice = default
-    layout : VkPipelineLayout = default
-    frame_set_layout : VkDescriptorSetLayout = default
-    mesh_set_layout : VkDescriptorSetLayout = default
+    spec                : GraphicsPipelineSpec
+    handle              : VkPipeline = default
+    device              : VkDevice = default
+    cache               : VkPipelineCache = default
+    layout              : VkPipelineLayout = default
+    frame_set_layout    : VkDescriptorSetLayout = default
+    mesh_set_layout     : VkDescriptorSetLayout = default
+    frame_descriptors   := Array[VkDescriptorSet].new()
 }
 
 type_info_to_vulkan_format :: (typ: &TypeInfo) -> VkFormat {
@@ -1083,9 +1092,27 @@ type_info_to_vulkan_format :: (typ: &TypeInfo) -> VkFormat {
 }
 
 impl GraphicsPipeline {
-    new :: (device: &Device, cache: VkPipelineCache, render_pass: VkRenderPass, shaders: []Shader) -> Result[GraphicsPipeline, Error] {
-        shader_stages := Array[VkPipelineShaderStageCreateInfo].new(shaders.length)
-        for &shader in shaders {
+    new :: (cache: VkPipelineCache, spec: GraphicsPipelineSpec) -> GraphicsPipeline {
+        return GraphicsPipeline(
+            spec    = spec
+            cache   = cache
+        )
+    }
+
+    create :: (&mut Self, device: &Device, render_pass: VkRenderPass) -> Result[(), Error] {
+        shaders := Array[Shader].new(self.spec.shaders.count())
+        defer {
+            for &shader in shaders[..] {
+                shader.destroy(device.handle)
+            }
+        }
+        for &file in self.spec.shaders[..] {
+            shaders.add(try(Shader.new(device, file.slice())))
+        }
+
+
+        shader_stages := Array[VkPipelineShaderStageCreateInfo].new(shaders.count())
+        for &shader in shaders[..] {
             shader_stages.add(VkPipelineShaderStageCreateInfo(
                 sType   = .PipelineShaderStageCreateInfo
                 stage   = shader.stage
@@ -1171,7 +1198,7 @@ impl GraphicsPipeline {
             maxDepthBounds          = 1.0
         )
 
-        set_layouts := try(compute_descriptor_set_layouts(device, shaders))
+        set_layouts := try(compute_descriptor_set_layouts(device.handle, shaders[..]))
 
         pipline_layout_info := VkPipelineLayoutCreateInfo(
             sType                  = .PipelineLayoutCreateInfo
@@ -1213,16 +1240,35 @@ impl GraphicsPipeline {
 
         mut handle : VkPipeline = default
         vk_try(vkCreateGraphicsPipelines(device.handle, cache, 1, ^pipeline_info, null, ^mut handle))
-        return Ok(GraphicsPipeline(
-            handle = handle
-            device = device.handle
-            layout = pipeline_layout
-            frame_set_layout = *set_layouts[0]
-            mesh_set_layout = *set_layouts[1]
-        ))
+
+        self.device = device.handle
+        self.handle = handle
+        self.layout = pipeline_layout
+        self.frame_set_layout = *set_layouts[0]
+        self.mesh_set_layout = *set_layouts[1]
+        return Ok()
     }
 
-    compute_descriptor_set_layouts :: (device: &Device, shaders: []Shader) -> Result[Array[VkDescriptorSetLayout], Error] {
+    recreate :: (&mut Self, device: &Device, render_pass: VkRenderPass) -> Result[(), Error] {
+        handle := self.handle
+        layout := self.layout
+        mesh_set_layout := self.mesh_set_layout
+        frame_set_layout := self.frame_set_layout
+
+        return match self.create(device, render_pass) {
+            Ok(_) -> {
+                vkDeviceWaitIdle(device.handle)
+                if frame_set_layout != null then vkDestroyDescriptorSetLayout(device.handle, frame_set_layout, null)
+                if mesh_set_layout != null then vkDestroyDescriptorSetLayout(device.handle, mesh_set_layout, null)
+                if layout != null then vkDestroyPipelineLayout(device.handle, layout, null)
+                if handle != null then vkDestroyPipeline(device.handle, handle, null)
+                Ok()
+            }
+            $err -> err
+        }
+    }
+
+    compute_descriptor_set_layouts :: (device: VkDevice, shaders: []Shader) -> Result[Array[VkDescriptorSetLayout], Error] {
         sets := Map[u32, Array[&mut ShaderBuffer]].new()
         for &shader in shaders {
             for &buffer in shader.buffers[..] {
@@ -1263,10 +1309,39 @@ impl GraphicsPipeline {
                 pBindings       = bindings.get_raw_mut()
             )
             mut set_layout : VkDescriptorSetLayout = default
-            vk_try(vkCreateDescriptorSetLayout(device.handle, ^layout_create_info, null, ^mut set_layout))
+            vk_try(vkCreateDescriptorSetLayout(device, ^layout_create_info, null, ^mut set_layout))
             *set_layouts[it_index] = set_layout
         }
         return Ok(set_layouts)
+    }
+
+    get_frame_descriptors :: (&Self) -> []VkDescriptorSet {
+        return self.frame_descriptors[..]
+    }
+
+    create_frame_descriptors :: (&mut Self, count: int, descriptor_pool: VkDescriptorPool) -> Result[(), Error] {
+        descriptor_set_layouts := [self.frame_set_layout]
+        descriptor_alloc_info := VkDescriptorSetAllocateInfo(
+            sType               = .DescriptorSetAllocateInfo
+            descriptorPool      = descriptor_pool
+            descriptorSetCount  = cast descriptor_set_layouts.length
+            pSetLayouts         = descriptor_set_layouts.data
+        )
+
+        if self.frame_descriptors.count() > 0 {
+            for desc in self.frame_descriptors[..] {
+                vkFreeDescriptorSets(self.device, descriptor_pool, 1, ^desc)
+            }
+            self.frame_descriptors.clear()
+        }
+
+        for i in 0 .. count {
+            mut fd : VkDescriptorSet = default
+            vk_try(vkAllocateDescriptorSets(self.device, ^descriptor_alloc_info, ^mut fd))
+            self.frame_descriptors.add(fd)
+        }
+
+        return Ok()
     }
 
     destroy :: (&Self) {
