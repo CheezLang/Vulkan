@@ -1071,7 +1071,7 @@ GraphicsPipelineSpec :: struct {
 }
 
 GraphicsPipeline :: struct {
-    spec                : GraphicsPipelineSpec
+    spec                : GraphicsPipelineSpec = default
     handle              : VkPipeline = default
     device              : VkDevice = default
     cache               : VkPipelineCache = default
